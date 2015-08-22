@@ -34,6 +34,7 @@ limitations under the License.
 {DEFAULT @use_covariate_condition_occurrence_365d = TRUE} 
 {DEFAULT @use_covariate_condition_occurrence_30d = TRUE} 
 {DEFAULT @use_covariate_condition_occurrence_inpt180d = TRUE} 
+{DEFAULT @use_covariate_condition_occurrence_180d = TRUE}
 {DEFAULT @use_covariate_condition_era = FALSE} 
 {DEFAULT @use_covariate_condition_era_ever = TRUE} 
 {DEFAULT @use_covariate_condition_era_overlap = TRUE} 
@@ -48,10 +49,12 @@ limitations under the License.
 {DEFAULT @use_covariate_drug_era_30d = TRUE} 
 {DEFAULT @use_covariate_drug_era_overlap = TRUE} 
 {DEFAULT @use_covariate_drug_era_ever = TRUE} 
+{DEFAULT @use_covariate_drug_era_180d = TRUE}
 {DEFAULT @use_covariate_drug_group = FALSE} 
 {DEFAULT @use_covariate_procedure_occurrence = FALSE} 
 {DEFAULT @use_covariate_procedure_occurrence_365d = TRUE} 
 {DEFAULT @use_covariate_procedure_occurrence_30d = TRUE} 
+{DEFAULT @use_covariate_procedure_occurrence_180d = TRUE}
 {DEFAULT @use_covariate_procedure_group = FALSE} 
 {DEFAULT @use_covariate_observation = FALSE} 
 {DEFAULT @use_covariate_observation_365d = TRUE} 
@@ -299,7 +302,7 @@ INSERT INTO #cov_ref (
 	)
 SELECT p1.covariate_id,
 	'Age group: ' + CAST((covariate_id-10)*5 AS VARCHAR) + '-' + CAST((covariate_id-10+1)*5-1 AS VARCHAR)  AS covariate_name,
-	4 AS analysis_id,
+	5 AS analysis_id,
 	0 AS concept_id
 FROM (select distinct covariate_id FROM #cov_age) p1
 ;
@@ -328,7 +331,7 @@ INSERT INTO #cov_ref (
 	)
 SELECT p1.covariate_id,
 	'Index year: ' + CAST(covariate_id AS VARCHAR)  AS covariate_name,
-	5 AS analysis_id,
+	6 AS analysis_id,
 	0 AS concept_id
 FROM (select distinct covariate_id FROM #cov_year) p1
 ;
@@ -357,7 +360,7 @@ INSERT INTO #cov_ref (
 	)
 SELECT p1.covariate_id,
 	'Index month: ' + CAST(covariate_id-40 AS VARCHAR)  AS covariate_name,
-	6 AS analysis_id,
+	7 AS analysis_id,
 	0 AS concept_id
 FROM (select distinct covariate_id FROM #cov_month) p1
 ;
@@ -489,6 +492,45 @@ SELECT p1.covariate_id,
 FROM (SELECT DISTINCT covariate_id FROM #cov_co_inpt180d) p1
 LEFT JOIN concept c1
 	ON (p1.covariate_id-103)/1000 = c1.concept_id
+;
+
+
+} {@use_covariate_condition_occurrence_180d} ? {
+
+--conditions:  episode in last 180d prior
+-- ***************** --
+SELECT DISTINCT cp1.cohort_start_date,
+	cp1.cohort_definition_id,
+	cp1.subject_id AS person_id,
+	CAST(co1.condition_concept_id AS BIGINT) * 1000 + 104 AS covariate_id,
+	1 AS covariate_value
+  INTO #cov_co_180d
+FROM #cohort_person cp1
+INNER JOIN condition_occurrence co1
+	ON cp1.subject_id = co1.person_id
+WHERE co1.condition_concept_id != 0
+{@has_excluded_covariate_concept_ids} ? {	AND co1.condition_concept_id NOT IN (SELECT concept_id FROM #excluded_cov)}
+{@has_included_covariate_concept_ids} ? {	AND co1.condition_concept_id IN (SELECT concept_id FROM #included_cov)}
+	AND co1.condition_start_date <= cp1.cohort_start_date
+	AND co1.condition_start_date >= dateadd(dd, - 180, cp1.cohort_start_date);
+
+INSERT INTO #cov_ref (
+  covariate_id,
+  covariate_name,
+  analysis_id,
+	concept_id
+	)
+SELECT p1.covariate_id,
+	'Condition occurrence record observed during 180d on or prior to cohort index:  ' + CAST((p1.covariate_id-104)/1000 AS VARCHAR) + '-' + CASE
+		WHEN c1.concept_name IS NOT NULL
+			THEN c1.concept_name
+		ELSE 'Unknown invalid concept'
+		END AS covariate_name,
+	104 AS analysis_id,
+  (p1.covariate_id-104)/1000 AS concept_id
+FROM (SELECT DISTINCT covariate_id FROM #cov_co_180d) p1
+LEFT JOIN concept c1
+	ON (p1.covariate_id-104)/1000 = c1.concept_id
 ;
 
 
@@ -1071,6 +1113,50 @@ LEFT JOIN concept c1
 	ON (p1.covariate_id-504)/1000 = c1.concept_id
 ;
 
+
+
+} {@use_covariate_drug_era_180d} ? {
+
+--drug exist:  episode in last 180d prior
+-- **************** --
+
+SELECT DISTINCT cp1.cohort_start_date,
+	cp1.cohort_definition_id,
+	cp1.subject_id as person_id,
+	CAST(de1.drug_concept_id AS BIGINT) * 1000 + 505 AS covariate_id,
+	1 AS covariate_value
+INTO #cov_dera_180d
+FROM #cohort_person cp1
+INNER JOIN drug_era de1
+	ON cp1.subject_id = de1.person_id
+WHERE de1.drug_concept_id != 0
+{@has_excluded_covariate_concept_ids} ? {	AND de1.drug_concept_id NOT IN (SELECT concept_id FROM #excluded_cov)}
+{@has_included_covariate_concept_ids} ? {	AND de1.drug_concept_id IN (SELECT concept_id FROM #included_cov)}
+	AND de1.drug_era_start_date <= cp1.cohort_start_date
+	AND de1.drug_era_end_date >= dateadd(dd, - 180, cp1.cohort_start_date);
+
+
+INSERT INTO #cov_ref (
+  covariate_id,
+  covariate_name,
+  analysis_id,
+  concept_id
+	)
+SELECT p1.covariate_id,
+	'Drug era record observed during 180d on or prior to cohort index:  ' + CAST((p1.covariate_id-505)/1000 AS VARCHAR) + '-' + CASE
+		WHEN c1.concept_name IS NOT NULL
+			THEN c1.concept_name
+		ELSE 'Unknown invalid concept'
+		END AS covariate_name,
+	505 AS analysis_id,
+	(p1.covariate_id-505)/1000 AS concept_id
+FROM (SELECT DISTINCT covariate_id FROM #cov_dera_180d) p1
+LEFT JOIN concept c1
+	ON (p1.covariate_id-505)/1000 = c1.concept_id
+;
+
+
+
 } }
 
 
@@ -1394,9 +1480,47 @@ LEFT JOIN concept c1
 	ON (p1.covariate_id-702)/1000 = c1.concept_id
 ;
 
-}
+} {@use_covariate_procedure_occurrence_180d} ? {
 
-}
+--procedures exist:  episode in last 180d prior
+
+
+SELECT DISTINCT cp1.cohort_start_date,
+	cp1.cohort_definition_id,
+	cp1.subject_id as person_id,
+	CAST(po1.procedure_concept_id AS BIGINT) * 1000 + 703 AS covariate_id,
+	1 AS covariate_value
+  INTO #cov_po_180d
+FROM #cohort_person cp1
+INNER JOIN procedure_occurrence po1
+	ON cp1.subject_id = po1.person_id
+WHERE po1.procedure_concept_id  != 0
+{@has_excluded_covariate_concept_ids} ? {	AND po1.procedure_concept_id  NOT IN (SELECT concept_id FROM #excluded_cov)}
+{@has_included_covariate_concept_ids} ? {	AND po1.procedure_concept_id  IN (SELECT concept_id FROM #included_cov)}
+	AND po1.procedure_date <= cp1.cohort_start_date
+	AND po1.procedure_date >= dateadd(dd, - 180, cp1.cohort_start_date);
+
+
+INSERT INTO #cov_ref (
+  covariate_id,
+  covariate_name,
+  analysis_id,
+	concept_id
+	)
+SELECT p1.covariate_id,
+	'Procedure occurrence record observed during 180d on or prior to cohort index:  ' + CAST((p1.covariate_id-703)/1000 AS VARCHAR) + '-' + CASE
+		WHEN c1.concept_name IS NOT NULL
+			THEN c1.concept_name
+		ELSE 'Unknown invalid concept'
+		END AS covariate_name,
+	703 AS analysis_id,
+	(p1.covariate_id-703)/1000 AS concept_id
+FROM (SELECT DISTINCT covariate_id FROM #cov_po_180d) p1
+LEFT JOIN concept c1
+	ON (p1.covariate_id-703)/1000 = c1.concept_id
+;
+
+} }
 
 
 /**************************
@@ -3203,6 +3327,15 @@ FROM #cov_co_inpt180d
 
 }
 
+{@use_covariate_condition_occurrence_180d} ? {
+
+UNION
+
+SELECT cohort_start_date, cohort_definition_id, person_id, covariate_id, covariate_value
+FROM #cov_co_180d
+
+}
+
 }
 
 
@@ -3302,6 +3435,15 @@ FROM #cov_dera_overlap
 
 }
 
+{@use_covariate_drug_era_180d} ? {
+
+UNION
+
+SELECT cohort_start_date, cohort_definition_id, person_id, covariate_id, covariate_value
+FROM #cov_dera_180d
+
+} 
+
 
 }
 
@@ -3342,6 +3484,15 @@ UNION
 
 SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
 FROM #cov_po_30d
+
+}
+
+{@use_covariate_procedure_occurrence_180d} ? {
+
+UNION
+
+SELECT cohort_start_date, cohort_definition_id, person_id, covariate_id, covariate_value
+FROM #cov_po_180d
 
 }
 
@@ -3731,6 +3882,8 @@ IF OBJECT_ID('tempdb..#cov_co_30d', 'U') IS NOT NULL
   DROP TABLE #cov_co_30d;
 IF OBJECT_ID('tempdb..#cov_co_inpt180d', 'U') IS NOT NULL
   DROP TABLE #cov_co_inpt180d;
+IF OBJECT_ID('tempdb..#cov_co_180d', 'U') IS NOT NULL
+  DROP TABLE #cov_co_180d;
 IF OBJECT_ID('tempdb..#cov_ce_ever', 'U') IS NOT NULL
   DROP TABLE #cov_ce_ever;
 IF OBJECT_ID('tempdb..#cov_ce_overlap', 'U') IS NOT NULL
@@ -3749,6 +3902,8 @@ IF OBJECT_ID('tempdb..#cov_dera_ever', 'U') IS NOT NULL
   DROP TABLE #cov_dera_ever;
 IF OBJECT_ID('tempdb..#cov_dera_overlap', 'U') IS NOT NULL
   DROP TABLE #cov_dera_overlap;
+IF OBJECT_ID('tempdb..#cov_dera_180d', 'U') IS NOT NULL
+  DROP TABLE #cov_dera_180d;
 IF OBJECT_ID('tempdb..#cov_dg', 'U') IS NOT NULL
   DROP TABLE #cov_dg;
 IF OBJECT_ID('tempdb..#cov_dg_count', 'U') IS NOT NULL
@@ -3763,6 +3918,8 @@ IF OBJECT_ID('tempdb..#cov_o_365d', 'U') IS NOT NULL
   DROP TABLE #cov_o_365d;
 IF OBJECT_ID('tempdb..#cov_o_30d', 'U') IS NOT NULL
   DROP TABLE #cov_o_30d;
+IF OBJECT_ID('tempdb..#cov_po_180d', 'U') IS NOT NULL
+  DROP TABLE #cov_po_365d;
 IF OBJECT_ID('tempdb..#cov_m_below', 'U') IS NOT NULL
   DROP TABLE #cov_m_below;
 IF OBJECT_ID('tempdb..#cov_m_above', 'U') IS NOT NULL

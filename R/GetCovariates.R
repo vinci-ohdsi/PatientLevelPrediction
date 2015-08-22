@@ -151,6 +151,7 @@ getDbCovariateData <- function(connectionDetails = NULL,
                                                    use_covariate_condition_occurrence_365d = covariateSettings$useCovariateConditionOccurrence365d,
                                                    use_covariate_condition_occurrence_30d = covariateSettings$useCovariateConditionOccurrence30d,
                                                    use_covariate_condition_occurrence_inpt180d = covariateSettings$useCovariateConditionOccurrenceInpt180d,
+                                                   use_covariate_condition_occurrence_180d = covariateSettings$useCovariateConditionOccurrence180d,
                                                    use_covariate_condition_era = covariateSettings$useCovariateConditionEra,
                                                    use_covariate_condition_era_ever = covariateSettings$useCovariateConditionEraEver,
                                                    use_covariate_condition_era_overlap = covariateSettings$useCovariateConditionEraOverlap,
@@ -165,10 +166,12 @@ getDbCovariateData <- function(connectionDetails = NULL,
                                                    use_covariate_drug_era_30d = covariateSettings$useCovariateDrugEra30d,
                                                    use_covariate_drug_era_overlap = covariateSettings$useCovariateDrugEraOverlap,
                                                    use_covariate_drug_era_ever = covariateSettings$useCovariateDrugEraEver,
+                                                   use_covariate_drug_era_180d = covariateSettings$useCovariateDrugEra180d,
                                                    use_covariate_drug_group = covariateSettings$useCovariateDrugGroup,
                                                    use_covariate_procedure_occurrence = covariateSettings$useCovariateProcedureOccurrence,
                                                    use_covariate_procedure_occurrence_365d = covariateSettings$useCovariateProcedureOccurrence365d,
                                                    use_covariate_procedure_occurrence_30d = covariateSettings$useCovariateProcedureOccurrence30d,
+                                                   use_covariate_procedure_occurrence_180d = covariateSettings$useCovariateProcedureOccurrence180d,
                                                    use_covariate_procedure_group = covariateSettings$useCovariateProcedureGroup,
                                                    use_covariate_observation = covariateSettings$useCovariateObservation,
                                                    use_covariate_observation_365d = covariateSettings$useCovariateObservation365d,
@@ -368,6 +371,12 @@ loadCovariateData <- function(file, readOnly = FALSE) {
 #'                                                  inpatient type in 180d window prior to or on cohort
 #'                                                  index date.  Only applicable if
 #'                                                  useCovariateConditionOccurrence = TRUE.
+#' @param useCovariateConditionOccurrence180d       A boolean value (TRUE/FALSE) to determine if
+#'                                                  covariates will be created and used in models that
+#'                                                  look for presence/absence of condition in 180d
+#'                                                  window prior to or on cohort index date.  Only
+#'                                                  applicable if useCovariateConditionOccurrence =
+#'                                                  TRUE.
 #' @param useCovariateConditionEra                  A boolean value (TRUE/FALSE) to determine if
 #'                                                  covariates derived from CONDITION_ERA table will be
 #'                                                  created and included in future models.
@@ -429,6 +438,11 @@ loadCovariateData <- function(file, readOnly = FALSE) {
 #'                                                  look for presence/absence of drug era that overlaps
 #'                                                  the cohort index date.  Only applicable if
 #'                                                  useCovariateDrugEra = TRUE.
+#' @param useCovariateDrugEra180d                    A boolean value (TRUE/FALSE) to determine if
+#'                                                  covariates will be created and used in models that
+#'                                                  look for presence/absence of drug era in 180d window
+#'                                                  prior to or on cohort index date.  Only applicable
+#'                                                  if useCovariateDrugEra = TRUE.
 #' @param useCovariateDrugGroup                     A boolean value (TRUE/FALSE) to determine if all
 #'                                                  DRUG_EXPOSURE and DRUG_ERA covariates should be
 #'                                                  aggregated or rolled-up to higher-level concepts of
@@ -445,6 +459,12 @@ loadCovariateData <- function(file, readOnly = FALSE) {
 #' @param useCovariateProcedureOccurrence30d        A boolean value (TRUE/FALSE) to determine if
 #'                                                  covariates will be created and used in models that
 #'                                                  look for presence/absence of procedure in 30d
+#'                                                  window prior to or on cohort index date.  Only
+#'                                                  applicable if useCovariateProcedureOccurrence =
+#'                                                  TRUE.
+#' @param useCovariateProcedureOccurrence180d        A boolean value (TRUE/FALSE) to determine if
+#'                                                  covariates will be created and used in models that
+#'                                                  look for presence/absence of procedure in 180d
 #'                                                  window prior to or on cohort index date.  Only
 #'                                                  applicable if useCovariateProcedureOccurrence =
 #'                                                  TRUE.
@@ -545,6 +565,7 @@ createCovariateSettings <- function(useCovariateDemographics = TRUE,
                                     useCovariateConditionOccurrence365d = TRUE,
                                     useCovariateConditionOccurrence30d = FALSE,
                                     useCovariateConditionOccurrenceInpt180d = FALSE,
+                                    useCovariateConditionOccurrence180d = FALSE,
                                     useCovariateConditionEra = FALSE,
                                     useCovariateConditionEraEver = FALSE,
                                     useCovariateConditionEraOverlap = FALSE,
@@ -559,10 +580,12 @@ createCovariateSettings <- function(useCovariateDemographics = TRUE,
                                     useCovariateDrugEra30d = FALSE,
                                     useCovariateDrugEraOverlap = FALSE,
                                     useCovariateDrugEraEver = FALSE,
+                                    useCovariateDrugEra180d = FALSE,
                                     useCovariateDrugGroup = FALSE,
                                     useCovariateProcedureOccurrence = FALSE,
                                     useCovariateProcedureOccurrence365d = FALSE,
                                     useCovariateProcedureOccurrence30d = FALSE,
+                                    useCovariateProcedureOccurrence180d = FALSE,
                                     useCovariateProcedureGroup = FALSE,
                                     useCovariateObservation = FALSE,
                                     useCovariateObservation365d = FALSE,
