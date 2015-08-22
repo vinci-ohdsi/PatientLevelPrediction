@@ -14,6 +14,7 @@ createCovariateSettings(useCovariateDemographics = TRUE,
   useCovariateConditionOccurrence365d = TRUE,
   useCovariateConditionOccurrence30d = FALSE,
   useCovariateConditionOccurrenceInpt180d = FALSE,
+  useCovariateConditionOccurrence180d = FALSE,
   useCovariateConditionEra = FALSE, useCovariateConditionEraEver = FALSE,
   useCovariateConditionEraOverlap = FALSE,
   useCovariateConditionGroup = FALSE,
@@ -23,9 +24,11 @@ createCovariateSettings(useCovariateDemographics = TRUE,
   useCovariateDrugExposure30d = FALSE, useCovariateDrugEra = FALSE,
   useCovariateDrugEra365d = FALSE, useCovariateDrugEra30d = FALSE,
   useCovariateDrugEraOverlap = FALSE, useCovariateDrugEraEver = FALSE,
-  useCovariateDrugGroup = FALSE, useCovariateProcedureOccurrence = FALSE,
+  useCovariateDrugEra180d = FALSE, useCovariateDrugGroup = FALSE,
+  useCovariateProcedureOccurrence = FALSE,
   useCovariateProcedureOccurrence365d = FALSE,
   useCovariateProcedureOccurrence30d = FALSE,
+  useCovariateProcedureOccurrence180d = FALSE,
   useCovariateProcedureGroup = FALSE, useCovariateObservation = FALSE,
   useCovariateObservation365d = FALSE, useCovariateObservation30d = FALSE,
   useCovariateObservationCount365d = FALSE, useCovariateMeasurement = FALSE,
@@ -89,6 +92,13 @@ look for presence/absence of condition within
 inpatient type in 180d window prior to or on cohort
 index date.  Only applicable if
 useCovariateConditionOccurrence = TRUE.}
+
+\item{useCovariateConditionOccurrence180d}{A boolean value (TRUE/FALSE) to determine if
+covariates will be created and used in models that
+look for presence/absence of condition in 180d
+window prior to or on cohort index date.  Only
+applicable if useCovariateConditionOccurrence =
+TRUE.}
 
 \item{useCovariateConditionEra}{A boolean value (TRUE/FALSE) to determine if
 covariates derived from CONDITION_ERA table will be
@@ -165,6 +175,12 @@ look for presence/absence of drug era anytime prior
 to or on cohort index date.  Only applicable if
 useCovariateDrugEra = TRUE.}
 
+\item{useCovariateDrugEra180d}{A boolean value (TRUE/FALSE) to determine if
+covariates will be created and used in models that
+look for presence/absence of drug era in 180d window
+prior to or on cohort index date.  Only applicable
+if useCovariateDrugEra = TRUE.}
+
 \item{useCovariateDrugGroup}{A boolean value (TRUE/FALSE) to determine if all
 DRUG_EXPOSURE and DRUG_ERA covariates should be
 aggregated or rolled-up to higher-level concepts of
@@ -184,6 +200,13 @@ TRUE.}
 \item{useCovariateProcedureOccurrence30d}{A boolean value (TRUE/FALSE) to determine if
 covariates will be created and used in models that
 look for presence/absence of procedure in 30d
+window prior to or on cohort index date.  Only
+applicable if useCovariateProcedureOccurrence =
+TRUE.}
+
+\item{useCovariateProcedureOccurrence180d}{A boolean value (TRUE/FALSE) to determine if
+covariates will be created and used in models that
+look for presence/absence of procedure in 180d
 window prior to or on cohort index date.  Only
 applicable if useCovariateProcedureOccurrence =
 TRUE.}
