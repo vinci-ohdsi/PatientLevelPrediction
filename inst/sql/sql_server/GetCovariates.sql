@@ -3331,7 +3331,7 @@ FROM #cov_co_inpt180d
 
 UNION
 
-SELECT cohort_start_date, cohort_definition_id, person_id, covariate_id, covariate_value
+SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
 FROM #cov_co_180d
 
 }
@@ -3439,7 +3439,7 @@ FROM #cov_dera_overlap
 
 UNION
 
-SELECT cohort_start_date, cohort_definition_id, person_id, covariate_id, covariate_value
+SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
 FROM #cov_dera_180d
 
 }
@@ -3491,7 +3491,7 @@ FROM #cov_po_30d
 
 UNION
 
-SELECT cohort_start_date, cohort_definition_id, person_id, covariate_id, covariate_value
+SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
 FROM #cov_po_180d
 
 }
