@@ -18,68 +18,68 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ************************************************************************/
 
-{DEFAULT @cdm_database = 'CDM4_SIM' } 
-{DEFAULT @use_existing_cohort_person = TRUE } 
-{DEFAULT @cohort_database_schema = 'CDM4_SIM' } 
-{DEFAULT @cohort_table = 'cohort' } 
-{DEFAULT @cohort_ids = '0,1' } 
-{DEFAULT @use_covariate_demographics = TRUE} 
-{DEFAULT @use_covariate_demographics_age = TRUE} 
-{DEFAULT @use_covariate_demographics_gender = TRUE} 
-{DEFAULT @use_covariate_demographics_race = TRUE} 
-{DEFAULT @use_covariate_demographics_ethnicity = TRUE} 
-{DEFAULT @use_covariate_demographics_year = TRUE} 
-{DEFAULT @use_covariate_demographics_month = TRUE} 
-{DEFAULT @use_covariate_condition_occurrence = TRUE} 
-{DEFAULT @use_covariate_condition_occurrence_365d = TRUE} 
-{DEFAULT @use_covariate_condition_occurrence_30d = TRUE} 
-{DEFAULT @use_covariate_condition_occurrence_inpt180d = TRUE} 
+{DEFAULT @cdm_database = 'CDM4_SIM' }
+{DEFAULT @use_existing_cohort_person = TRUE }
+{DEFAULT @cohort_database_schema = 'CDM4_SIM' }
+{DEFAULT @cohort_table = 'cohort' }
+{DEFAULT @cohort_ids = '0,1' }
+{DEFAULT @use_covariate_demographics = TRUE}
+{DEFAULT @use_covariate_demographics_age = TRUE}
+{DEFAULT @use_covariate_demographics_gender = TRUE}
+{DEFAULT @use_covariate_demographics_race = TRUE}
+{DEFAULT @use_covariate_demographics_ethnicity = TRUE}
+{DEFAULT @use_covariate_demographics_year = TRUE}
+{DEFAULT @use_covariate_demographics_month = TRUE}
+{DEFAULT @use_covariate_condition_occurrence = TRUE}
+{DEFAULT @use_covariate_condition_occurrence_365d = TRUE}
+{DEFAULT @use_covariate_condition_occurrence_30d = TRUE}
+{DEFAULT @use_covariate_condition_occurrence_inpt180d = TRUE}
 {DEFAULT @use_covariate_condition_occurrence_180d = TRUE}
-{DEFAULT @use_covariate_condition_era = FALSE} 
-{DEFAULT @use_covariate_condition_era_ever = TRUE} 
-{DEFAULT @use_covariate_condition_era_overlap = TRUE} 
-{DEFAULT @use_covariate_condition_group = FALSE} 
-{DEFAULT @use_covariate_condition_group_meddra = TRUE} 
-{DEFAULT @use_covariate_condition_group_snomed = TRUE} 
-{DEFAULT @use_covariate_drug_exposure = FALSE} 
-{DEFAULT @use_covariate_drug_exposure_365d = TRUE} 
-{DEFAULT @use_covariate_drug_exposure_30d = TRUE} 
-{DEFAULT @use_covariate_drug_era = FALSE} 
-{DEFAULT @use_covariate_drug_era_365d = TRUE} 
-{DEFAULT @use_covariate_drug_era_30d = TRUE} 
-{DEFAULT @use_covariate_drug_era_overlap = TRUE} 
-{DEFAULT @use_covariate_drug_era_ever = TRUE} 
+{DEFAULT @use_covariate_condition_era = FALSE}
+{DEFAULT @use_covariate_condition_era_ever = TRUE}
+{DEFAULT @use_covariate_condition_era_overlap = TRUE}
+{DEFAULT @use_covariate_condition_group = FALSE}
+{DEFAULT @use_covariate_condition_group_meddra = TRUE}
+{DEFAULT @use_covariate_condition_group_snomed = TRUE}
+{DEFAULT @use_covariate_drug_exposure = FALSE}
+{DEFAULT @use_covariate_drug_exposure_365d = TRUE}
+{DEFAULT @use_covariate_drug_exposure_30d = TRUE}
+{DEFAULT @use_covariate_drug_era = FALSE}
+{DEFAULT @use_covariate_drug_era_365d = TRUE}
+{DEFAULT @use_covariate_drug_era_30d = TRUE}
+{DEFAULT @use_covariate_drug_era_overlap = TRUE}
+{DEFAULT @use_covariate_drug_era_ever = TRUE}
 {DEFAULT @use_covariate_drug_era_180d = TRUE}
-{DEFAULT @use_covariate_drug_group = FALSE} 
-{DEFAULT @use_covariate_procedure_occurrence = FALSE} 
-{DEFAULT @use_covariate_procedure_occurrence_365d = TRUE} 
-{DEFAULT @use_covariate_procedure_occurrence_30d = TRUE} 
+{DEFAULT @use_covariate_drug_group = FALSE}
+{DEFAULT @use_covariate_procedure_occurrence = FALSE}
+{DEFAULT @use_covariate_procedure_occurrence_365d = TRUE}
+{DEFAULT @use_covariate_procedure_occurrence_30d = TRUE}
 {DEFAULT @use_covariate_procedure_occurrence_180d = TRUE}
-{DEFAULT @use_covariate_procedure_group = FALSE} 
-{DEFAULT @use_covariate_observation = FALSE} 
-{DEFAULT @use_covariate_observation_365d = TRUE} 
-{DEFAULT @use_covariate_observation_30d = TRUE} 
-{DEFAULT @use_covariate_observation_count365d = TRUE} 
-{DEFAULT @use_covariate_measurement = FALSE} 
-{DEFAULT @use_covariate_measurement_365d = TRUE} 
-{DEFAULT @use_covariate_measurement_30d = TRUE} 
-{DEFAULT @use_covariate_measurement_below = TRUE} 
-{DEFAULT @use_covariate_measurement_above = TRUE} 
-{DEFAULT @use_covariate_measurement_count365d = TRUE} 
-{DEFAULT @use_covariate_concept_counts = FALSE} 
-{DEFAULT @use_covariate_risk_scores = FALSE} 
-{DEFAULT @use_covariate_risk_scores_Charlson = TRUE} 
-{DEFAULT @use_covariate_risk_scores_DCSI = TRUE} 
-{DEFAULT @use_covariate_risk_scores_CHADS2 = TRUE} 
-{DEFAULT @use_covariate_interaction_year = FALSE} 
-{DEFAULT @use_covariate_interaction_month = FALSE} 
-{DEFAULT @has_excluded_covariate_concept_ids} 
-{DEFAULT @has_included_covariate_concept_ids} 
+{DEFAULT @use_covariate_procedure_group = FALSE}
+{DEFAULT @use_covariate_observation = FALSE}
+{DEFAULT @use_covariate_observation_365d = TRUE}
+{DEFAULT @use_covariate_observation_30d = TRUE}
+{DEFAULT @use_covariate_observation_count365d = TRUE}
+{DEFAULT @use_covariate_measurement = FALSE}
+{DEFAULT @use_covariate_measurement_365d = TRUE}
+{DEFAULT @use_covariate_measurement_30d = TRUE}
+{DEFAULT @use_covariate_measurement_below = TRUE}
+{DEFAULT @use_covariate_measurement_above = TRUE}
+{DEFAULT @use_covariate_measurement_count365d = TRUE}
+{DEFAULT @use_covariate_concept_counts = FALSE}
+{DEFAULT @use_covariate_risk_scores = FALSE}
+{DEFAULT @use_covariate_risk_scores_Charlson = TRUE}
+{DEFAULT @use_covariate_risk_scores_DCSI = TRUE}
+{DEFAULT @use_covariate_risk_scores_CHADS2 = TRUE}
+{DEFAULT @use_covariate_interaction_year = FALSE}
+{DEFAULT @use_covariate_interaction_month = FALSE}
+{DEFAULT @has_excluded_covariate_concept_ids}
+{DEFAULT @has_included_covariate_concept_ids}
 {DEFAULT @delete_covariates_small_count = 100}
 {DEFAULT @cdm_version == '4'}
-{DEFAULT @cohort_definition_id = 'cohort_concept_id'} 
-{DEFAULT @concept_class_id = 'concept_class'} 
-{DEFAULT @measurement = 'observation'} 
+{DEFAULT @cohort_definition_id = 'cohort_concept_id'}
+{DEFAULT @concept_class_id = 'concept_class'}
+{DEFAULT @measurement = 'observation'}
 
 USE @cdm_database;
 
@@ -500,7 +500,7 @@ LEFT JOIN concept c1
 --conditions:  episode in last 180d prior
 -- ***************** --
 SELECT DISTINCT cp1.cohort_start_date,
-	cp1.cohort_definition_id,
+	cp1.@cohort_definition_id,
 	cp1.subject_id AS person_id,
 	CAST(co1.condition_concept_id AS BIGINT) * 1000 + 104 AS covariate_id,
 	1 AS covariate_value
@@ -675,7 +675,7 @@ INNER JOIN concept c1
 	ON ca1.ancestor_concept_id = c1.concept_id
 {@cdm_version == '4'} ? {
 WHERE c1.vocabulary_id = 15
-} : { 
+} : {
 WHERE c1.vocabulary_id = 'MedDRA'
 }
 	AND c1.@concept_class_id <> 'System Organ Class'
@@ -705,7 +705,7 @@ INNER JOIN concept c1
 	ON ca1.ancestor_concept_id = c1.concept_id
 {@cdm_version == '4'} ? {
 WHERE c1.vocabulary_id = 1
-} : { 
+} : {
 WHERE c1.vocabulary_id = 'SNOMED'
 }
   AND c1.@concept_class_id = 'Clinical finding'
@@ -867,7 +867,7 @@ INTO #cov_de_365d
 FROM #cohort_person cp1
 INNER JOIN drug_exposure de1
 	ON cp1.subject_id = de1.person_id
-WHERE de1.drug_concept_id != 0 
+WHERE de1.drug_concept_id != 0
 {@has_excluded_covariate_concept_ids} ? {  AND de1.drug_concept_id NOT IN (SELECT concept_id FROM #excluded_cov)}
 {@has_included_covariate_concept_ids} ? {  AND de1.drug_concept_id IN (SELECT concept_id FROM #included_cov)}
 	AND de1.drug_exposure_start_date <= cp1.cohort_start_date
@@ -1121,7 +1121,7 @@ LEFT JOIN concept c1
 -- **************** --
 
 SELECT DISTINCT cp1.cohort_start_date,
-	cp1.cohort_definition_id,
+	cp1.@cohort_definition_id,
 	cp1.subject_id as person_id,
 	CAST(de1.drug_concept_id AS BIGINT) * 1000 + 505 AS covariate_id,
 	1 AS covariate_value
@@ -1191,13 +1191,13 @@ INNER JOIN concept c1
 	ON ca1.ancestor_concept_id = c1.concept_id
 {@cdm_version == '4'} ? {
 WHERE c1.vocabulary_id = 21
-} : { 
+} : {
 WHERE c1.vocabulary_id = 'ATC'
 }
 	AND len(c1.concept_code) IN (1, 3, 5)
 	AND c1.concept_id != 0
 {@has_excluded_covariate_concept_ids} ? {	AND c1.concept_id NOT IN (SELECT concept_id FROM #excluded_cov)}
-{@has_included_covariate_concept_ids} ? {	AND c1.concept_id IN (SELECT concept_id FROM #included_cov)}	
+{@has_included_covariate_concept_ids} ? {	AND c1.concept_id IN (SELECT concept_id FROM #included_cov)}
 ;
 
 
@@ -1413,11 +1413,11 @@ INNER JOIN procedure_occurrence po1
 	ON cp1.subject_id = po1.person_id
 WHERE po1.procedure_concept_id  != 0
 {@has_excluded_covariate_concept_ids} ? {	AND po1.procedure_concept_id  NOT IN (SELECT concept_id FROM #excluded_cov)}
-{@has_included_covariate_concept_ids} ? {	AND po1.procedure_concept_id  IN (SELECT concept_id FROM #included_cov)}		
+{@has_included_covariate_concept_ids} ? {	AND po1.procedure_concept_id  IN (SELECT concept_id FROM #included_cov)}
 	AND po1.procedure_date <= cp1.cohort_start_date
 	AND po1.procedure_date >= dateadd(dd, - 365, cp1.cohort_start_date);
 
-	
+
 INSERT INTO #cov_ref (
   covariate_id,
   covariate_name,
@@ -1456,7 +1456,7 @@ INNER JOIN procedure_occurrence po1
 	ON cp1.subject_id = po1.person_id
 WHERE po1.procedure_concept_id  != 0
 {@has_excluded_covariate_concept_ids} ? {	AND po1.procedure_concept_id  NOT IN (SELECT concept_id FROM #excluded_cov)}
-{@has_included_covariate_concept_ids} ? {	AND po1.procedure_concept_id  IN (SELECT concept_id FROM #included_cov)}	
+{@has_included_covariate_concept_ids} ? {	AND po1.procedure_concept_id  IN (SELECT concept_id FROM #included_cov)}
 	AND po1.procedure_date <= cp1.cohort_start_date
 	AND po1.procedure_date >= dateadd(dd, - 30, cp1.cohort_start_date);
 
@@ -1486,7 +1486,7 @@ LEFT JOIN concept c1
 
 
 SELECT DISTINCT cp1.cohort_start_date,
-	cp1.cohort_definition_id,
+	cp1.@cohort_definition_id,
 	cp1.subject_id as person_id,
 	CAST(po1.procedure_concept_id AS BIGINT) * 1000 + 703 AS covariate_id,
 	1 AS covariate_value
@@ -1553,14 +1553,14 @@ INNER JOIN concept c1
 	ON ca1.ancestor_concept_id = c1.concept_id
 {@cdm_version == '4'} ? {
 WHERE c1.vocabulary_id = 1
-} : { 
+} : {
 WHERE c1.vocabulary_id = 'SNOMED'
 }
 	AND ca1.min_levels_of_separation <= 2
 	AND c1.concept_id NOT IN (0,
 	76094,67368, 46042, 40949, 31332, 28263, 24955, 18791, 13449, 12571, 10678, 10592, 9878, 9727, 9652, 9451, 9192, 8975, 8930, 8786, 8370, 8161, 7763, 7059, 6923, 6752, 6690, 6611, 6336, 6264, 6204, 6003, 5783)
 {@has_excluded_covariate_concept_ids} ? {	AND c1.concept_id NOT IN (SELECT concept_id FROM #excluded_cov)}
-{@has_included_covariate_concept_ids} ? {	AND c1.concept_id IN (SELECT concept_id FROM #included_cov)}		
+{@has_included_covariate_concept_ids} ? {	AND c1.concept_id IN (SELECT concept_id FROM #included_cov)}
 ;
 
 
@@ -1674,7 +1674,7 @@ INNER JOIN observation o1
 	ON cp1.subject_id = o1.person_id
 WHERE o1.observation_concept_id != 0
 {@has_excluded_covariate_concept_ids} ? {	AND o1.observation_concept_id NOT IN (SELECT concept_id FROM #excluded_cov)}
-{@has_included_covariate_concept_ids} ? {	AND o1.observation_concept_id IN (SELECT concept_id FROM #included_cov)}		
+{@has_included_covariate_concept_ids} ? {	AND o1.observation_concept_id IN (SELECT concept_id FROM #included_cov)}
 	AND o1.observation_date <= cp1.cohort_start_date
 	AND o1.observation_date >= dateadd(dd, - 365, cp1.cohort_start_date);
 
@@ -1712,7 +1712,7 @@ INNER JOIN observation o1
 	ON cp1.subject_id = o1.person_id
 WHERE o1.observation_concept_id != 0
 {@has_excluded_covariate_concept_ids} ? {	AND o1.observation_concept_id NOT IN (SELECT concept_id FROM #excluded_cov)}
-{@has_included_covariate_concept_ids} ? {	AND o1.observation_concept_id IN (SELECT concept_id FROM #included_cov)}	
+{@has_included_covariate_concept_ids} ? {	AND o1.observation_concept_id IN (SELECT concept_id FROM #included_cov)}
 	AND o1.observation_date <= cp1.cohort_start_date
 	AND o1.observation_date >= dateadd(dd, - 30, cp1.cohort_start_date);
 
@@ -1809,7 +1809,7 @@ FROM (
 		ON cp1.subject_id = o1.person_id
 	WHERE o1.@measurement_concept_id != 0
 {@has_excluded_covariate_concept_ids} ? {		AND o1.@measurement_concept_id NOT IN (SELECT concept_id FROM #excluded_cov)}
-{@has_included_covariate_concept_ids} ? {		AND o1.@measurement_concept_id IN (SELECT concept_id FROM #included_cov)}	
+{@has_included_covariate_concept_ids} ? {		AND o1.@measurement_concept_id IN (SELECT concept_id FROM #included_cov)}
 		AND o1.@measurement_date <= cp1.cohort_start_date
 		AND o1.@measurement_date >= dateadd(dd, - 180, cp1.cohort_start_date)
 		AND o1.value_as_number >= 0
@@ -1912,7 +1912,7 @@ INNER JOIN measurement o1
 	ON cp1.subject_id = o1.person_id
 WHERE o1.measurement_concept_id != 0
 {@has_excluded_covariate_concept_ids} ? {	AND o1.measurement_concept_id NOT IN (SELECT concept_id FROM #excluded_cov)}
-{@has_included_covariate_concept_ids} ? {	AND o1.measurement_concept_id IN (SELECT concept_id FROM #included_cov)}		
+{@has_included_covariate_concept_ids} ? {	AND o1.measurement_concept_id IN (SELECT concept_id FROM #included_cov)}
 	AND o1.measurement_date <= cp1.cohort_start_date
 	AND o1.measurement_date >= dateadd(dd, - 365, cp1.cohort_start_date);
 
@@ -1950,7 +1950,7 @@ INNER JOIN measurement o1
 	ON cp1.subject_id = o1.person_id
 WHERE o1.measurement_concept_id != 0
 {@has_excluded_covariate_concept_ids} ? {	AND o1.measurement_concept_id NOT IN (SELECT concept_id FROM #excluded_cov)}
-{@has_included_covariate_concept_ids} ? {	AND o1.measurement_concept_id IN (SELECT concept_id FROM #included_cov)}	
+{@has_included_covariate_concept_ids} ? {	AND o1.measurement_concept_id IN (SELECT concept_id FROM #included_cov)}
 	AND o1.measurement_date <= cp1.cohort_start_date
 	AND o1.measurement_date >= dateadd(dd, - 30, cp1.cohort_start_date);
 
@@ -2254,7 +2254,7 @@ VALUES (
 	1006,
 	0
 	);
-	
+
 {@cdm_version != '4'} ? {
 --Number of distinct measurements observed in 365d on or prior to cohort index
 SELECT cp1.cohort_start_date,
@@ -2592,7 +2592,7 @@ FROM (
 	WHERE source_vocabulary_id = 2
 	AND target_vocabulary_id = 1
 } : {
-	SELECT 
+	SELECT
 	  source.concept_code AS source_code,
 	  target.concept_id AS target_concept_id
 	FROM concept_relationship
@@ -2626,7 +2626,7 @@ FROM (
 	WHERE source_vocabulary_id= 2
 	AND target_vocabulary_id = 1
 } : {
-	SELECT 
+	SELECT
 	  source.concept_code AS source_code,
 	  target.concept_id AS target_concept_id
 	FROM concept_relationship
@@ -2662,7 +2662,7 @@ FROM (
 	WHERE source_vocabulary_id= 2
 	AND target_vocabulary_id = 1
 } : {
-	SELECT 
+	SELECT
 	  source.concept_code AS source_code,
 	  target.concept_id AS target_concept_id
 	FROM concept_relationship
@@ -2700,7 +2700,7 @@ FROM (
 	WHERE source_vocabulary_id= 2
 	AND target_vocabulary_id = 1
 } : {
-	SELECT 
+	SELECT
 	  source.concept_code AS source_code,
 	  target.concept_id AS target_concept_id
 	FROM concept_relationship
@@ -2737,7 +2737,7 @@ FROM (
 	WHERE source_vocabulary_id= 2
 	AND target_vocabulary_id = 1
 } : {
-	SELECT 
+	SELECT
 	  source.concept_code AS source_code,
 	  target.concept_id AS target_concept_id
 	FROM concept_relationship
@@ -2788,7 +2788,7 @@ FROM (
 	WHERE source_vocabulary_id= 2
 	AND target_vocabulary_id = 1
 } : {
-	SELECT 
+	SELECT
 	  source.concept_code AS source_code,
 	  target.concept_id AS target_concept_id
 	FROM concept_relationship
@@ -2821,7 +2821,7 @@ FROM (
 	WHERE source_vocabulary_id= 2
 	AND target_vocabulary_id = 1
 } : {
-	SELECT 
+	SELECT
 	  source.concept_code AS source_code,
 	  target.concept_id AS target_concept_id
 	FROM concept_relationship
@@ -2858,7 +2858,7 @@ FROM (
 	WHERE source_vocabulary_id= 2
 	AND target_vocabulary_id = 1
 } : {
-	SELECT 
+	SELECT
 	  source.concept_code AS source_code,
 	  target.concept_id AS target_concept_id
 	FROM concept_relationship
@@ -2896,7 +2896,7 @@ FROM (
 	WHERE source_vocabulary_id= 2
 	AND target_vocabulary_id = 1
 } : {
-	SELECT 
+	SELECT
 	  source.concept_code AS source_code,
 	  target.concept_id AS target_concept_id
 	FROM concept_relationship
@@ -2937,7 +2937,7 @@ FROM (
 	WHERE source_vocabulary_id= 2
 	AND target_vocabulary_id = 1
 } : {
-	SELECT 
+	SELECT
 	  source.concept_code AS source_code,
 	  target.concept_id AS target_concept_id
 	FROM concept_relationship
@@ -2975,7 +2975,7 @@ FROM (
 	WHERE source_vocabulary_id= 2
 	AND target_vocabulary_id = 1
 } : {
-	SELECT 
+	SELECT
 	  source.concept_code AS source_code,
 	  target.concept_id AS target_concept_id
 	FROM concept_relationship
@@ -3011,7 +3011,7 @@ FROM (
 	WHERE source_vocabulary_id= 2
 	AND target_vocabulary_id = 1
 } : {
-	SELECT 
+	SELECT
 	  source.concept_code AS source_code,
 	  target.concept_id AS target_concept_id
 	FROM concept_relationship
@@ -3442,7 +3442,7 @@ UNION
 SELECT cohort_start_date, cohort_definition_id, person_id, covariate_id, covariate_value
 FROM #cov_dera_180d
 
-} 
+}
 
 
 }
