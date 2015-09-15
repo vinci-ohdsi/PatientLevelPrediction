@@ -151,7 +151,12 @@ getDbCovariateData <- function(connectionDetails = NULL,
                                                    use_covariate_condition_occurrence_365d = covariateSettings$useCovariateConditionOccurrence365d,
                                                    use_covariate_condition_occurrence_30d = covariateSettings$useCovariateConditionOccurrence30d,
                                                    use_covariate_condition_occurrence_inpt180d = covariateSettings$useCovariateConditionOccurrenceInpt180d,
-                                                   use_covariate_condition_occurrence_180d = covariateSettings$useCovariateConditionOccurrence180d,
+                                                   use_covariate_3_digit_icd_9_inpatient_180d = covariateSettings$useCovariate3DigitIcd9Inpatient180d,
+                                                   use_covariate_3_digit_icd_9_inpatient_180d_med_f = covariateSettings$useCovariate3DigitIcd9Inpatient180dMedF,
+                                                   use_covariate_3_digit_icd_9_inpatient_180d_75_f = covariateSettings$useCovariate3DigitIcd9Inpatient180d75F,
+                                                   use_covariate_3_digit_icd_9_ambulatory_180d = covariateSettings$useCovariate3DigitIcd9Ambulatory180d,
+                                                   use_covariate_3_digit_icd_9_ambulatory_180d_med_f = covariateSettings$useCovariate3DigitIcd9Ambulatory180dMedF,
+                                                   use_covariate_3_digit_icd_9_ambulatory_180d_75_f = covariateSettings$useCovariate3DigitIcd9Ambulatory180d75F,
                                                    use_covariate_condition_era = covariateSettings$useCovariateConditionEra,
                                                    use_covariate_condition_era_ever = covariateSettings$useCovariateConditionEraEver,
                                                    use_covariate_condition_era_overlap = covariateSettings$useCovariateConditionEraOverlap,
@@ -161,17 +166,21 @@ getDbCovariateData <- function(connectionDetails = NULL,
                                                    use_covariate_drug_exposure = covariateSettings$useCovariateDrugExposure,
                                                    use_covariate_drug_exposure_365d = covariateSettings$useCovariateDrugExposure365d,
                                                    use_covariate_drug_exposure_30d = covariateSettings$useCovariateDrugExposure30d,
+												   use_covariate_ingredient_exposure_180d = covariateSettings$useCovariateIngredientExposure180d,
+												   use_covariate_ingredient_exposure_180d_med_f = covariateSettings$useCovariateIngredientExposure180dMedF,
+												   use_covariate_ingredient_exposure_180d_75_f = covariateSettings$useCovariateIngredientExposure180d75F,
                                                    use_covariate_drug_era = covariateSettings$useCovariateDrugEra,
                                                    use_covariate_drug_era_365d = covariateSettings$useCovariateDrugEra365d,
                                                    use_covariate_drug_era_30d = covariateSettings$useCovariateDrugEra30d,
                                                    use_covariate_drug_era_overlap = covariateSettings$useCovariateDrugEraOverlap,
                                                    use_covariate_drug_era_ever = covariateSettings$useCovariateDrugEraEver,
-                                                   use_covariate_drug_era_180d = covariateSettings$useCovariateDrugEra180d,
                                                    use_covariate_drug_group = covariateSettings$useCovariateDrugGroup,
                                                    use_covariate_procedure_occurrence = covariateSettings$useCovariateProcedureOccurrence,
                                                    use_covariate_procedure_occurrence_365d = covariateSettings$useCovariateProcedureOccurrence365d,
                                                    use_covariate_procedure_occurrence_30d = covariateSettings$useCovariateProcedureOccurrence30d,
                                                    use_covariate_procedure_occurrence_180d = covariateSettings$useCovariateProcedureOccurrence180d,
+                                                   use_covariate_procedure_occurrence_180d_med_f = covariateSettings$useCovariateProcedureOccurrence180dMedF,
+                                                   use_covariate_procedure_occurrence_180d_75_f = covariateSettings$useCovariateProcedureOccurrence180d75F,
                                                    use_covariate_procedure_group = covariateSettings$useCovariateProcedureGroup,
                                                    use_covariate_observation = covariateSettings$useCovariateObservation,
                                                    use_covariate_observation_365d = covariateSettings$useCovariateObservation365d,
@@ -368,15 +377,21 @@ loadCovariateData <- function(file, readOnly = FALSE) {
 #' @param useCovariateConditionOccurrenceInpt180d   A boolean value (TRUE/FALSE) to determine if
 #'                                                  covariates will be created and used in models that
 #'                                                  look for presence/absence of condition within
-#'                                                  inpatient type in 180d window prior to or on cohort
+#'                                                  primary inpatient type in 180d window prior to or on cohort
 #'                                                  index date.  Only applicable if
 #'                                                  useCovariateConditionOccurrence = TRUE.
-#' @param useCovariateConditionOccurrence180d       A boolean value (TRUE/FALSE) to determine if
+#' @param useCovariate3DigitIcd9Inpatient180d       A boolean value (TRUE/FALSE) to determine if
 #'                                                  covariates will be created and used in models that
-#'                                                  look for presence/absence of condition in 180d
-#'                                                  window prior to or on cohort index date.  Only
-#'                                                  applicable if useCovariateConditionOccurrence =
-#'                                                  TRUE.
+#'                                                  look for presence/absence of condition within
+#'                                                  inpatient setting in 180d window prior to or on cohort
+#'                                                  index date. Conditions are aggregated at the ICD-9 3-digit level.
+#'                                                  Only applicable if useCovariateConditionOccurrence = TRUE.
+#' @param useCovariate3DigitIcd9Ambulatory180d      A boolean value (TRUE/FALSE) to determine if
+#'                                                  covariates will be created and used in models that
+#'                                                  look for presence/absence of condition within
+#'                                                  ambulatory (non-inpatient) setting in 180d window prior to or on cohort
+#'                                                  index date. Conditions are aggregated at the ICD-9 3-digit level.
+#'                                                  Only applicable if useCovariateConditionOccurrence = TRUE.
 #' @param useCovariateConditionEra                  A boolean value (TRUE/FALSE) to determine if
 #'                                                  covariates derived from CONDITION_ERA table will be
 #'                                                  created and included in future models.
@@ -565,7 +580,12 @@ createCovariateSettings <- function(useCovariateDemographics = TRUE,
                                     useCovariateConditionOccurrence365d = TRUE,
                                     useCovariateConditionOccurrence30d = FALSE,
                                     useCovariateConditionOccurrenceInpt180d = FALSE,
-                                    useCovariateConditionOccurrence180d = FALSE,
+                                    useCovariate3DigitIcd9Inpatient180d = FALSE,
+                                    useCovariate3DigitIcd9Inpatient180dMedF = FALSE,
+                                    useCovariate3DigitIcd9Inpatient180d75F = FALSE,
+                                    useCovariate3DigitIcd9Ambulatory180d = FALSE,
+                                    useCovariate3DigitIcd9Ambulatory180dMedF = FALSE,
+                                    useCovariate3DigitIcd9Ambulatory180d75F = FALSE,
                                     useCovariateConditionEra = FALSE,
                                     useCovariateConditionEraEver = FALSE,
                                     useCovariateConditionEraOverlap = FALSE,
@@ -575,17 +595,21 @@ createCovariateSettings <- function(useCovariateDemographics = TRUE,
                                     useCovariateDrugExposure = FALSE,
                                     useCovariateDrugExposure365d = FALSE,
                                     useCovariateDrugExposure30d = FALSE,
+									useCovariateIngredientExposure180d = FALSE,
+									useCovariateIngredientExposure180dMedF = FALSE,
+									useCovariateIngredientExposure180d75F = FALSE,
                                     useCovariateDrugEra = FALSE,
                                     useCovariateDrugEra365d = FALSE,
                                     useCovariateDrugEra30d = FALSE,
                                     useCovariateDrugEraOverlap = FALSE,
                                     useCovariateDrugEraEver = FALSE,
-                                    useCovariateDrugEra180d = FALSE,
                                     useCovariateDrugGroup = FALSE,
                                     useCovariateProcedureOccurrence = FALSE,
                                     useCovariateProcedureOccurrence365d = FALSE,
                                     useCovariateProcedureOccurrence30d = FALSE,
                                     useCovariateProcedureOccurrence180d = FALSE,
+                                    useCovariateProcedureOccurrence180dMedF = FALSE,
+                                    useCovariateProcedureOccurrence180d75F = FALSE,
                                     useCovariateProcedureGroup = FALSE,
                                     useCovariateObservation = FALSE,
                                     useCovariateObservation365d = FALSE,
