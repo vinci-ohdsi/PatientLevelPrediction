@@ -33,8 +33,13 @@ limitations under the License.
 {DEFAULT @use_covariate_condition_occurrence = TRUE}
 {DEFAULT @use_covariate_condition_occurrence_365d = TRUE}
 {DEFAULT @use_covariate_condition_occurrence_30d = TRUE}
-{DEFAULT @use_covariate_condition_occurrence_inpt180d = TRUE}
-{DEFAULT @use_covariate_condition_occurrence_180d = TRUE}
+{DEFAULT @use_covariate_condition_occurrence_inpt180d = TRUE} 
+{DEFAULT @use_covariate_3_digit_icd_9_inpatient_180d = TRUE}
+{DEFAULT @use_covariate_3_digit_icd_9_inpatient_180d_med_f = TRUE}
+{DEFAULT @use_covariate_3_digit_icd_9_inpatient_180d_75_f = TRUE}
+{DEFAULT @use_covariate_3_digit_icd_9_ambulatory_180d = TRUE}
+{DEFAULT @use_covariate_3_digit_icd_9_ambulatory_180d_med_f = TRUE}
+{DEFAULT @use_covariate_3_digit_icd_9_ambulatory_180d_75_f = TRUE}
 {DEFAULT @use_covariate_condition_era = FALSE}
 {DEFAULT @use_covariate_condition_era_ever = TRUE}
 {DEFAULT @use_covariate_condition_era_overlap = TRUE}
@@ -44,17 +49,21 @@ limitations under the License.
 {DEFAULT @use_covariate_drug_exposure = FALSE}
 {DEFAULT @use_covariate_drug_exposure_365d = TRUE}
 {DEFAULT @use_covariate_drug_exposure_30d = TRUE}
+{DEFAULT @use_covariate_ingredient_exposure_180d = TRUE}
+{DEFAULT @use_covariate_ingredient_exposure_180d_med_f = TRUE}
+{DEFAULT @use_covariate_ingredient_exposure_180d_75_f = TRUE}
 {DEFAULT @use_covariate_drug_era = FALSE}
 {DEFAULT @use_covariate_drug_era_365d = TRUE}
 {DEFAULT @use_covariate_drug_era_30d = TRUE}
 {DEFAULT @use_covariate_drug_era_overlap = TRUE}
 {DEFAULT @use_covariate_drug_era_ever = TRUE}
-{DEFAULT @use_covariate_drug_era_180d = TRUE}
 {DEFAULT @use_covariate_drug_group = FALSE}
 {DEFAULT @use_covariate_procedure_occurrence = FALSE}
 {DEFAULT @use_covariate_procedure_occurrence_365d = TRUE}
 {DEFAULT @use_covariate_procedure_occurrence_30d = TRUE}
 {DEFAULT @use_covariate_procedure_occurrence_180d = TRUE}
+{DEFAULT @use_covariate_procedure_occurrence_180d_med_f = TRUE}
+{DEFAULT @use_covariate_procedure_occurrence_180d_75_f = TRUE}
 {DEFAULT @use_covariate_procedure_group = FALSE}
 {DEFAULT @use_covariate_observation = FALSE}
 {DEFAULT @use_covariate_observation_365d = TRUE}
@@ -76,7 +85,7 @@ limitations under the License.
 {DEFAULT @has_excluded_covariate_concept_ids}
 {DEFAULT @has_included_covariate_concept_ids}
 {DEFAULT @delete_covariates_small_count = 100}
-{DEFAULT @cdm_version == '4'}
+{DEFAULT @cdm_version = '4'}
 {DEFAULT @cohort_definition_id = 'cohort_concept_id'}
 {DEFAULT @concept_class_id = 'concept_class'}
 {DEFAULT @measurement = 'observation'}
@@ -450,13 +459,11 @@ FROM (SELECT DISTINCT covariate_id FROM #cov_co_30d) p1
 LEFT JOIN concept c1
 	ON (p1.covariate_id-102)/1000 = c1.concept_id
 ;
+}
 
-
-
-} {@use_covariate_condition_occurrence_inpt180d} ? {
+{@use_covariate_condition_occurrence_inpt180d} ? {
 
 --conditions:  primary inpatient diagnosis in last 180d
-
 SELECT DISTINCT cp1.cohort_start_date,
 	cp1.@cohort_definition_id,
 	cp1.subject_id as person_id,
@@ -472,8 +479,6 @@ WHERE co1.condition_concept_id != 0
 	AND co1.condition_type_concept_id IN (38000183, 38000184, 38000199, 38000200)
 	AND co1.condition_start_date <= cp1.cohort_start_date
 	AND co1.condition_start_date >= dateadd(dd, - 180, cp1.cohort_start_date);
-
-
 
 INSERT INTO #cov_ref (
   covariate_id,
@@ -493,60 +498,341 @@ FROM (SELECT DISTINCT covariate_id FROM #cov_co_inpt180d) p1
 LEFT JOIN concept c1
 	ON (p1.covariate_id-103)/1000 = c1.concept_id
 ;
+}  
 
+{@use_covariate_3_digit_icd_9_inpatient_180d | @use_covariate_3_digit_icd_9_ambulatory_180d | @use_covariate_3_digit_icd_9_inpatient_180d_med_f | @use_covariate_3_digit_icd_9_ambulatory_180d_med_f | @use_covariate_3_digit_icd_9_inpatient_180d_75_f | @use_covariate_3_digit_icd_9_ambulatory_180d_75_f } ? {
+IF OBJECT_ID('tempdb..#condition_id_to_icd9', 'U') IS NOT NULL
+	DROP TABLE #condition_id_to_icd9;
+	
+-- Create unique numeric identifiers for 3 digit ICD9 codes, and map condition occurrence codes	
+{@cdm_version == '4'} ? {
+SELECT icd9,
+	icd9_concept_id,
+	icd9_concept_name,
+	target_concept_id AS condition_concept_id
+INTO #condition_id_to_icd9
+FROM source_to_concept_map
+INNER JOIN (
+	SELECT source_code AS icd9,
+		target_concept_id AS icd9_concept_id,
+		source_code_description AS icd9_concept_name
+	FROM source_to_concept_map
+	WHERE source_vocabulary_id = 2
+		AND target_vocabulary_id = 1
+		AND LEN(source_code) = 3
+	) icd9_to_new_concept_id
+	ON icd9_to_new_concept_id.icd9 = LEFT(source_to_concept_map.source_code, 3)
+WHERE source_vocabulary_id = 2
+	AND target_vocabulary_id = 1
+	AND (source_to_concept_map.invalid_reason IS NULL OR source_to_concept_map.invalid_reason = '');
+} : {
+SELECT icd9,
+	icd9_concept_id,
+	icd9_concept_name,
+	condition.concept_id AS condition_concept_id
+INTO #condition_id_to_icd9
+FROM concept_relationship
+INNER JOIN concept icd9
+	ON concept_id_1 = icd9.concept_id
+INNER JOIN concept condition
+	ON concept_id_2 = condition.concept_id
+INNER JOIN (
+	SELECT concept_code AS icd9,
+		concept_id AS icd9_concept_id,
+		concept_name AS icd9_concept_name
+	FROM concept
+	WHERE vocabulary_id = 'ICD9CM'
+		AND LEN(concept_code) = 3
+	) icd9_to_new_concept_id
+	ON icd9 = LEFT(icd9.concept_code, 3)
+WHERE condition.standard_concept = 'S'
+	AND relationship_id = 'Maps to'
+	AND icd9.vocabulary_id = 'ICD9CM'
+	AND (concept_relationship.invalid_reason IS NULL OR concept_relationship.invalid_reason = '');
+}
+}
 
-} {@use_covariate_condition_occurrence_180d} ? {
-
---conditions:  episode in last 180d prior
--- ***************** --
-SELECT DISTINCT cp1.cohort_start_date,
+{@use_covariate_3_digit_icd_9_inpatient_180d | @use_covariate_3_digit_icd_9_inpatient_180d_med_f | @use_covariate_3_digit_icd_9_inpatient_180d_75_f} ? {
+SELECT cp1.cohort_start_date,
 	cp1.@cohort_definition_id,
-	cp1.subject_id AS person_id,
-	CAST(co1.condition_concept_id AS BIGINT) * 1000 + 104 AS covariate_id,
-	1 AS covariate_value
-  INTO #cov_co_180d
+	cp1.subject_id as person_id,
+	icd9_concept_id,
+	COUNT_BIG(*) AS frequency
+INTO #freq
 FROM #cohort_person cp1
 INNER JOIN condition_occurrence co1
 	ON cp1.subject_id = co1.person_id
+INNER JOIN visit_occurrence vo1
+    ON co1.visit_occurrence_id = vo1.visit_occurrence_id
+INNER JOIN #condition_id_to_icd9 condition_id_to_icd9
+	ON co1.condition_concept_id = condition_id_to_icd9.condition_concept_id 
 WHERE co1.condition_concept_id != 0
 {@has_excluded_covariate_concept_ids} ? {	AND co1.condition_concept_id NOT IN (SELECT concept_id FROM #excluded_cov)}
 {@has_included_covariate_concept_ids} ? {	AND co1.condition_concept_id IN (SELECT concept_id FROM #included_cov)}
+{@cdm_version == '4'} ? {
+	AND vo1.place_of_service_concept_id = 9201
+} : {
+	AND vo1.visit_concept_id = 9201
+}
 	AND co1.condition_start_date <= cp1.cohort_start_date
-	AND co1.condition_start_date >= dateadd(dd, - 180, cp1.cohort_start_date);
+	AND co1.condition_start_date >= dateadd(dd, - 180, cp1.cohort_start_date)
+GROUP BY cp1.cohort_start_date,
+	cp1.@cohort_definition_id,
+	cp1.subject_id,
+	icd9_concept_id;
+}
+
+{@use_covariate_3_digit_icd_9_inpatient_180d_med_f | @use_covariate_3_digit_icd_9_inpatient_180d_75_f} ? {	
+SELECT icd9_concept_id,
+    MAX(CASE WHEN quantile <= 0.50 THEN frequency ELSE -9999 END) AS median_value,
+	MAX(CASE WHEN quantile <= 0.75 THEN frequency ELSE -9999 END) AS q75_value
+INTO #thresholds  
+FROM (
+	SELECT icd9_concept_id,
+	  frequency,
+	  1.0 * ROW_NUMBER() OVER (PARTITION BY icd9_concept_id ORDER BY frequency) / COUNT_BIG(*) OVER (PARTITION BY icd9_concept_id) AS quantile
+	FROM #freq
+   ) #temp	
+GROUP BY icd9_concept_id;
+}
+
+{@use_covariate_3_digit_icd_9_inpatient_180d} ? {
+--conditions:  inpatient diagnoses in last 180d at 3-digit ICD9 code level
+SELECT DISTINCT cohort_start_date,
+	@cohort_definition_id,
+	person_id,
+	CAST(icd9_concept_id AS BIGINT) * 1000 + 104 AS covariate_id,
+	1 AS covariate_value
+INTO #cov_co_i_icd_180d
+FROM #freq;
 
 INSERT INTO #cov_ref (
   covariate_id,
   covariate_name,
   analysis_id,
-	concept_id
+  concept_id
 	)
 SELECT p1.covariate_id,
-	'Condition occurrence record observed during 180d on or prior to cohort index:  ' + CAST((p1.covariate_id-104)/1000 AS VARCHAR) + '-' + CASE
-		WHEN c1.concept_name IS NOT NULL
-			THEN c1.concept_name
-		ELSE 'Unknown invalid concept'
-		END AS covariate_name,
+	'3-digit ICD-9 occurrence record of inpatient diagnosis observed during 180d on or prior to cohort index: ' + icd9 + '-' + c1.icd9_concept_name AS covariate_name,
 	104 AS analysis_id,
-  (p1.covariate_id-104)/1000 AS concept_id
-FROM (SELECT DISTINCT covariate_id FROM #cov_co_180d) p1
-LEFT JOIN concept c1
-	ON (p1.covariate_id-104)/1000 = c1.concept_id
-;
+	icd9_concept_id AS concept_id
+FROM (SELECT DISTINCT covariate_id FROM #cov_co_i_icd_180d) p1
+INNER JOIN (SELECT DISTINCT icd9_concept_id, icd9, icd9_concept_name FROM #condition_id_to_icd9) c1
+	ON (p1.covariate_id-104)/1000 = c1.icd9_concept_id;
+} 
 
+{@use_covariate_3_digit_icd_9_inpatient_180d_med_f} ? {
+SELECT DISTINCT cohort_start_date,
+	@cohort_definition_id,
+	person_id,
+	CAST(freq.icd9_concept_id AS BIGINT) * 1000 + 105 AS covariate_id,
+	1 AS covariate_value
+INTO #cov_co_i_icd_180d_m
+FROM #freq freq
+INNER JOIN #thresholds thresholds
+ON freq.icd9_concept_id = thresholds.icd9_concept_id
+WHERE frequency >= median_value;
 
-} }
+INSERT INTO #cov_ref (
+  covariate_id,
+  covariate_name,
+  analysis_id,
+  concept_id
+	)
+SELECT p1.covariate_id,
+	'3-digit ICD-9 occurrence record of inpatient diagnosis observed during 180d on or prior to cohort index with freq >= median: ' + icd9 + '-' + c1.icd9_concept_name AS covariate_name,
+	105 AS analysis_id,
+	icd9_concept_id AS concept_id
+FROM (SELECT DISTINCT covariate_id FROM #cov_co_i_icd_180d_m) p1
+INNER JOIN (SELECT DISTINCT icd9_concept_id, icd9, icd9_concept_name FROM #condition_id_to_icd9) c1
+	ON (p1.covariate_id-105)/1000 = c1.icd9_concept_id;
+}
 
+{@use_covariate_3_digit_icd_9_inpatient_180d_75_f} ? {
+SELECT DISTINCT cohort_start_date,
+	@cohort_definition_id,
+	person_id,
+	CAST(freq.icd9_concept_id AS BIGINT) * 1000 + 106 AS covariate_id,
+	1 AS covariate_value
+INTO #cov_co_i_icd_180d_75
+FROM #freq freq
+INNER JOIN #thresholds thresholds
+ON freq.icd9_concept_id = thresholds.icd9_concept_id
+WHERE frequency >= q75_value;
 
+INSERT INTO #cov_ref (
+  covariate_id,
+  covariate_name,
+  analysis_id,
+  concept_id
+	)
+SELECT p1.covariate_id,
+	'3-digit ICD-9 occurrence record of inpatient diagnosis observed during 180d on or prior to cohort index  with freq >= q75: ' + icd9 + '-' + c1.icd9_concept_name AS covariate_name,
+	106 AS analysis_id,
+	icd9_concept_id AS concept_id
+FROM (SELECT DISTINCT covariate_id FROM #cov_co_i_icd_180d_75) p1
+INNER JOIN (SELECT DISTINCT icd9_concept_id, icd9, icd9_concept_name FROM #condition_id_to_icd9) c1
+	ON (p1.covariate_id-106)/1000 = c1.icd9_concept_id;
+}
+
+{@use_covariate_3_digit_icd_9_inpatient_180d | @use_covariate_3_digit_icd_9_inpatient_180d_med_f | @use_covariate_3_digit_icd_9_inpatient_180d_75_f } ? {
+TRUNCATE TABLE #freq;
+DROP TABLE #freq;
+}
+
+{@use_covariate_3_digit_icd_9_inpatient_180d_med_f | @use_covariate_3_digit_icd_9_inpatient_180d_75_f } ? {
+TRUNCATE TABLE #thresholds;
+DROP TABLE #thresholds;
+}
+
+{@use_covariate_3_digit_icd_9_ambulatory_180d | @use_covariate_3_digit_icd_9_ambulatory_180d_med_f | @use_covariate_3_digit_icd_9_ambulatory_180d_75_f} ? {
+SELECT cp1.cohort_start_date,
+	cp1.@cohort_definition_id,
+	cp1.subject_id as person_id,
+	icd9_concept_id,
+	COUNT_BIG(*) AS frequency
+INTO #freq
+FROM #cohort_person cp1
+INNER JOIN condition_occurrence co1
+	ON cp1.subject_id = co1.person_id
+INNER JOIN visit_occurrence vo1
+    ON co1.visit_occurrence_id = vo1.visit_occurrence_id
+INNER JOIN #condition_id_to_icd9 condition_id_to_icd9
+	ON co1.condition_concept_id = condition_id_to_icd9.condition_concept_id 
+WHERE co1.condition_concept_id != 0
+{@has_excluded_covariate_concept_ids} ? {	AND co1.condition_concept_id NOT IN (SELECT concept_id FROM #excluded_cov)}
+{@has_included_covariate_concept_ids} ? {	AND co1.condition_concept_id IN (SELECT concept_id FROM #included_cov)}
+{@cdm_version == '4'} ? {
+	AND vo1.place_of_service_concept_id != 9201
+} : {
+	AND vo1.visit_concept_id != 9201
+}
+	AND co1.condition_start_date <= cp1.cohort_start_date
+	AND co1.condition_start_date >= dateadd(dd, - 180, cp1.cohort_start_date)
+GROUP BY cp1.cohort_start_date,
+	cp1.@cohort_definition_id,
+	cp1.subject_id,
+	icd9_concept_id;
+}
+
+{@use_covariate_3_digit_icd_9_ambulatory_180d_med_f | @use_covariate_3_digit_icd_9_ambulatory_180d_75_f} ? {	
+SELECT icd9_concept_id,
+    MAX(CASE WHEN quantile <= 0.50 THEN frequency ELSE -9999 END) AS median_value,
+	MAX(CASE WHEN quantile <= 0.75 THEN frequency ELSE -9999 END) AS q75_value
+INTO #thresholds  
+FROM (
+	SELECT icd9_concept_id,
+	  frequency,
+	  1.0 * ROW_NUMBER() OVER (PARTITION BY icd9_concept_id ORDER BY frequency) / COUNT_BIG(*) OVER (PARTITION BY icd9_concept_id) AS quantile
+	FROM #freq
+   ) #temp	
+GROUP BY icd9_concept_id;
+}
+
+{@use_covariate_3_digit_icd_9_ambulatory_180d} ? {
+--conditions:  inpatient diagnoses in last 180d at 3-digit ICD9 code level
+SELECT DISTINCT cohort_start_date,
+	@cohort_definition_id,
+	person_id,
+	CAST(icd9_concept_id AS BIGINT) * 1000 + 107 AS covariate_id,
+	1 AS covariate_value
+INTO #cov_co_a_icd_180d
+FROM #freq;
+
+INSERT INTO #cov_ref (
+  covariate_id,
+  covariate_name,
+  analysis_id,
+  concept_id
+	)
+SELECT p1.covariate_id,
+	'3-digit ICD-9 occurrence record of ambulatory diagnosis observed during 180d on or prior to cohort index: ' + icd9 + '-' + c1.icd9_concept_name AS covariate_name,
+	107 AS analysis_id,
+	icd9_concept_id AS concept_id
+FROM (SELECT DISTINCT covariate_id FROM #cov_co_a_icd_180d) p1
+INNER JOIN (SELECT DISTINCT icd9_concept_id, icd9, icd9_concept_name FROM #condition_id_to_icd9) c1
+	ON (p1.covariate_id-107)/1000 = c1.icd9_concept_id;
+} 
+
+{@use_covariate_3_digit_icd_9_ambulatory_180d_med_f} ? {
+SELECT DISTINCT cohort_start_date,
+	@cohort_definition_id,
+	person_id,
+	CAST(freq.icd9_concept_id AS BIGINT) * 1000 + 108 AS covariate_id,
+	1 AS covariate_value
+INTO #cov_co_a_icd_180d_m
+FROM #freq freq
+INNER JOIN #thresholds thresholds
+ON freq.icd9_concept_id = thresholds.icd9_concept_id
+WHERE frequency >= median_value;
+
+INSERT INTO #cov_ref (
+  covariate_id,
+  covariate_name,
+  analysis_id,
+  concept_id
+	)
+SELECT p1.covariate_id,
+	'3-digit ICD-9 occurrence record of ambulatory diagnosis observed during 180d on or prior to cohort index with freq >= median: ' + icd9 + '-' + c1.icd9_concept_name AS covariate_name,
+	108 AS analysis_id,
+	icd9_concept_id AS concept_id
+FROM (SELECT DISTINCT covariate_id FROM #cov_co_a_icd_180d_m) p1
+INNER JOIN (SELECT DISTINCT icd9_concept_id, icd9, icd9_concept_name FROM #condition_id_to_icd9) c1
+	ON (p1.covariate_id-108)/1000 = c1.icd9_concept_id;
+}
+
+{@use_covariate_3_digit_icd_9_ambulatory_180d_75_f} ? {
+SELECT DISTINCT cohort_start_date,
+	@cohort_definition_id,
+	person_id,
+	CAST(freq.icd9_concept_id AS BIGINT) * 1000 + 109 AS covariate_id,
+	1 AS covariate_value
+INTO #cov_co_a_icd_180d_75
+FROM #freq freq
+INNER JOIN #thresholds thresholds
+ON freq.icd9_concept_id = thresholds.icd9_concept_id
+WHERE frequency >= q75_value;
+
+INSERT INTO #cov_ref (
+  covariate_id,
+  covariate_name,
+  analysis_id,
+  concept_id
+	)
+SELECT p1.covariate_id,
+	'3-digit ICD-9 occurrence record of ambulatory diagnosis observed during 180d on or prior to cohort index  with freq >= q75: ' + icd9 + '-' + c1.icd9_concept_name AS covariate_name,
+	109 AS analysis_id,
+	icd9_concept_id AS concept_id
+FROM (SELECT DISTINCT covariate_id FROM #cov_co_a_icd_180d_75) p1
+INNER JOIN (SELECT DISTINCT icd9_concept_id, icd9, icd9_concept_name FROM #condition_id_to_icd9) c1
+	ON (p1.covariate_id-109)/1000 = c1.icd9_concept_id;
+}
+
+{@use_covariate_3_digit_icd_9_ambulatory_180d | @use_covariate_3_digit_icd_9_ambulatory_180d_med_f | @use_covariate_3_digit_icd_9_ambulatory_180d_75_f } ? {
+TRUNCATE TABLE #freq;
+DROP TABLE #freq;
+}
+
+{@use_covariate_3_digit_icd_9_ambulatory_180d_med_f | @use_covariate_3_digit_icd_9_ambulatory_180d_75_f } ? {
+TRUNCATE TABLE #thresholds;
+DROP TABLE #thresholds;
+}
+
+{@use_covariate_3_digit_icd_9_inpatient_180d | @use_covariate_3_digit_icd_9_ambulatory_180d | @use_covariate_3_digit_icd_9_inpatient_180d_med_f | @use_covariate_3_digit_icd_9_ambulatory_180d_med_f | @use_covariate_3_digit_icd_9_inpatient_180d_75_f | @use_covariate_3_digit_icd_9_ambulatory_180d_75_f } ? {
+TRUNCATE TABLE #condition_id_to_icd9;
+DROP TABLE #condition_id_to_icd9;
+}
+}
 
 /**************************
 ***************************
 CONDITION ERA
 ***************************
 **************************/
-	{@use_covariate_condition_era} ? { {@use_covariate_condition_era_ever} ? {
+{@use_covariate_condition_era} ? { 
 
+{@use_covariate_condition_era_ever} ? {
 --condition:  exist any time prior
-
 SELECT DISTINCT cp1.cohort_start_date,
 	cp1.@cohort_definition_id,
 	cp1.subject_id as person_id,
@@ -627,14 +913,8 @@ FROM (SELECT DISTINCT covariate_id FROM #cov_ce_overlap) p1
 LEFT JOIN concept c1
 	ON (p1.covariate_id-202)/1000 = c1.concept_id
 ;
-
-
-
 }
-
 }
-
-
 
 /**************************
 ***************************
@@ -642,10 +922,7 @@ CONDITION GROUP
 ***************************
 **************************/
 
-
-
-	{@use_covariate_condition_group} ? {
-
+{@use_covariate_condition_group} ? {
 
 IF OBJECT_ID('tempdb..#condition_group', 'U') IS NOT NULL
 	DROP TABLE #condition_group;
@@ -668,6 +945,7 @@ FROM (
 	FROM #cov_ref
 	WHERE analysis_id > 100
 		AND analysis_id < 300
+		AND analysis_id NOT IN (104,105,106,107,108,109)
 	) ccr1
 INNER JOIN concept_ancestor ca1
 	ON ccr1.concept_id = ca1.descendant_concept_id
@@ -698,6 +976,7 @@ FROM (
 	FROM #cov_ref
 	WHERE analysis_id > 100
 		AND analysis_id < 300
+		AND analysis_id NOT IN (104,105,106,107,108,109)
 	) ccr1
 INNER JOIN concept_ancestor ca1
 	ON ccr1.concept_id = ca1.descendant_concept_id
@@ -731,7 +1010,7 @@ SELECT DISTINCT CAST(cg1.ancestor_concept_id AS BIGINT) * 1000 + 50 + ccr1.analy
 		WHEN analysis_id = 102
 			THEN 'Condition occurrence record observed during 30d on or prior to cohort index within condition group:  '
 		WHEN analysis_id = 103
-			THEN 'Condition occurrence record of primary inpatient diagnosis observed during 180d on or prior to cohort index within condition group:  '
+			THEN 'Condition occurrence record of inpatient diagnosis observed during 180d on or prior to cohort index within condition group:  '
 		WHEN analysis_id = 201
 			THEN 'Condition era record observed during anytime on or prior to cohort index within condition group:  '
 		WHEN analysis_id = 202
@@ -748,6 +1027,7 @@ FROM (
 	FROM #cov_ref
 	WHERE analysis_id > 100
 		AND analysis_id < 300
+		AND analysis_id NOT IN (104,105,106,107,108,109)
 	) ccr1
 INNER JOIN #condition_group cg1
 	ON ccr1.concept_id = cg1.descendant_concept_id
@@ -833,6 +1113,7 @@ INNER JOIN (
 	FROM #cov_ref
 	WHERE analysis_id > 100
 		AND analysis_id < 300
+		AND analysis_id NOT IN (104,105,106,107,108,109)
 	) ccr1
 	ON cc1.covariate_id = ccr1.covariate_id
 INNER JOIN #condition_group cg1
@@ -854,10 +1135,10 @@ DROP TABLE #condition_group;
 DRUG EXPOSURE
 ***************************
 **************************/
-	{@use_covariate_drug_exposure} ? { {@use_covariate_drug_exposure_365d} ? {
+{@use_covariate_drug_exposure} ? {
 
+{@use_covariate_drug_exposure_365d} ? {
 --drug exist:  episode in last 365d prior
-
 SELECT DISTINCT cp1.cohort_start_date,
 	cp1.@cohort_definition_id,
 	cp1.subject_id as person_id,
@@ -872,7 +1153,6 @@ WHERE de1.drug_concept_id != 0
 {@has_included_covariate_concept_ids} ? {  AND de1.drug_concept_id IN (SELECT concept_id FROM #included_cov)}
 	AND de1.drug_exposure_start_date <= cp1.cohort_start_date
 	AND de1.drug_exposure_start_date >= dateadd(dd, - 365, cp1.cohort_start_date);
-
 
 INSERT INTO #cov_ref (
   covariate_id,
@@ -890,17 +1170,11 @@ SELECT p1.covariate_id,
 	(p1.covariate_id-401)/1000 AS concept_id
 FROM (SELECT DISTINCT covariate_id FROM #cov_de_365d) p1
 LEFT JOIN concept c1
-	ON (p1.covariate_id-401)/1000 = c1.concept_id
-;
-
-
+	ON (p1.covariate_id-401)/1000 = c1.concept_id;
 }
 
-
 {@use_covariate_drug_exposure_30d} ? {
-
 --drug exist:  episode in last 30d prior
-
 SELECT DISTINCT cp1.cohort_start_date,
 	cp1.@cohort_definition_id,
 	cp1.subject_id as person_id,
@@ -915,7 +1189,6 @@ WHERE de1.drug_concept_id != 0
 {@has_included_covariate_concept_ids} ? {	AND de1.drug_concept_id IN (SELECT concept_id FROM #included_cov)}
 	AND de1.drug_exposure_start_date <= cp1.cohort_start_date
 	AND de1.drug_exposure_start_date >= dateadd(dd, - 30, cp1.cohort_start_date);
-
 
 INSERT INTO #cov_ref (
   covariate_id,
@@ -933,14 +1206,158 @@ SELECT p1.covariate_id,
 	(p1.covariate_id-402)/1000 AS concept_id
 FROM (SELECT DISTINCT covariate_id FROM #cov_de_30d) p1
 LEFT JOIN concept c1
-	ON (p1.covariate_id-402)/1000 = c1.concept_id
-;
+	ON (p1.covariate_id-402)/1000 = c1.concept_id;
+}
 
+{@use_covariate_ingredient_exposure_180d | @use_covariate_ingredient_exposure_180d_med_f  | @use_covariate_ingredient_exposure_180d_75_f} ? {
+SELECT cp1.cohort_start_date,
+	cp1.@cohort_definition_id,
+	cp1.subject_id as person_id,
+	ingredient.concept_id,
+	COUNT_BIG(*) AS frequency
+INTO #freq
+FROM #cohort_person cp1
+INNER JOIN drug_exposure de1
+	ON cp1.subject_id = de1.person_id
+INNER JOIN concept_ancestor ca1
+	ON de1.drug_concept_id = ca1.descendant_concept_id
+INNER JOIN concept ingredient
+	ON ca1.ancestor_concept_id = ingredient.concept_id
+WHERE de1.drug_concept_id != 0
+{@has_excluded_covariate_concept_ids} ? {	AND de1.drug_concept_id NOT IN (SELECT concept_id FROM #excluded_cov)}
+{@has_included_covariate_concept_ids} ? {	AND de1.drug_concept_id IN (SELECT concept_id FROM #included_cov)}
+	AND de1.drug_exposure_start_date <= cp1.cohort_start_date
+	AND de1.drug_exposure_start_date >= dateadd(dd, - 180, cp1.cohort_start_date)
+{@cdm_version == '4'} ? {
+	AND ingredient.vocabulary_id = 8
+	AND ingredient.concept_class = 'Ingredient'
+} : {
+	AND ingredient.vocabulary_id = 'RxNorm'
+	AND ingredient.concept_class_id = 'Ingredient'
+}
+GROUP BY cp1.cohort_start_date,
+	cp1.@cohort_definition_id,
+	cp1.subject_id,
+	ingredient.concept_id;
+}
+
+{@use_covariate_ingredient_exposure_180d_med_f  | @use_covariate_ingredient_exposure_180d_75_f} ? {	
+SELECT concept_id,
+    MAX(CASE WHEN quantile <= 0.50 THEN frequency ELSE -9999 END) AS median_value,
+	MAX(CASE WHEN quantile <= 0.75 THEN frequency ELSE -9999 END) AS q75_value
+INTO #thresholds  
+FROM (
+	SELECT concept_id,
+	  frequency,
+	  1.0 * ROW_NUMBER() OVER (PARTITION BY concept_id ORDER BY frequency) / COUNT_BIG(*) OVER (PARTITION BY concept_id) AS quantile
+	FROM #freq
+   ) #temp	
+GROUP BY concept_id;
+}
+
+{@use_covariate_ingredient_exposure_180d} ? {
+--drug exist:  ingredient prescription in last 180d prior
+SELECT DISTINCT cohort_start_date,
+	@cohort_definition_id,
+	person_id,
+	CAST(concept_id AS BIGINT) * 1000 + 403 AS covariate_id,
+	1 AS covariate_value
+INTO #cov_ie_180d
+FROM #freq;
+
+INSERT INTO #cov_ref (
+  covariate_id,
+  covariate_name,
+  analysis_id,
+  concept_id
+	)
+SELECT p1.covariate_id,
+	'Ingredient prescription record observed during 180d on or prior to cohort index:  ' + CAST((p1.covariate_id-403)/1000 AS VARCHAR) + '-' + CASE
+		WHEN c1.concept_name IS NOT NULL
+			THEN c1.concept_name
+		ELSE 'Unknown invalid concept'
+		END AS covariate_name,
+	403 AS analysis_id,
+	(p1.covariate_id-403)/1000 AS concept_id
+FROM (SELECT DISTINCT covariate_id FROM #cov_ie_180d) p1
+LEFT JOIN concept c1
+	ON (p1.covariate_id-403)/1000 = c1.concept_id;
+}
+
+{@use_covariate_ingredient_exposure_180d_med_f} ? {
+SELECT DISTINCT cohort_start_date,
+	@cohort_definition_id,
+	person_id,
+	CAST(freq.concept_id AS BIGINT) * 1000 + 404 AS covariate_id,
+	1 AS covariate_value
+INTO #cov_ie_180d_m
+FROM #freq freq
+INNER JOIN #thresholds thresholds
+ON freq.concept_id = thresholds.concept_id
+WHERE frequency >= median_value;
+
+INSERT INTO #cov_ref (
+  covariate_id,
+  covariate_name,
+  analysis_id,
+  concept_id
+	)
+SELECT p1.covariate_id,
+	'Ingredient prescription record observed during 180d on or prior to cohort index with freq > median:  ' + CAST((p1.covariate_id-404)/1000 AS VARCHAR) + '-' + CASE
+		WHEN c1.concept_name IS NOT NULL
+			THEN c1.concept_name
+		ELSE 'Unknown invalid concept'
+		END AS covariate_name,
+	404 AS analysis_id,
+	(p1.covariate_id-404)/1000 AS concept_id
+FROM (SELECT DISTINCT covariate_id FROM #cov_ie_180d_m) p1
+LEFT JOIN concept c1
+	ON (p1.covariate_id-404)/1000 = c1.concept_id;
+}
+
+{@use_covariate_ingredient_exposure_180d_75_f} ? {
+SELECT DISTINCT cohort_start_date,
+	@cohort_definition_id,
+	person_id,
+	CAST(freq.concept_id AS BIGINT) * 1000 + 405 AS covariate_id,
+	1 AS covariate_value
+INTO #cov_ie_180d_75
+FROM #freq freq
+INNER JOIN #thresholds thresholds
+ON freq.concept_id = thresholds.concept_id
+WHERE frequency >= q75_value;
+
+INSERT INTO #cov_ref (
+  covariate_id,
+  covariate_name,
+  analysis_id,
+  concept_id
+	)
+SELECT p1.covariate_id,
+	'Ingredient prescription record observed during 180d on or prior to cohort index with freq > q75:  ' + CAST((p1.covariate_id-405)/1000 AS VARCHAR) + '-' + CASE
+		WHEN c1.concept_name IS NOT NULL
+			THEN c1.concept_name
+		ELSE 'Unknown invalid concept'
+		END AS covariate_name,
+	405 AS analysis_id,
+	(p1.covariate_id-405)/1000 AS concept_id
+FROM (SELECT DISTINCT covariate_id FROM #cov_ie_180d_75) p1
+LEFT JOIN concept c1
+	ON (p1.covariate_id-405)/1000 = c1.concept_id;
+}
+
+{@use_covariate_ingredient_exposure_180d | @use_covariate_ingredient_exposure_180d_med_f  | @use_covariate_ingredient_exposure_180d_75_f} ? {
+TRUNCATE TABLE #freq;
+DROP TABLE #freq;
+}
+
+{@use_covariate_ingredient_exposure_180d_med_f  | @use_covariate_ingredient_exposure_180d_75_f} ? {
+TRUNCATE TABLE #thresholds;
+DROP TABLE #thresholds;
+}
 
 }
 
-
-}
 /**************************
 ***************************
 DRUG ERA
@@ -1112,52 +1529,8 @@ FROM (SELECT DISTINCT covariate_id FROM #cov_dera_ever) p1
 LEFT JOIN concept c1
 	ON (p1.covariate_id-504)/1000 = c1.concept_id
 ;
-
-
-
-} {@use_covariate_drug_era_180d} ? {
-
---drug exist:  episode in last 180d prior
--- **************** --
-
-SELECT DISTINCT cp1.cohort_start_date,
-	cp1.@cohort_definition_id,
-	cp1.subject_id as person_id,
-	CAST(de1.drug_concept_id AS BIGINT) * 1000 + 505 AS covariate_id,
-	1 AS covariate_value
-INTO #cov_dera_180d
-FROM #cohort_person cp1
-INNER JOIN drug_era de1
-	ON cp1.subject_id = de1.person_id
-WHERE de1.drug_concept_id != 0
-{@has_excluded_covariate_concept_ids} ? {	AND de1.drug_concept_id NOT IN (SELECT concept_id FROM #excluded_cov)}
-{@has_included_covariate_concept_ids} ? {	AND de1.drug_concept_id IN (SELECT concept_id FROM #included_cov)}
-	AND de1.drug_era_start_date <= cp1.cohort_start_date
-	AND de1.drug_era_end_date >= dateadd(dd, - 180, cp1.cohort_start_date);
-
-
-INSERT INTO #cov_ref (
-  covariate_id,
-  covariate_name,
-  analysis_id,
-  concept_id
-	)
-SELECT p1.covariate_id,
-	'Drug era record observed during 180d on or prior to cohort index:  ' + CAST((p1.covariate_id-505)/1000 AS VARCHAR) + '-' + CASE
-		WHEN c1.concept_name IS NOT NULL
-			THEN c1.concept_name
-		ELSE 'Unknown invalid concept'
-		END AS covariate_name,
-	505 AS analysis_id,
-	(p1.covariate_id-505)/1000 AS concept_id
-FROM (SELECT DISTINCT covariate_id FROM #cov_dera_180d) p1
-LEFT JOIN concept c1
-	ON (p1.covariate_id-505)/1000 = c1.concept_id
-;
-
-
-
-} }
+} 
+}
 
 
 
@@ -1215,9 +1588,9 @@ SELECT DISTINCT CAST(cg1.ancestor_concept_id AS BIGINT) * 1000 + 50 + ccr1.analy
 			THEN 'Drug era record observed during 30d on or prior to cohort index within drug group:  '
 		WHEN analysis_id = 503
 			THEN 'Drug era record observed concurrent (overlapping) with cohort index within drug group:  '
-    WHEN analysis_id = 504
-  		THEN 'Drug era record observed during anytime on or prior to cohort index within drug group:  '
-  ELSE 'Other drug group analysis'
+		WHEN analysis_id = 504
+			THEN 'Drug era record observed during anytime on or prior to cohort index within drug group:  '
+		ELSE 'Other drug group analysis'
 		END + CAST(cg1.ancestor_concept_id AS VARCHAR) + '-' + c1.concept_name AS covariate_name,
 	ccr1.analysis_id,
 	cg1.ancestor_concept_id AS concept_id
@@ -1266,8 +1639,6 @@ SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covari
 FROM #cov_de_30d
 
 }
-
-
 }
 
 
@@ -1480,17 +1851,14 @@ LEFT JOIN concept c1
 	ON (p1.covariate_id-702)/1000 = c1.concept_id
 ;
 
-} {@use_covariate_procedure_occurrence_180d} ? {
-
---procedures exist:  episode in last 180d prior
-
-
-SELECT DISTINCT cp1.cohort_start_date,
+} 
+{@use_covariate_procedure_occurrence_180d | @use_covariate_procedure_occurrence_180d_med_f | @use_covariate_procedure_occurrence_180d_75_f} ? {
+SELECT cp1.cohort_start_date,
 	cp1.@cohort_definition_id,
 	cp1.subject_id as person_id,
-	CAST(po1.procedure_concept_id AS BIGINT) * 1000 + 703 AS covariate_id,
-	1 AS covariate_value
-  INTO #cov_po_180d
+	po1.procedure_concept_id,
+	COUNT_BIG(*) AS frequency
+INTO #freq
 FROM #cohort_person cp1
 INNER JOIN procedure_occurrence po1
 	ON cp1.subject_id = po1.person_id
@@ -1498,14 +1866,42 @@ WHERE po1.procedure_concept_id  != 0
 {@has_excluded_covariate_concept_ids} ? {	AND po1.procedure_concept_id  NOT IN (SELECT concept_id FROM #excluded_cov)}
 {@has_included_covariate_concept_ids} ? {	AND po1.procedure_concept_id  IN (SELECT concept_id FROM #included_cov)}
 	AND po1.procedure_date <= cp1.cohort_start_date
-	AND po1.procedure_date >= dateadd(dd, - 180, cp1.cohort_start_date);
+	AND po1.procedure_date >= dateadd(dd, - 180, cp1.cohort_start_date)
+GROUP BY cp1.cohort_start_date,
+	cp1.@cohort_definition_id,
+	cp1.subject_id,
+	po1.procedure_concept_id;
+}
 
+{@use_covariate_procedure_occurrence_180d_med_f | @use_covariate_procedure_occurrence_180d_75_f} ? {	
+SELECT procedure_concept_id,
+    MAX(CASE WHEN quantile <= 0.50 THEN frequency ELSE -9999 END) AS median_value,
+	MAX(CASE WHEN quantile <= 0.75 THEN frequency ELSE -9999 END) AS q75_value
+INTO #thresholds  
+FROM (
+	SELECT procedure_concept_id,
+	  frequency,
+	  1.0 * ROW_NUMBER() OVER (PARTITION BY procedure_concept_id ORDER BY frequency) / COUNT_BIG(*) OVER (PARTITION BY procedure_concept_id) AS quantile
+	FROM #freq
+   ) #temp	
+GROUP BY procedure_concept_id;
+}
+
+{@use_covariate_procedure_occurrence_180d} ? {
+--procedures exist:  episode in last 180d prior
+SELECT DISTINCT cohort_start_date,
+	@cohort_definition_id,
+	person_id,
+	CAST(procedure_concept_id AS BIGINT) * 1000 + 703 AS covariate_id,
+	1 AS covariate_value
+INTO #cov_po_180d
+FROM #freq;
 
 INSERT INTO #cov_ref (
   covariate_id,
   covariate_name,
   analysis_id,
-	concept_id
+  concept_id
 	)
 SELECT p1.covariate_id,
 	'Procedure occurrence record observed during 180d on or prior to cohort index:  ' + CAST((p1.covariate_id-703)/1000 AS VARCHAR) + '-' + CASE
@@ -1517,11 +1913,82 @@ SELECT p1.covariate_id,
 	(p1.covariate_id-703)/1000 AS concept_id
 FROM (SELECT DISTINCT covariate_id FROM #cov_po_180d) p1
 LEFT JOIN concept c1
-	ON (p1.covariate_id-703)/1000 = c1.concept_id
-;
+	ON (p1.covariate_id-703)/1000 = c1.concept_id;
+} 
 
-} }
+{@use_covariate_procedure_occurrence_180d_med_f} ? {
+SELECT DISTINCT cohort_start_date,
+	@cohort_definition_id,
+	person_id,
+	CAST(freq.procedure_concept_id AS BIGINT) * 1000 + 704 AS covariate_id,
+	1 AS covariate_value
+INTO #cov_po_180d_m
+FROM #freq freq
+INNER JOIN #thresholds thresholds
+ON freq.procedure_concept_id = thresholds.procedure_concept_id
+WHERE frequency >= median_value;
 
+INSERT INTO #cov_ref (
+  covariate_id,
+  covariate_name,
+  analysis_id,
+	concept_id
+	)
+SELECT p1.covariate_id,
+	'Procedure occurrence record observed during 180d on or prior to cohort index with freq >= median:  ' + CAST((p1.covariate_id-704)/1000 AS VARCHAR) + '-' + CASE
+		WHEN c1.concept_name IS NOT NULL
+			THEN c1.concept_name
+		ELSE 'Unknown invalid concept'
+		END AS covariate_name,
+	704 AS analysis_id,
+	(p1.covariate_id-704)/1000 AS concept_id
+FROM (SELECT DISTINCT covariate_id FROM #cov_po_180d_m) p1
+LEFT JOIN concept c1
+	ON (p1.covariate_id-704)/1000 = c1.concept_id;
+}
+
+{@use_covariate_procedure_occurrence_180d_75_f} ? {
+SELECT DISTINCT cohort_start_date,
+	@cohort_definition_id,
+	person_id,
+	CAST(freq.procedure_concept_id AS BIGINT) * 1000 + 705 AS covariate_id,
+	1 AS covariate_value
+INTO #cov_po_180d_75
+FROM #freq freq
+INNER JOIN #thresholds thresholds
+ON freq.procedure_concept_id = thresholds.procedure_concept_id
+WHERE frequency >= q75_value;
+
+INSERT INTO #cov_ref (
+  covariate_id,
+  covariate_name,
+  analysis_id,
+	concept_id
+	)
+SELECT p1.covariate_id,
+	'Procedure occurrence record observed during 180d on or prior to cohort index with freq >= q75:  ' + CAST((p1.covariate_id-704)/1000 AS VARCHAR) + '-' + CASE
+		WHEN c1.concept_name IS NOT NULL
+			THEN c1.concept_name
+		ELSE 'Unknown invalid concept'
+		END AS covariate_name,
+	705 AS analysis_id,
+	(p1.covariate_id-705)/1000 AS concept_id
+FROM (SELECT DISTINCT covariate_id FROM #cov_po_180d_75) p1
+LEFT JOIN concept c1
+	ON (p1.covariate_id-705)/1000 = c1.concept_id;
+}
+
+{@use_covariate_procedure_occurrence_180d | @use_covariate_procedure_occurrence_180d_med_f | @use_covariate_procedure_occurrence_180d_75_f} ? {
+TRUNCATE TABLE #freq;
+DROP TABLE #freq;
+}
+
+{@use_covariate_procedure_occurrence_180d_med_f | @use_covariate_procedure_occurrence_180d_75_f} ? {
+TRUNCATE TABLE #thresholds;
+DROP TABLE #thresholds;
+}
+
+}
 
 /**************************
 ***************************
@@ -1576,7 +2043,9 @@ SELECT DISTINCT CAST(cg1.ancestor_concept_id AS BIGINT) * 1000 + 50 + ccr1.analy
 			THEN 'Procedure occurrence record observed during 365d on or prior to cohort index within procedure group:  '
 		WHEN analysis_id = 702
 			THEN 'Procedure occurrence record observed during 30d on or prior to cohort index within procedure group:  '
-  ELSE 'Other procedure group analysis'
+		WHEN analysis_id = 703
+			THEN 'Procedure occurrence record observed during 180d on or prior to cohort index within procedure group:  '  
+		ELSE 'Other procedure group analysis'
 		END + CAST(cg1.ancestor_concept_id AS VARCHAR) + '-' + c1.concept_name AS covariate_name,
 	ccr1.analysis_id,
 	cg1.ancestor_concept_id AS concept_id
@@ -1623,6 +2092,15 @@ UNION
 
 SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
 FROM #cov_po_30d
+
+}
+
+{@use_covariate_procedure_occurrence_180d} ? {
+
+UNION
+
+SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
+FROM #cov_po_180d
 
 }
 
@@ -1780,7 +2258,7 @@ LEFT JOIN concept c1
 
 }
 
-{(cdm_version == '4' & @use_covariate_observation) | @use_covariate_measurement} ? {
+{(@cdm_version == '4' & @use_covariate_observation) | @use_covariate_measurement} ? {
 
 {@use_covariate_measurement_below} ? {
 
@@ -3327,12 +3805,57 @@ FROM #cov_co_inpt180d
 
 }
 
-{@use_covariate_condition_occurrence_180d} ? {
+{@use_covariate_3_digit_icd_9_inpatient_180d} ? {
 
 UNION
 
 SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
-FROM #cov_co_180d
+FROM #cov_co_i_icd_180d
+
+}
+
+{@use_covariate_3_digit_icd_9_inpatient_180d_med_f} ? {
+
+UNION
+
+SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
+FROM #cov_co_i_icd_180d_m
+
+}
+
+{@use_covariate_3_digit_icd_9_inpatient_180d_75_f} ? {
+
+UNION
+
+SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
+FROM #cov_co_i_icd_180d_75
+
+}
+
+{@use_covariate_3_digit_icd_9_ambulatory_180d} ? {
+
+UNION
+
+SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
+FROM #cov_co_a_icd_180d
+
+}
+
+{@use_covariate_3_digit_icd_9_ambulatory_180d_med_f} ? {
+
+UNION
+
+SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
+FROM #cov_co_a_icd_180d_m
+
+}
+
+{@use_covariate_3_digit_icd_9_ambulatory_180d_75_f} ? {
+
+UNION
+
+SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
+FROM #cov_co_a_icd_180d_75
 
 }
 
@@ -3393,6 +3916,32 @@ FROM #cov_de_30d
 
 }
 
+{@use_covariate_ingredient_exposure_180d} ? {
+
+UNION
+
+SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
+FROM #cov_ie_180d
+
+}
+
+{@use_covariate_ingredient_exposure_180d_med_f} ? {
+
+UNION
+
+SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
+FROM #cov_ie_180d_m
+
+}
+
+{@use_covariate_ingredient_exposure_180d_75_f} ? {
+
+UNION
+
+SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
+FROM #cov_ie_180d_75
+
+}
 
 }
 
@@ -3434,16 +3983,6 @@ SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covari
 FROM #cov_dera_overlap
 
 }
-
-{@use_covariate_drug_era_180d} ? {
-
-UNION
-
-SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
-FROM #cov_dera_180d
-
-}
-
 
 }
 
@@ -3493,6 +4032,24 @@ UNION
 
 SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
 FROM #cov_po_180d
+
+}
+
+{@use_covariate_procedure_occurrence_180d_med_f} ? {
+
+UNION
+
+SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
+FROM #cov_po_180d_m
+
+}
+
+{@use_covariate_procedure_occurrence_180d_75_f} ? {
+
+UNION
+
+SELECT cohort_start_date, @cohort_definition_id, person_id, covariate_id, covariate_value
+FROM #cov_po_180d_75
 
 }
 
@@ -3882,8 +4439,18 @@ IF OBJECT_ID('tempdb..#cov_co_30d', 'U') IS NOT NULL
   DROP TABLE #cov_co_30d;
 IF OBJECT_ID('tempdb..#cov_co_inpt180d', 'U') IS NOT NULL
   DROP TABLE #cov_co_inpt180d;
-IF OBJECT_ID('tempdb..#cov_co_180d', 'U') IS NOT NULL
-  DROP TABLE #cov_co_180d;
+IF OBJECT_ID('tempdb..#cov_co_i_icd_180d', 'U') IS NOT NULL
+  DROP TABLE #cov_co_i_icd_180d;
+IF OBJECT_ID('tempdb..#cov_co_i_icd_180d_m', 'U') IS NOT NULL
+  DROP TABLE #cov_co_i_icd_180d_m;
+IF OBJECT_ID('tempdb..#cov_co_i_icd_180d_75', 'U') IS NOT NULL
+  DROP TABLE #cov_co_i_icd_180d_75;  
+IF OBJECT_ID('tempdb..#cov_co_a_icd_180d', 'U') IS NOT NULL
+  DROP TABLE #cov_co_a_icd_180d;
+IF OBJECT_ID('tempdb..#cov_co_a_icd_180d_m', 'U') IS NOT NULL
+  DROP TABLE #cov_co_a_icd_180d_m;
+IF OBJECT_ID('tempdb..#cov_co_a_icd_180d_75', 'U') IS NOT NULL
+  DROP TABLE #cov_co_a_icd_180d_75;
 IF OBJECT_ID('tempdb..#cov_ce_ever', 'U') IS NOT NULL
   DROP TABLE #cov_ce_ever;
 IF OBJECT_ID('tempdb..#cov_ce_overlap', 'U') IS NOT NULL
@@ -3894,6 +4461,12 @@ IF OBJECT_ID('tempdb..#cov_de_365d', 'U') IS NOT NULL
   DROP TABLE #cov_de_365d;
 IF OBJECT_ID('tempdb..#cov_de_30d', 'U') IS NOT NULL
   DROP TABLE #cov_de_30d;
+IF OBJECT_ID('tempdb..#cov_ie_180d', 'U') IS NOT NULL
+  DROP TABLE #cov_ie_180d;
+IF OBJECT_ID('tempdb..#cov_ie_180d_m', 'U') IS NOT NULL
+  DROP TABLE #cov_ie_180d_m;
+IF OBJECT_ID('tempdb..#cov_ie_180d_75', 'U') IS NOT NULL
+  DROP TABLE #cov_ie_180d_75;
 IF OBJECT_ID('tempdb..#cov_dera_365d', 'U') IS NOT NULL
   DROP TABLE #cov_dera_365d;
 IF OBJECT_ID('tempdb..#cov_dera_30d', 'U') IS NOT NULL
@@ -3902,8 +4475,6 @@ IF OBJECT_ID('tempdb..#cov_dera_ever', 'U') IS NOT NULL
   DROP TABLE #cov_dera_ever;
 IF OBJECT_ID('tempdb..#cov_dera_overlap', 'U') IS NOT NULL
   DROP TABLE #cov_dera_overlap;
-IF OBJECT_ID('tempdb..#cov_dera_180d', 'U') IS NOT NULL
-  DROP TABLE #cov_dera_180d;
 IF OBJECT_ID('tempdb..#cov_dg', 'U') IS NOT NULL
   DROP TABLE #cov_dg;
 IF OBJECT_ID('tempdb..#cov_dg_count', 'U') IS NOT NULL
@@ -3919,7 +4490,11 @@ IF OBJECT_ID('tempdb..#cov_o_365d', 'U') IS NOT NULL
 IF OBJECT_ID('tempdb..#cov_o_30d', 'U') IS NOT NULL
   DROP TABLE #cov_o_30d;
 IF OBJECT_ID('tempdb..#cov_po_180d', 'U') IS NOT NULL
-  DROP TABLE #cov_po_365d;
+  DROP TABLE #cov_po_180d;
+IF OBJECT_ID('tempdb..#cov_po_180d_m', 'U') IS NOT NULL
+  DROP TABLE #cov_po_180d_m;
+IF OBJECT_ID('tempdb..#cov_po_180d_75', 'U') IS NOT NULL
+  DROP TABLE #cov_po_180d_75;
 IF OBJECT_ID('tempdb..#cov_m_below', 'U') IS NOT NULL
   DROP TABLE #cov_m_below;
 IF OBJECT_ID('tempdb..#cov_m_above', 'U') IS NOT NULL
