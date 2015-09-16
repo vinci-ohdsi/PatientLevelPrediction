@@ -631,7 +631,8 @@ INTO #cov_co_i_icd_180d_m
 FROM #freq freq
 INNER JOIN #thresholds thresholds
 ON freq.icd9_concept_id = thresholds.icd9_concept_id
-WHERE frequency >= median_value;
+WHERE frequency >= median_value
+  AND median_value > 1;
 
 INSERT INTO #cov_ref (
   covariate_id,
@@ -658,7 +659,8 @@ INTO #cov_co_i_icd_180d_75
 FROM #freq freq
 INNER JOIN #thresholds thresholds
 ON freq.icd9_concept_id = thresholds.icd9_concept_id
-WHERE frequency >= q75_value;
+WHERE frequency >= q75_value
+  AND q75_value > median_value;
 
 INSERT INTO #cov_ref (
   covariate_id,
@@ -764,7 +766,8 @@ INTO #cov_co_a_icd_180d_m
 FROM #freq freq
 INNER JOIN #thresholds thresholds
 ON freq.icd9_concept_id = thresholds.icd9_concept_id
-WHERE frequency >= median_value;
+WHERE frequency >= median_value
+  AND median_value > 1;
 
 INSERT INTO #cov_ref (
   covariate_id,
@@ -791,7 +794,8 @@ INTO #cov_co_a_icd_180d_75
 FROM #freq freq
 INNER JOIN #thresholds thresholds
 ON freq.icd9_concept_id = thresholds.icd9_concept_id
-WHERE frequency >= q75_value;
+WHERE frequency >= q75_value
+  AND q75_value > median_value;
 
 INSERT INTO #cov_ref (
   covariate_id,
@@ -1294,7 +1298,8 @@ INTO #cov_ie_180d_m
 FROM #freq freq
 INNER JOIN #thresholds thresholds
 ON freq.concept_id = thresholds.concept_id
-WHERE frequency >= median_value;
+WHERE frequency >= median_value
+  AND median_value > 1;
 
 INSERT INTO #cov_ref (
   covariate_id,
@@ -1325,7 +1330,8 @@ INTO #cov_ie_180d_75
 FROM #freq freq
 INNER JOIN #thresholds thresholds
 ON freq.concept_id = thresholds.concept_id
-WHERE frequency >= q75_value;
+WHERE frequency >= q75_value
+  AND q75_value > median_value;
 
 INSERT INTO #cov_ref (
   covariate_id,
@@ -1926,7 +1932,8 @@ INTO #cov_po_180d_m
 FROM #freq freq
 INNER JOIN #thresholds thresholds
 ON freq.procedure_concept_id = thresholds.procedure_concept_id
-WHERE frequency >= median_value;
+WHERE frequency >= median_value
+  AND median_value > 1;
 
 INSERT INTO #cov_ref (
   covariate_id,
@@ -1957,7 +1964,8 @@ INTO #cov_po_180d_75
 FROM #freq freq
 INNER JOIN #thresholds thresholds
 ON freq.procedure_concept_id = thresholds.procedure_concept_id
-WHERE frequency >= q75_value;
+WHERE frequency >= q75_value
+  AND q75_value > median_value;
 
 INSERT INTO #cov_ref (
   covariate_id,
