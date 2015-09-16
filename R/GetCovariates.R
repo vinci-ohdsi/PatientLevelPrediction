@@ -80,9 +80,9 @@ getDbCovariateData <- function(connectionDetails = NULL,
     stop("When using an existing cohort temp table, connection must be specified")
   if (!covariateSettings$useCovariateConditionGroupMeddra & !covariateSettings$useCovariateConditionGroupSnomed)
     covariateSettings$useCovariateConditionGroup <- FALSE
-
+  
   cdmDatabase <- strsplit(cdmDatabaseSchema, "\\.")[[1]][1]
-
+  
   if (cdmVersion == "4") {
     cohortDefinitionId <- "cohort_concept_id"
     conceptClassId <- "concept_class"
@@ -92,15 +92,15 @@ getDbCovariateData <- function(connectionDetails = NULL,
     conceptClassId <- "concept_class_id"
     measurement <- "measurement"
   }
-
+  
   if (is.null(connection)) {
     conn <- connect(connectionDetails)
   } else {
     conn <- connection
   }
-
+  
   if (is.null(covariateSettings$excludedCovariateConceptIds) || length(covariateSettings$excludedCovariateConceptIds) ==
-    0) {
+      0) {
     hasExcludedCovariateConceptIds <- FALSE
   } else {
     if (!is.numeric(covariateSettings$excludedCovariateConceptIds))
@@ -114,9 +114,9 @@ getDbCovariateData <- function(connectionDetails = NULL,
                                    tempTable = TRUE,
                                    oracleTempSchema = oracleTempSchema)
   }
-
+  
   if (is.null(covariateSettings$includedCovariateConceptIds) || length(covariateSettings$includedCovariateConceptIds) ==
-    0) {
+      0) {
     hasIncludedCovariateConceptIds <- FALSE
   } else {
     if (!is.numeric(covariateSettings$includedCovariateConceptIds))
@@ -130,7 +130,7 @@ getDbCovariateData <- function(connectionDetails = NULL,
                                    tempTable = TRUE,
                                    oracleTempSchema = oracleTempSchema)
   }
-
+  
   renderedSql <- SqlRender::loadRenderTranslateSql("GetCovariates.sql",
                                                    packageName = "PatientLevelPrediction",
                                                    dbms = attr(conn, "dbms"),
@@ -166,9 +166,9 @@ getDbCovariateData <- function(connectionDetails = NULL,
                                                    use_covariate_drug_exposure = covariateSettings$useCovariateDrugExposure,
                                                    use_covariate_drug_exposure_365d = covariateSettings$useCovariateDrugExposure365d,
                                                    use_covariate_drug_exposure_30d = covariateSettings$useCovariateDrugExposure30d,
-												   use_covariate_ingredient_exposure_180d = covariateSettings$useCovariateIngredientExposure180d,
-												   use_covariate_ingredient_exposure_180d_med_f = covariateSettings$useCovariateIngredientExposure180dMedF,
-												   use_covariate_ingredient_exposure_180d_75_f = covariateSettings$useCovariateIngredientExposure180d75F,
+                                                   use_covariate_ingredient_exposure_180d = covariateSettings$useCovariateIngredientExposure180d,
+                                                   use_covariate_ingredient_exposure_180d_med_f = covariateSettings$useCovariateIngredientExposure180dMedF,
+                                                   use_covariate_ingredient_exposure_180d_75_f = covariateSettings$useCovariateIngredientExposure180d75F,
                                                    use_covariate_drug_era = covariateSettings$useCovariateDrugEra,
                                                    use_covariate_drug_era_365d = covariateSettings$useCovariateDrugEra365d,
                                                    use_covariate_drug_era_30d = covariateSettings$useCovariateDrugEra30d,
@@ -206,15 +206,16 @@ getDbCovariateData <- function(connectionDetails = NULL,
                                                    cohort_definition_id = cohortDefinitionId,
                                                    concept_class_id = conceptClassId,
                                                    measurement = measurement)
-
+  
   writeLines("Executing multiple queries. This could take a while")
-
+  
   DatabaseConnector::executeSql(conn, renderedSql)
   writeLines("Done")
-
+  
   writeLines("Fetching data from server")
   start <- Sys.time()
-  covariateSql <- "SELECT person_id, cohort_start_date, @cohort_definition_id AS cohort_definition_id, covariate_id, covariate_value FROM #cov ORDER BY person_id, covariate_id"
+  covariateSql <- "SELECT person_id, cohort_start_date, @cohort_definition_id AS cohort_definition_id, covariate_id, covariate_value FROM #cov ORDER BY 
+person_id, covariate_id"
   covariateSql <- SqlRender::renderSql(covariateSql, cohort_definition_id = cohortDefinitionId)$sql
   covariateSql <- SqlRender::translateSql(covariateSql,
                                           "sql server",
@@ -227,9 +228,14 @@ getDbCovariateData <- function(connectionDetails = NULL,
                                              attr(conn, "dbms"),
                                              oracleTempSchema)$sql
   covariateRef <- DatabaseConnector::querySql.ffdf(conn, covariateRefSql)
+  
+  sql <- "SELECT COUNT_BIG(*) FROM #cohort_person"
+  sql <- SqlRender::translateSql(sql, targetDialect = attr(conn, "dbms"),  oracleTempSchema = oracleTempSchema)$sql
+  populationSize <- DatabaseConnector::querySql(conn, sql)[1]
+  
   delta <- Sys.time() - start
   writeLines(paste("Loading took", signif(delta, 3), attr(delta, "units")))
-
+  
   renderedSql <- SqlRender::loadRenderTranslateSql("RemoveCovariateTempTables.sql",
                                                    packageName = "PatientLevelPrediction",
                                                    dbms = attr(conn, "dbms"),
@@ -240,10 +246,32 @@ getDbCovariateData <- function(connectionDetails = NULL,
   if (is.null(connection)) {
     RJDBC::dbDisconnect(conn)
   }
-
+  
   colnames(covariates) <- SqlRender::snakeCaseToCamelCase(colnames(covariates))
   colnames(covariateRef) <- SqlRender::snakeCaseToCamelCase(colnames(covariateRef))
-  metaData <- list(sql = renderedSql, call = match.call(), cohortIds = cohortIds)
+  
+  # Remove redundant covariates
+  problematicAnalysisIds <- c(2,3,4,5,6,7) # Gender, race, ethnicity, age, year, month
+  deletedCovariateIds <- c()
+  for (analysisId in problematicAnalysisIds){
+    t <- covariateRef$analysisId == analysisId
+    if (ffbase::sum.ff(t) != 0) {
+      covariateIds <- ff::as.ram(covariateRef$covariateId[ffbase::ffwhich(t, t == TRUE)])
+      freq <- sapply(covariateIds, function(x) {ffbase::sum.ff(covariates$covariateId == x)})
+      if (sum(freq) == populationSize) {
+        #Each row belongs to one of the categories, making one redunant. Remove most prevalent one
+        categoryToDelete <- covariateIds[which(freq == max(freq))[1]]
+        deletedCovariateIds <- c(deletedCovariateIds, categoryToDelete)
+        t <- covariates$covariateId == categoryToDelete
+        covariates <- covariates[ffbase::ffwhich(t, t == FALSE),]
+      }
+    }
+  }
+  
+  metaData <- list(sql = renderedSql, 
+                   call = match.call(), 
+                   cohortIds = cohortIds, 
+                   deletedCovariateIds = deletedCovariateIds)
   result <- list(covariates = covariates, covariateRef = covariateRef, metaData = metaData)
   # Open all ffdfs to prevent annoying messages later:
   if (nrow(result$covariates) == 0) {
@@ -280,7 +308,7 @@ saveCovariateData <- function(covariateData, file) {
     stop("Must specify file")
   if (class(covariateData) != "covariateData")
     stop("Data not of class covariateData")
-
+  
   covariates <- covariateData$covariates
   covariateRef <- covariateData$covariateRef
   ffbase::save.ffdf(covariates, covariateRef, dir = file)
@@ -313,10 +341,10 @@ loadCovariateData <- function(file, readOnly = FALSE) {
     stop(paste("Cannot find folder", file))
   if (!file.info(file)$isdir)
     stop(paste("Not a folder", file))
-
+  
   temp <- setwd(file)
   absolutePath <- setwd(temp)
-
+  
   e <- new.env()
   ffbase::load.ffdf(absolutePath, e)
   load(file.path(absolutePath, "metaData.Rdata"), e)
@@ -326,7 +354,7 @@ loadCovariateData <- function(file, readOnly = FALSE) {
   # Open all ffdfs to prevent annoying messages later:
   open(result$covariates, readonly = readOnly)
   open(result$covariateRef, readonly = readOnly)
-
+  
   class(result) <- "covariateData"
   rm(e)
   return(result)
@@ -595,9 +623,9 @@ createCovariateSettings <- function(useCovariateDemographics = TRUE,
                                     useCovariateDrugExposure = FALSE,
                                     useCovariateDrugExposure365d = FALSE,
                                     useCovariateDrugExposure30d = FALSE,
-									useCovariateIngredientExposure180d = FALSE,
-									useCovariateIngredientExposure180dMedF = FALSE,
-									useCovariateIngredientExposure180d75F = FALSE,
+                                    useCovariateIngredientExposure180d = FALSE,
+                                    useCovariateIngredientExposure180dMedF = FALSE,
+                                    useCovariateIngredientExposure180d75F = FALSE,
                                     useCovariateDrugEra = FALSE,
                                     useCovariateDrugEra365d = FALSE,
                                     useCovariateDrugEra30d = FALSE,
