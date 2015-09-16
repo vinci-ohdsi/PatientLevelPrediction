@@ -506,13 +506,13 @@ IF OBJECT_ID('tempdb..#condition_id_to_icd9', 'U') IS NOT NULL
 	
 -- Create unique numeric identifiers for 3 digit ICD9 codes, and map condition occurrence codes	
 {@cdm_version == '4'} ? {
-SELECT icd9,
-	icd9_concept_id,
-	icd9_concept_name,
+SELECT LEFT(source_to_concept_map.source_code, 3) AS icd9,
+	ISNULL(icd9_concept_id, 0) AS icd9_concept_id,
+	ISNULL(icd9_concept_name, '') AS icd9_concept_name,
 	target_concept_id AS condition_concept_id
 INTO #condition_id_to_icd9
 FROM source_to_concept_map
-INNER JOIN (
+LEFT JOIN (
 	SELECT source_code AS icd9,
 		target_concept_id AS icd9_concept_id,
 		source_code_description AS icd9_concept_name
@@ -526,9 +526,9 @@ WHERE source_vocabulary_id = 2
 	AND target_vocabulary_id = 1
 	AND (source_to_concept_map.invalid_reason IS NULL OR source_to_concept_map.invalid_reason = '');
 } : {
-SELECT icd9,
-	icd9_concept_id,
-	icd9_concept_name,
+SELECT LEFT(icd9.concept_code, 3) AS icd9,
+   ISNULL(icd9_concept_id, 0) AS icd9_concept_id,
+	ISNULL(icd9_concept_name, '') AS icd9_concept_name,
 	condition.concept_id AS condition_concept_id
 INTO #condition_id_to_icd9
 FROM concept_relationship
@@ -536,7 +536,7 @@ INNER JOIN concept icd9
 	ON concept_id_1 = icd9.concept_id
 INNER JOIN concept condition
 	ON concept_id_2 = condition.concept_id
-INNER JOIN (
+LEFT JOIN (
 	SELECT concept_code AS icd9,
 		concept_id AS icd9_concept_id,
 		concept_name AS icd9_concept_name
