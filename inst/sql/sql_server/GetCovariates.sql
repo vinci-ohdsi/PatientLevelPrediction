@@ -507,14 +507,16 @@ IF OBJECT_ID('tempdb..#condition_id_to_icd9', 'U') IS NOT NULL
 -- Create unique numeric identifiers for 3 digit ICD9 codes, and map condition occurrence codes	
 {@cdm_version == '4'} ? {
 SELECT LEFT(source_to_concept_map.source_code, 3) AS icd9,
-	ISNULL(icd9_concept_id, 0) AS icd9_concept_id,
+	CASE 
+	  WHEN LEFT(source_to_concept_map.source_code,1) = 'E' THEN 1000 + CAST(RIGHT(LEFT(source_to_concept_map.source_code,3),2) AS INT)
+	  WHEN LEFT(source_to_concept_map.source_code,1) = 'V' THEN 1100 + CAST(RIGHT(LEFT(source_to_concept_map.source_code,3),2) AS INT)
+	  ELSE CAST(LEFT(source_to_concept_map.source_code,3) AS INT) END AS icd9_concept_id,
 	ISNULL(icd9_concept_name, '') AS icd9_concept_name,
 	target_concept_id AS condition_concept_id
 INTO #condition_id_to_icd9
 FROM source_to_concept_map
 LEFT JOIN (
 	SELECT source_code AS icd9,
-		target_concept_id AS icd9_concept_id,
 		source_code_description AS icd9_concept_name
 	FROM source_to_concept_map
 	WHERE source_vocabulary_id = 2
@@ -526,8 +528,11 @@ WHERE source_vocabulary_id = 2
 	AND target_vocabulary_id = 1
 	AND (source_to_concept_map.invalid_reason IS NULL OR source_to_concept_map.invalid_reason = '');
 } : {
-SELECT LEFT(icd9.concept_code, 3) AS icd9,
-   ISNULL(icd9_concept_id, 0) AS icd9_concept_id,
+SELECT DISTINCT LEFT(icd9.concept_code, 3) AS icd9,
+   CASE 
+	  WHEN LEFT(icd9.concept_code,1) = 'E' THEN 1000 + CAST(RIGHT(LEFT(icd9.concept_code,3),2) AS INT)
+	  WHEN LEFT(icd9.concept_code,1) = 'V' THEN 1100 + CAST(RIGHT(LEFT(icd9.concept_code,3),2) AS INT)
+	  ELSE CAST(LEFT(icd9.concept_code,3) AS INT) END AS icd9_concept_id,
 	ISNULL(icd9_concept_name, '') AS icd9_concept_name,
 	condition.concept_id AS condition_concept_id
 INTO #condition_id_to_icd9
@@ -548,6 +553,7 @@ LEFT JOIN (
 WHERE condition.standard_concept = 'S'
 	AND relationship_id = 'Maps to'
 	AND icd9.vocabulary_id = 'ICD9CM'
+	AND (icd9.invalid_reason IS NULL OR icd9.invalid_reason = '')
 	AND (concept_relationship.invalid_reason IS NULL OR concept_relationship.invalid_reason = '');
 }
 }
@@ -615,7 +621,7 @@ INSERT INTO #cov_ref (
 SELECT p1.covariate_id,
 	'3-digit ICD-9 occurrence record of inpatient diagnosis observed during 180d on or prior to cohort index: ' + icd9 + '-' + c1.icd9_concept_name AS covariate_name,
 	104 AS analysis_id,
-	icd9_concept_id AS concept_id
+	0 AS concept_id
 FROM (SELECT DISTINCT covariate_id FROM #cov_co_i_icd_180d) p1
 INNER JOIN (SELECT DISTINCT icd9_concept_id, icd9, icd9_concept_name FROM #condition_id_to_icd9) c1
 	ON (p1.covariate_id-104)/1000 = c1.icd9_concept_id;
@@ -643,7 +649,7 @@ INSERT INTO #cov_ref (
 SELECT p1.covariate_id,
 	'3-digit ICD-9 occurrence record of inpatient diagnosis observed during 180d on or prior to cohort index with freq >= median: ' + icd9 + '-' + c1.icd9_concept_name AS covariate_name,
 	105 AS analysis_id,
-	icd9_concept_id AS concept_id
+	0 AS concept_id
 FROM (SELECT DISTINCT covariate_id FROM #cov_co_i_icd_180d_m) p1
 INNER JOIN (SELECT DISTINCT icd9_concept_id, icd9, icd9_concept_name FROM #condition_id_to_icd9) c1
 	ON (p1.covariate_id-105)/1000 = c1.icd9_concept_id;
@@ -671,7 +677,7 @@ INSERT INTO #cov_ref (
 SELECT p1.covariate_id,
 	'3-digit ICD-9 occurrence record of inpatient diagnosis observed during 180d on or prior to cohort index  with freq >= q75: ' + icd9 + '-' + c1.icd9_concept_name AS covariate_name,
 	106 AS analysis_id,
-	icd9_concept_id AS concept_id
+	0 AS concept_id
 FROM (SELECT DISTINCT covariate_id FROM #cov_co_i_icd_180d_75) p1
 INNER JOIN (SELECT DISTINCT icd9_concept_id, icd9, icd9_concept_name FROM #condition_id_to_icd9) c1
 	ON (p1.covariate_id-106)/1000 = c1.icd9_concept_id;
@@ -750,7 +756,7 @@ INSERT INTO #cov_ref (
 SELECT p1.covariate_id,
 	'3-digit ICD-9 occurrence record of ambulatory diagnosis observed during 180d on or prior to cohort index: ' + icd9 + '-' + c1.icd9_concept_name AS covariate_name,
 	107 AS analysis_id,
-	icd9_concept_id AS concept_id
+	0 AS concept_id
 FROM (SELECT DISTINCT covariate_id FROM #cov_co_a_icd_180d) p1
 INNER JOIN (SELECT DISTINCT icd9_concept_id, icd9, icd9_concept_name FROM #condition_id_to_icd9) c1
 	ON (p1.covariate_id-107)/1000 = c1.icd9_concept_id;
@@ -778,7 +784,7 @@ INSERT INTO #cov_ref (
 SELECT p1.covariate_id,
 	'3-digit ICD-9 occurrence record of ambulatory diagnosis observed during 180d on or prior to cohort index with freq >= median: ' + icd9 + '-' + c1.icd9_concept_name AS covariate_name,
 	108 AS analysis_id,
-	icd9_concept_id AS concept_id
+	0 AS concept_id
 FROM (SELECT DISTINCT covariate_id FROM #cov_co_a_icd_180d_m) p1
 INNER JOIN (SELECT DISTINCT icd9_concept_id, icd9, icd9_concept_name FROM #condition_id_to_icd9) c1
 	ON (p1.covariate_id-108)/1000 = c1.icd9_concept_id;
@@ -806,7 +812,7 @@ INSERT INTO #cov_ref (
 SELECT p1.covariate_id,
 	'3-digit ICD-9 occurrence record of ambulatory diagnosis observed during 180d on or prior to cohort index  with freq >= q75: ' + icd9 + '-' + c1.icd9_concept_name AS covariate_name,
 	109 AS analysis_id,
-	icd9_concept_id AS concept_id
+	0 AS concept_id
 FROM (SELECT DISTINCT covariate_id FROM #cov_co_a_icd_180d_75) p1
 INNER JOIN (SELECT DISTINCT icd9_concept_id, icd9, icd9_concept_name FROM #condition_id_to_icd9) c1
 	ON (p1.covariate_id-109)/1000 = c1.icd9_concept_id;
