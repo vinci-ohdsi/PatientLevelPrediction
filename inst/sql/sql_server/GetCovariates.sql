@@ -506,7 +506,7 @@ IF OBJECT_ID('tempdb..#condition_id_to_icd9', 'U') IS NOT NULL
 	
 -- Create unique numeric identifiers for 3 digit ICD9 codes, and map condition occurrence codes	
 {@cdm_version == '4'} ? {
-SELECT LEFT(source_to_concept_map.source_code, 3) AS icd9,
+SELECT DISTINCT LEFT(source_to_concept_map.source_code, 3) AS icd9,
 	CASE 
 	  WHEN LEFT(source_to_concept_map.source_code,1) = 'E' THEN 1000 + CAST(RIGHT(LEFT(source_to_concept_map.source_code,3),2) AS INT)
 	  WHEN LEFT(source_to_concept_map.source_code,1) = 'V' THEN 1100 + CAST(RIGHT(LEFT(source_to_concept_map.source_code,3),2) AS INT)
@@ -556,6 +556,19 @@ WHERE condition.standard_concept = 'S'
 	AND (icd9.invalid_reason IS NULL OR icd9.invalid_reason = '')
 	AND (concept_relationship.invalid_reason IS NULL OR concept_relationship.invalid_reason = '');
 }
+
+DELETE
+FROM #condition_id_to_icd9
+WHERE condition_concept_id in (
+  SELECT condition_concept_id
+  FROM (
+    SELECT condition_concept_id,
+      count(*) AS counts
+    FROM #condition_id_to_icd9
+    GROUP BY condition_concept_id
+  ) 
+  WHERE counts > 1
+);
 }
 
 {@use_covariate_3_digit_icd_9_inpatient_180d | @use_covariate_3_digit_icd_9_inpatient_180d_med_f | @use_covariate_3_digit_icd_9_inpatient_180d_75_f} ? {
