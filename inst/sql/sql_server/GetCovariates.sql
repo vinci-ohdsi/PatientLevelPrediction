@@ -1974,7 +1974,7 @@ INSERT INTO #cov_ref (
 	concept_id
 	)
 SELECT p1.covariate_id,
-	'Procedure occurrence record observed during 180d on or prior to cohort index with freq >= q75:  ' + CAST((p1.covariate_id-704)/1000 AS VARCHAR) + '-' + CASE
+	'Procedure occurrence record observed during 180d on or prior to cohort index with freq >= q75:  ' + CAST((p1.covariate_id-705)/1000 AS VARCHAR) + '-' + CASE
 		WHEN c1.concept_name IS NOT NULL
 			THEN c1.concept_name
 		ELSE 'Unknown invalid concept'
