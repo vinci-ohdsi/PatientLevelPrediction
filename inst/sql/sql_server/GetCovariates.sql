@@ -561,13 +561,9 @@ DELETE
 FROM #condition_id_to_icd9
 WHERE condition_concept_id in (
   SELECT condition_concept_id
-  FROM (
-    SELECT condition_concept_id,
-      count(*) AS counts
-    FROM #condition_id_to_icd9
-    GROUP BY condition_concept_id
-  ) 
-  WHERE counts > 1
+  FROM  #condition_id_to_icd9
+  GROUP BY condition_concept_id
+  HAVING COUNT(condition_concept_id) > 1
 );
 }
 
