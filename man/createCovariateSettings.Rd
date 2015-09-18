@@ -17,9 +17,9 @@ createCovariateSettings(useCovariateDemographics = TRUE,
   useCovariate3DigitIcd9Inpatient180d = FALSE,
   useCovariate3DigitIcd9Inpatient180dMedF = FALSE,
   useCovariate3DigitIcd9Inpatient180d75F = FALSE,
-  useCovariate3DigitIcd9Ambulatory180d = FALSE,
-  useCovariate3DigitIcd9Ambulatory180dMedF = FALSE,
-  useCovariate3DigitIcd9Ambulatory180d75F = FALSE,
+  useCovariate3DigitIcd9Outpatient180d = FALSE,
+  useCovariate3DigitIcd9Outpatient180dMedF = FALSE,
+  useCovariate3DigitIcd9Outpatient180d75F = FALSE,
   useCovariateConditionEra = FALSE, useCovariateConditionEraEver = FALSE,
   useCovariateConditionEraOverlap = FALSE,
   useCovariateConditionGroup = FALSE,
@@ -36,9 +36,12 @@ createCovariateSettings(useCovariateDemographics = TRUE,
   useCovariateProcedureOccurrence = FALSE,
   useCovariateProcedureOccurrence365d = FALSE,
   useCovariateProcedureOccurrence30d = FALSE,
-  useCovariateProcedureOccurrence180d = FALSE,
-  useCovariateProcedureOccurrence180dMedF = FALSE,
-  useCovariateProcedureOccurrence180d75F = FALSE,
+  useCovariateProcedureOccurrenceInpatient180d = FALSE,
+  useCovariateProcedureOccurrenceInpatient180dMedF = FALSE,
+  useCovariateProcedureOccurrenceInpatient180d75F = FALSE,
+  useCovariateProcedureOccurrenceOutpatient180d = FALSE,
+  useCovariateProcedureOccurrenceOutpatient180dMedF = FALSE,
+  useCovariateProcedureOccurrenceOutpatient180d75F = FALSE,
   useCovariateProcedureGroup = FALSE, useCovariateObservation = FALSE,
   useCovariateObservation365d = FALSE, useCovariateObservation30d = FALSE,
   useCovariateObservationCount365d = FALSE, useCovariateMeasurement = FALSE,
@@ -110,10 +113,10 @@ inpatient setting in 180d window prior to or on cohort
 index date. Conditions are aggregated at the ICD-9 3-digit level.
 Only applicable if useCovariateConditionOccurrence = TRUE.}
 
-\item{useCovariate3DigitIcd9Ambulatory180d}{A boolean value (TRUE/FALSE) to determine if
+\item{useCovariate3DigitIcd9Outpatient180d}{A boolean value (TRUE/FALSE) to determine if
 covariates will be created and used in models that
 look for presence/absence of condition within
-ambulatory (non-inpatient) setting in 180d window prior to or on cohort
+outpatient setting in 180d window prior to or on cohort
 index date. Conditions are aggregated at the ICD-9 3-digit level.
 Only applicable if useCovariateConditionOccurrence = TRUE.}
 
@@ -215,9 +218,16 @@ window prior to or on cohort index date.  Only
 applicable if useCovariateProcedureOccurrence =
 TRUE.}
 
-\item{useCovariateProcedureOccurrence180d}{A boolean value (TRUE/FALSE) to determine if
+\item{useCovariateProcedureOccurrenceInpatient180d}{A boolean value (TRUE/FALSE) to determine if
 covariates will be created and used in models that
-look for presence/absence of procedure in 180d
+look for presence/absence of procedure within inpatient setting in 180d
+window prior to or on cohort index date.  Only
+applicable if useCovariateProcedureOccurrence =
+TRUE.}
+
+\item{useCovariateProcedureOccurrenceOutpatient180d}{A boolean value (TRUE/FALSE) to determine if
+covariates will be created and used in models that
+look for presence/absence of procedure within outpatient setting in 180d
 window prior to or on cohort index date.  Only
 applicable if useCovariateProcedureOccurrence =
 TRUE.}
@@ -327,12 +337,6 @@ construct covariates.}
 \item{deleteCovariatesSmallCount}{A numeric value used to remove covariates that
                                                  occur in both cohorts fewer than
                                                  deleteCovariateSmallCounts time.}
-
-\item{useCovariateDrugEra180d}{A boolean value (TRUE/FALSE) to determine if
-covariates will be created and used in models that
-look for presence/absence of drug era in 180d window
-prior to or on cohort index date.  Only applicable
-if useCovariateDrugEra = TRUE.}
 }
 \value{
 An object of type \code{covariateSettings}, to be used in other functions.
