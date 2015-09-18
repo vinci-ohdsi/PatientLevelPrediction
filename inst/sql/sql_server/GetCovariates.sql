@@ -513,7 +513,7 @@ SELECT DISTINCT LEFT(source_to_concept_map.source_code, 3) AS icd9,
 	  ELSE CAST(LEFT(source_to_concept_map.source_code,3) AS INT) END AS icd9_concept_id,
 	ISNULL(icd9_concept_name, '') AS icd9_concept_name,
 	target_concept_id AS condition_concept_id
-INTO #condition_id_to_icd9
+INTO #temp
 FROM source_to_concept_map
 LEFT JOIN (
 	SELECT source_code AS icd9,
@@ -535,7 +535,7 @@ SELECT DISTINCT LEFT(icd9.concept_code, 3) AS icd9,
 	  ELSE CAST(LEFT(icd9.concept_code,3) AS INT) END AS icd9_concept_id,
 	ISNULL(icd9_concept_name, '') AS icd9_concept_name,
 	condition.concept_id AS condition_concept_id
-INTO #condition_id_to_icd9
+INTO #temp
 FROM concept_relationship
 INNER JOIN concept icd9
 	ON concept_id_1 = icd9.concept_id
@@ -557,14 +557,26 @@ WHERE condition.standard_concept = 'S'
 	AND (concept_relationship.invalid_reason IS NULL OR concept_relationship.invalid_reason = '');
 }
 
-DELETE
-FROM #condition_id_to_icd9
-WHERE condition_concept_id in (
-  SELECT condition_concept_id
-  FROM  #condition_id_to_icd9
-  GROUP BY condition_concept_id
-  HAVING COUNT(condition_concept_id) > 1
-);
+-- If condition_concept_id maps to more than one ICD9 code, just pick one:
+SELECT icd9,
+	icd9_concept_id,
+	icd9_concept_name,
+	condition_concept_id
+INTO #condition_id_to_icd9
+FROM (
+	SELECT icd9,
+		icd9_concept_id,
+		icd9_concept_name,
+		condition_concept_id,
+		ROW_NUMBER() OVER (
+			PARTITION BY condition_concept_id ORDER BY icd9
+			) AS rn
+	FROM #temp
+	) tmp
+WHERE rn = 1;
+
+TRUNCATE TABLE #temp;
+DROP TABLE #temp;
 }
 
 {@use_covariate_3_digit_icd_9_inpatient_180d | @use_covariate_3_digit_icd_9_inpatient_180d_med_f | @use_covariate_3_digit_icd_9_inpatient_180d_75_f} ? {
