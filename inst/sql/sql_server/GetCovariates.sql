@@ -1899,7 +1899,7 @@ FROM #cohort_person cp1
 INNER JOIN procedure_occurrence po1
 	ON cp1.subject_id = po1.person_id
 INNER JOIN visit_occurrence vo1
-  ON co1.visit_occurrence_id = vo1.visit_occurrence_id
+  ON po1.visit_occurrence_id = vo1.visit_occurrence_id
 WHERE po1.procedure_concept_id  != 0
 {@has_excluded_covariate_concept_ids} ? {	AND po1.procedure_concept_id  NOT IN (SELECT concept_id FROM #excluded_cov)}
 {@has_included_covariate_concept_ids} ? {	AND po1.procedure_concept_id  IN (SELECT concept_id FROM #included_cov)}
@@ -2044,7 +2044,7 @@ FROM #cohort_person cp1
 INNER JOIN procedure_occurrence po1
 	ON cp1.subject_id = po1.person_id
 INNER JOIN visit_occurrence vo1
-  ON co1.visit_occurrence_id = vo1.visit_occurrence_id
+  ON po1.visit_occurrence_id = vo1.visit_occurrence_id
 WHERE po1.procedure_concept_id  != 0
 {@has_excluded_covariate_concept_ids} ? {	AND po1.procedure_concept_id  NOT IN (SELECT concept_id FROM #excluded_cov)}
 {@has_included_covariate_concept_ids} ? {	AND po1.procedure_concept_id  IN (SELECT concept_id FROM #included_cov)}
