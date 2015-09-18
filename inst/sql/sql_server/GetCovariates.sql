@@ -735,9 +735,9 @@ WHERE co1.condition_concept_id != 0
 {@has_excluded_covariate_concept_ids} ? {	AND co1.condition_concept_id NOT IN (SELECT concept_id FROM #excluded_cov)}
 {@has_included_covariate_concept_ids} ? {	AND co1.condition_concept_id IN (SELECT concept_id FROM #included_cov)}
 {@cdm_version == '4'} ? {
-	AND vo1.place_of_service_concept_id != 9202
+	AND vo1.place_of_service_concept_id = 9202
 } : {
-	AND vo1.visit_concept_id != 9202
+	AND vo1.visit_concept_id = 9202
 }
 	AND co1.condition_start_date <= cp1.cohort_start_date
 	AND co1.condition_start_date >= dateadd(dd, - 180, cp1.cohort_start_date)
