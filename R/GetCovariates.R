@@ -154,9 +154,9 @@ getDbCovariateData <- function(connectionDetails = NULL,
                                                    use_covariate_3_digit_icd_9_inpatient_180d = covariateSettings$useCovariate3DigitIcd9Inpatient180d,
                                                    use_covariate_3_digit_icd_9_inpatient_180d_med_f = covariateSettings$useCovariate3DigitIcd9Inpatient180dMedF,
                                                    use_covariate_3_digit_icd_9_inpatient_180d_75_f = covariateSettings$useCovariate3DigitIcd9Inpatient180d75F,
-                                                   use_covariate_3_digit_icd_9_outpatient_180d = covariateSettings$useCovariate3DigitIcd9Outpatient180d,
-                                                   use_covariate_3_digit_icd_9_outpatient_180d_med_f = covariateSettings$useCovariate3DigitIcd9Outpatient180dMedF,
-                                                   use_covariate_3_digit_icd_9_outpatient_180d_75_f = covariateSettings$useCovariate3DigitIcd9Outpatient180d75F,
+                                                   use_covariate_3_digit_icd_9_ambulatory_180d = covariateSettings$useCovariate3DigitIcd9Ambulatory180d,
+                                                   use_covariate_3_digit_icd_9_ambulatory_180d_med_f = covariateSettings$useCovariate3DigitIcd9Ambulatory180dMedF,
+                                                   use_covariate_3_digit_icd_9_ambulatory_180d_75_f = covariateSettings$useCovariate3DigitIcd9Ambulatory180d75F,
                                                    use_covariate_condition_era = covariateSettings$useCovariateConditionEra,
                                                    use_covariate_condition_era_ever = covariateSettings$useCovariateConditionEraEver,
                                                    use_covariate_condition_era_overlap = covariateSettings$useCovariateConditionEraOverlap,
@@ -181,9 +181,9 @@ getDbCovariateData <- function(connectionDetails = NULL,
                                                    use_covariate_inpatient_procedure_occurrence_180d = covariateSettings$useCovariateProcedureOccurrenceInpatient180d,
                                                    use_covariate_inpatient_procedure_occurrence_180d_med_f = covariateSettings$useCovariateProcedureOccurrenceInpatient180dMedF,
                                                    use_covariate_inpatient_procedure_occurrence_180d_75_f = covariateSettings$useCovariateProcedureOccurrenceInpatient180d75F,
-                                                   use_covariate_outpatient_procedure_occurrence_180d = covariateSettings$useCovariateProcedureOccurrenceOutpatient180d,
-                                                   use_covariate_outpatient_procedure_occurrence_180d_med_f = covariateSettings$useCovariateProcedureOccurrenceOutpatient180dMedF,
-                                                   use_covariate_outpatient_procedure_occurrence_180d_75_f = covariateSettings$useCovariateProcedureOccurrenceOutpatient180d75F,
+                                                   use_covariate_ambulatory_procedure_occurrence_180d = covariateSettings$useCovariateProcedureOccurrenceAmbulatory180d,
+                                                   use_covariate_ambulatory_procedure_occurrence_180d_med_f = covariateSettings$useCovariateProcedureOccurrenceAmbulatory180dMedF,
+                                                   use_covariate_ambulatory_procedure_occurrence_180d_75_f = covariateSettings$useCovariateProcedureOccurrenceAmbulatory180d75F,
                                                    use_covariate_procedure_group = covariateSettings$useCovariateProcedureGroup,
                                                    use_covariate_observation = covariateSettings$useCovariateObservation,
                                                    use_covariate_observation_365d = covariateSettings$useCovariateObservation365d,
@@ -417,10 +417,10 @@ loadCovariateData <- function(file, readOnly = FALSE) {
 #'                                                  inpatient setting in 180d window prior to or on cohort
 #'                                                  index date. Conditions are aggregated at the ICD-9 3-digit level.
 #'                                                  Only applicable if useCovariateConditionOccurrence = TRUE.
-#' @param useCovariate3DigitIcd9Outpatient180d      A boolean value (TRUE/FALSE) to determine if
+#' @param useCovariate3DigitIcd9Ambulatory180d      A boolean value (TRUE/FALSE) to determine if
 #'                                                  covariates will be created and used in models that
 #'                                                  look for presence/absence of condition within
-#'                                                  outpatient setting in 180d window prior to or on cohort
+#'                                                  ambulatory setting in 180d window prior to or on cohort
 #'                                                  index date. Conditions are aggregated at the ICD-9 3-digit level.
 #'                                                  Only applicable if useCovariateConditionOccurrence = TRUE.
 #' @param useCovariateConditionEra                  A boolean value (TRUE/FALSE) to determine if
@@ -509,9 +509,9 @@ loadCovariateData <- function(file, readOnly = FALSE) {
 #'                                                  window prior to or on cohort index date.  Only
 #'                                                  applicable if useCovariateProcedureOccurrence =
 #'                                                  TRUE.
-#' @param useCovariateProcedureOccurrenceOutpatient180d        A boolean value (TRUE/FALSE) to determine if
+#' @param useCovariateProcedureOccurrenceAmbulatory180d        A boolean value (TRUE/FALSE) to determine if
 #'                                                  covariates will be created and used in models that
-#'                                                  look for presence/absence of procedure within outpatient setting in 180d
+#'                                                  look for presence/absence of procedure within ambulatory setting in 180d
 #'                                                  window prior to or on cohort index date.  Only
 #'                                                  applicable if useCovariateProcedureOccurrence =
 #'                                                  TRUE.
@@ -615,9 +615,9 @@ createCovariateSettings <- function(useCovariateDemographics = TRUE,
                                     useCovariate3DigitIcd9Inpatient180d = FALSE,
                                     useCovariate3DigitIcd9Inpatient180dMedF = FALSE,
                                     useCovariate3DigitIcd9Inpatient180d75F = FALSE,
-                                    useCovariate3DigitIcd9Outpatient180d = FALSE,
-                                    useCovariate3DigitIcd9Outpatient180dMedF = FALSE,
-                                    useCovariate3DigitIcd9Outpatient180d75F = FALSE,
+                                    useCovariate3DigitIcd9Ambulatory180d = FALSE,
+                                    useCovariate3DigitIcd9Ambulatory180dMedF = FALSE,
+                                    useCovariate3DigitIcd9Ambulatory180d75F = FALSE,
                                     useCovariateConditionEra = FALSE,
                                     useCovariateConditionEraEver = FALSE,
                                     useCovariateConditionEraOverlap = FALSE,
@@ -642,9 +642,9 @@ createCovariateSettings <- function(useCovariateDemographics = TRUE,
                                     useCovariateProcedureOccurrenceInpatient180d = FALSE,
                                     useCovariateProcedureOccurrenceInpatient180dMedF = FALSE,
                                     useCovariateProcedureOccurrenceInpatient180d75F = FALSE,
-                                    useCovariateProcedureOccurrenceOutpatient180d = FALSE,
-                                    useCovariateProcedureOccurrenceOutpatient180dMedF = FALSE,
-                                    useCovariateProcedureOccurrenceOutpatient180d75F = FALSE,
+                                    useCovariateProcedureOccurrenceAmbulatory180d = FALSE,
+                                    useCovariateProcedureOccurrenceAmbulatory180dMedF = FALSE,
+                                    useCovariateProcedureOccurrenceAmbulatory180d75F = FALSE,
                                     useCovariateProcedureGroup = FALSE,
                                     useCovariateObservation = FALSE,
                                     useCovariateObservation365d = FALSE,
