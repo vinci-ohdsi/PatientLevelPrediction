@@ -1310,6 +1310,23 @@ TRUNCATE TABLE #thresholds;
 DROP TABLE #thresholds;
 }
 
+INSERT INTO #cov_ref (
+  covariate_id,
+  covariate_name,
+  analysis_id,
+  concept_id
+	)
+SELECT p1.covariate_id,
+	'Ingredient prescription record observed during 180d on or prior to cohort index:  ' + CAST((p1.covariate_id-403)/1000 AS VARCHAR) + '-' + CASE
+		WHEN c1.concept_name IS NOT NULL
+			THEN c1.concept_name
+		ELSE 'Unknown invalid concept'
+		END AS covariate_name,
+	403 AS analysis_id,
+	(p1.covariate_id-403)/1000 AS concept_id
+FROM (SELECT DISTINCT covariate_id FROM #cov_ie_180d) p1
+LEFT JOIN concept c1
+	ON (p1.covariate_id-403)/1000 = c1.concept_id;
 }
 
 /**************************
