@@ -1,5 +1,5 @@
 # @file DataSplitting.R
-
+#
 #
 # Copyright 2015 Observational Health Data Sciences and Informatics
 #
@@ -22,49 +22,57 @@
 #' @details
 #' Splits cohort, covariate, and outcome data into random subsets, to be used for validation.
 #'
-#' @param cohortData      An object of type \code{cohortData}.
-#' @param covariateData   An object of type \code{covariateData}.
-#' @param outcomeData     An object of type \code{outcomeData}.
-#' @param splits          This can be either a single integer, in which case the data will be split up
-#'                        into equally sized parts. If a vector is provided instead, these are
-#'                        interpreted as the relative sizes of each part.
+#' @param plpData   An object of type \code{plpData}.
+#' @param splits    This can be either a single integer, in which case the data will be split up into
+#'                  equally sized parts. If a vector is provided instead, these are interpreted as the
+#'                  relative sizes of each part.
 #'
 #' @return
-#' A list with entries for each part. An entry itself is a list containing a cohortData,
-#' covariateData, and outcomeData object.
+#' A list with entries for each part. An entry itself is a plpData object.
 #'
 #' @export
-splitData <- function(cohortData, covariateData, outcomeData, splits = 2) {
+splitData <- function(plpData, splits = 2) {
+  start <- Sys.time()
+
   if (length(splits) == 1)
     splits <- rep(1/splits, splits)
   splits <- cumsum(splits)
-  rows <- data.frame(rowId = 1:nrow(cohortData$cohorts), rnd = runif(nrow(cohortData$cohorts)))
+  rows <- data.frame(rowId = 1:nrow(plpData$cohorts), rnd = runif(nrow(plpData$cohorts)))
   q <- quantile(rows$rnd, probs = splits)
   groups <- ff::as.ff(cut(rows$rnd, breaks = c(0, q), labels = FALSE))
   result <- list()
   for (i in 1:length(splits)) {
     writeLines(paste("Creating data objects for group", i))
-    sampledRowIds <- ffbase::ffwhich(groups, groups == i)
-    sampledCohorts <- cohortData$cohorts[sampledRowIds, ]
-    sampledcohortData <- list(cohorts = sampledCohorts, metaData = cohortData$metaData)
-    class(sampledcohortData) <- "cohortData"
-    sampledOutcomes <- merge(outcomeData$outcomes, sampledCohorts)
-    sampledOutcomes$time <- NULL
-    sampledOutcomeData <- list(outcomes = sampledOutcomes, metaData = outcomeData$metaData)
-    if (!is.null(outcomeData$exclude)) {
-      sampledExclude <- merge(outcomeData$exclude, sampledCohorts)
-      sampledExclude$time <- NULL
-      sampledOutcomeData$exclude <- sampledExclude
+    sampledIndices <- ffbase::ffwhich(groups, groups == i)
+
+    sampledCohorts <- plpData$cohorts[sampledIndices, ]
+    sampledRowIds <- sampledCohorts$rowId
+
+    idx <- ffbase::ffmatch(x = plpData$outcomes$rowId, table = sampledRowIds)
+    idx <- ffbase::ffwhich(idx, !is.na(idx))
+    sampledOutcomes <- plpData$outcomes[idx, ]
+
+    idx <- ffbase::ffmatch(x = plpData$covariates$rowId, table = sampledRowIds)
+    idx <- ffbase::ffwhich(idx, !is.na(idx))
+    sampledCovariates <- plpData$covariates[idx, ]
+
+    if (!is.null(plpData$exclude)) {
+      idx <- ffbase::ffmatch(x = plpData$exclude$rowId, table = sampledRowIds)
+      idx <- ffbase::ffwhich(idx, !is.na(idx))
+      sampledExclude <- plpData$exclude[idx, ]
+    } else {
+      sampledExclude <- NULL
     }
-    class(sampledOutcomeData) <- "outcomeData"
-    sampledCovariates <- merge(covariateData$covariates, sampledCohorts)
-    sampledCovariateData <- list(covariates = sampledCovariates,
-                                 covariateRef = ff::clone.ffdf(covariateData$covariateRef),
-                                 metaData = covariateData$metaData)
-    class(sampledCovariateData) <- "covariateData"
-    result[[i]] <- list(cohortData = sampledcohortData,
-                        covariateData = sampledCovariateData,
-                        outcomeData = sampledOutcomeData)
+    result[[i]] <- list(cohorts = sampledCohorts,
+                        outcomes = sampledOutcomes,
+                        exclude = sampledExclude,
+                        covariates = sampledCovariates,
+                        covariateRef = ff::clone.ffdf(plpData$covariateRef),
+                        metaData = plpData$metaData)
+
+    class(result[[i]]) <- "plpData"
   }
+  delta <- Sys.time() - start
+  writeLines(paste("Splitting data took", signif(delta, 3), attr(delta, "units")))
   return(result)
 }

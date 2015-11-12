@@ -23,11 +23,21 @@
 #' @importFrom Rcpp evalCpp
 #' @importFrom SqlRender loadRenderTranslateSql translateSql
 #' @importFrom RJDBC dbDisconnect
+#' @importFrom plyr ddply
 #' @import bit
 #' @import Cyclops
 #' @import DatabaseConnector
 #' @useDynLib PatientLevelPrediction
 NULL
+
+#' A simulation profile
+#' @docType data
+#' @keywords datasets
+#' @name plpDataSimulationProfile
+#' @usage
+#' data(plpDataSimulationProfile)
+NULL
+
 
 .onLoad <- function(libname, pkgname) {
   # Copied this from the ff package:

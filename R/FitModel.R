@@ -18,24 +18,24 @@
 
 #' Fit a predictive model
 #'
-#' @param cohortData      An object of type \code{cohortData}.
-#' @param covariateData   An object of type \code{covariateData}.
-#' @param outcomeData     An object of type \code{outcomeData}.
-#' @param modelType       The type of predictive model. Options are "logistic", "poisson", and
-#'                        "survival".
-#' @param cohortId        The ID of the specific cohort for which to fit a model.
-#' @param outcomeId       The ID of the specific outcome for which to fit a model.
-#' @param prior           The prior used to fit the model. See \code{\link[Cyclops]{createPrior}} for
-#'                        details.
-#' @param control         The control object used to control the cross-validation used to determine the
-#'                        hyperparameters of the prior (if applicable). See
-#'                        \code{\link[Cyclops]{createControl}} for details.
+#' @param plpData               An object of type \code{plpData}.
+#' @param modelType             The type of predictive model. Options are "logistic", "poisson", and
+#'                              "survival".
+#' @param removeDropoutsForLr   If TRUE and modelType is "logistic", subjects that do not have the full
+#'                              observation window (i.e. are censored earlier) and do not have the
+#'                              outcome are removed prior to fitting the model.
+#' @param cohortId              The ID of the specific cohort for which to fit a model.
+#' @param outcomeId             The ID of the specific outcome for which to fit a model.
+#' @param prior                 The prior used to fit the model. See \code{\link[Cyclops]{createPrior}}
+#'                              for details.
+#' @param control               The control object used to control the cross-validation used to
+#'                              determine the hyperparameters of the prior (if applicable). See
+#'                              \code{\link[Cyclops]{createControl}} for details.
 #'
 #' @export
-fitPredictiveModel <- function(cohortData,
-                               covariateData,
-                               outcomeData,
+fitPredictiveModel <- function(plpData,
                                modelType = "logistic",
+                               removeDropoutsForLr = TRUE,
                                cohortId = NULL,
                                outcomeId = NULL,
                                prior = createPrior("laplace",
@@ -44,71 +44,87 @@ fitPredictiveModel <- function(cohortData,
                                control = createControl(noiseLevel = "silent",
                                                        cvType = "auto",
                                                        startingVariance = 0.1)) {
-  if (is.null(cohortId) && length(cohortData$metaData$cohortIds) != 1)
+  if (is.null(cohortId) && length(plpData$metaData$cohortIds) != 1) {
     stop("No cohort ID specified, but multiple cohorts found")
-  if (is.null(outcomeId) && length(outcomeData$metaData$outcomeIds) != 1)
+  }
+  if (is.null(outcomeId) && length(plpData$metaData$outcomeIds) != 1) {
     stop("No outcome ID specified, but multiple outcomes found")
+  }
+  if (!is.null(cohortId) && !(cohortId %in% plpData$metaData$cohortIds)) {
+    stop("Cohort ID not found")
+  }
+  if (!is.null(outcomeId) && !(outcomeId %in% plpData$metaData$outcomeIds)) {
+    stop("Outcome ID not found")
+  }
   
-  if (is.null(cohortId)) {
-    covariates <- ffbase::subset.ffdf(covariateData$covariates, select = c("personId",
-                                                                           "cohortStartDate",
-                                                                           "covariateId",
-                                                                           "covariateValue"))
-    cohorts <- ffbase::subset.ffdf(cohortData$cohorts,
-                                   select = c("personId", "cohortStartDate", "time"))
-    outcomes <- ffbase::subset.ffdf(outcomeData$outcomes, select = c("personId",
-                                                                     "cohortStartDate",
-                                                                     "outcomeId",
-                                                                     "outcomeCount",
-                                                                     "timeToEvent"))
-  } else {
-    covariates <- ffbase::subset.ffdf(covariateData$covariates,
-                                      cohortId == cohortId,
-                                      select = c("personId",
-                                                 "cohortStartDate",
-                                                 "covariateId",
-                                                 "covariateValue"))
-    cohorts <- ffbase::subset.ffdf(cohortData$cohorts,
-                                   cohortId == cohortId,
-                                   select = c("personId", "cohortStartDate", "time"))
-    outcomes <- ffbase::subset.ffdf(outcomeData$outcomes,
-                                    cohortId == cohortId,
-                                    select = c("personId",
-                                               "cohortStartDate",
-                                               "outcomeId",
-                                               "outcomeCount",
-                                               "timeToEvent"))
-  }
-  if (!is.null(outcomeId)) {
-    outcomes <- ffbase::subset.ffdf(outcomes, outcomeId == outcomeId)
-  }
-  if (!is.null(outcomeData$exclude) && nrow(outcomeData$exclude) != 0) {
-    if (is.null(outcomeId)) {
-      exclude <- outcomeData$exclude
-    } else {
-      exclude <- ffbase::subset.ffdf(outcomeData$exclude,
-                                     outcomeId == outcomeId,
-                                     select = c("personId", "cohortStartDate", "cohortId"))
+  start <- Sys.time()
+  
+  covariates <- plpData$covariates
+  cohorts <- plpData$cohorts
+  outcomes <- plpData$outcomes
+  
+  if (!is.null(cohortId) && length(plpData$metaData$cohortIds) > 1) {
+    # Filter by cohort ID:
+    t <- cohorts$cohortId == cohortId
+    if (!ffbase::any.ff(t)) {
+      stop(paste("No cohorts with cohort ID", cohortId))
     }
-    exclude$dummy <- ff::ff(1, length = nrow(exclude), vmode = "double")
-    cohorts <- merge(cohorts, exclude, all.x = TRUE)
-    cohorts <- ffbase::subset.ffdf(cohorts, dummy != 1)
-    cohorts$dummy <- NULL
+    cohorts <- cohorts[ffbase::ffwhich(t, t == TRUE), ]
+    
+    idx <- ffbase::ffmatch(x = covariates$rowId, table = cohorts$rowId)
+    idx <- ffbase::ffwhich(idx, !is.na(idx))
+    covariates <- covariates[idx, ]
+    
+    # No need to filter outcomes since we'll merge outcomes with cohorts later
   }
-  cohorts$rowId <- ff::ff(1:nrow(cohorts))
-  covariates <- merge(covariates, cohorts, by = c("cohortStartDate", "personId"))
+  
+  if (!is.null(outcomeId) && length(plpData$metaData$outcomeIds) > 1) {
+    # Filter by outcome ID:
+    t <- outcomes$outcomeId == outcomeId
+    if (!ffbase::any.ff(t)) {
+      stop(paste("No outcomes with outcome ID", outcomeId))
+    }
+    outcomes <- outcomes[ffbase::ffwhich(t, t == TRUE), ]
+  }
+  
+  if (!is.null(plpData$exclude) && nrow(plpData$exclude) != 0) {
+    # Filter subjects with previous outcomes:
+    if (!is.null(outcomeId)) {
+      exclude <- plpData$exclude
+      t <- exclude$outcomeId == outcomeId
+      if (ffbase::any.ff(t)) {
+        exclude <- exclude[ffbase::ffwhich(t, t == TRUE), ]
+        
+        t <- ffbase::ffmatch(x = cohorts$rowId, table = exclude$rowId, nomatch = 0L) > 0L
+        if (ffbase::any.ff(t)) {
+          cohorts <- cohorts[ffbase::ffwhich(t, t == FALSE), ]
+        }
+        
+        t <- ffbase::ffmatch(x = covariates$rowId, table = exclude$rowId, nomatch = 0L) > 0L
+        if (ffbase::any.ff(t)) {
+          covariates <- covariates[ffbase::ffwhich(t, t == FALSE), ]
+        }
+        
+        # No need to filter outcomes since we'll merge outcomes with cohorts later
+      }
+    }
+  }
+  
   if (modelType == "logistic" | modelType == "survival") {
     outcomes$y <- ff::ff(1, length = nrow(outcomes), vmode = "double")
   } else {
-    # Poisson
+    # modelType == 'Poisson'
     outcomes$y <- outcomes$outcomeCount
   }
-  outcomes <- merge(cohorts, outcomes, by = c("cohortStartDate", "personId"), all.x = TRUE)
+  
+  # Merge outcomes with cohorts so we also have the subjects with 0 outcomes:
+  outcomes <- merge(cohorts, outcomes, by = c("rowId"), all.x = TRUE)
   idx <- ffbase::is.na.ff(outcomes$y)
   idx <- ffbase::ffwhich(idx, idx == TRUE)
   outcomes$y <- ff::ffindexset(x = outcomes$y,
                                index = idx,
                                value = ff::ff(0, length = length(idx), vmode = "double"))
+  
   if (modelType == "survival") {
     # For survival analysis, we use a Poisson regression censored at the time of first event
     idx <- ffbase::is.na.ff(outcomes$timeToEvent)
@@ -117,10 +133,23 @@ fitPredictiveModel <- function(cohortData,
                                     index = idx,
                                     value = outcomes$timeToEvent[idx])
   }
+  
+  if (modelType == "logistic" && removeDropoutsForLr) {
+    # Select only subjects with observation spanning the full window, or with an outcome:
+    fullWindowLength <- ffbase::max.ff(plpData$cohorts$time)
+    t <- outcomes$y != 0 | outcomes$time == fullWindowLength
+    outcomes <- outcomes[ffbase::ffwhich(t, t == TRUE), ]
+    
+    idx <- ffbase::ffmatch(x = covariates$rowId, table = outcomes$rowId)
+    idx <- ffbase::ffwhich(idx, !is.na(idx))
+    covariates <- covariates[idx, ]
+  }
+  
   if (modelType == "logistic") {
     cyclopsModelType <- "lr"
   } else {
     cyclopsModelType <- "pr"
+    outcomes$time <- outcomes$time + 1  # Assume same day means duration of 1
   }
   cyclopsData <- convertToCyclopsData(outcomes,
                                       covariates,
@@ -129,15 +158,20 @@ fitPredictiveModel <- function(cohortData,
                                       quiet = TRUE)
   cyclopsFit <- fitCyclopsModel(cyclopsData, prior = prior, control = control)
   if (is.null(cohortId))
-    cohortId <- cohortData$metaData$cohortIds
+    cohortId <- plpData$metaData$cohortIds
   if (is.null(outcomeId))
-    outcomeId <- outcomeData$metaData$outcomeIds
+    outcomeId <- plpData$metaData$outcomeIds
+  trainSetStatistics <- list(numberOfPeriods = nrow(outcomes),
+                             numberOfPeriodsWithOutcomes = ffbase::sum.ff(outcomes$y !=
+                                                                            0), numberOfOutcomes = ffbase::sum.ff(outcomes$y))
   predictiveModel <- list(cohortId = cohortId,
                           outcomeId = outcomeId,
                           modelType = modelType,
-                          coefficients = coef(cyclopsFit),
-                          priorVariance = cyclopsFit$variance[1])
+                          removeDropouts = (modelType ==
+                                              "logistic" & removeDropoutsForLr), coefficients = coef(cyclopsFit), priorVariance = cyclopsFit$variance[1], trainSetStatistics = trainSetStatistics)
   class(predictiveModel) <- append(class(predictiveModel), "predictiveModel")
+  delta <- Sys.time() - start
+  writeLines(paste("Fitting model took", signif(delta, 3), attr(delta, "units")))
   return(predictiveModel)
 }
 
@@ -149,14 +183,14 @@ fitPredictiveModel <- function(cohortData,
 #'
 #' @param predictiveModel   An object of type \code{predictiveModel} as generated using he
 #'                          \code{\link{fitPredictiveModel}} function.
-#' @param covariateData     An object of type \code{covariateData} as generated using
-#'                          \code{\link{getDbCovariateData}}.
+#' @param plpData           An object of type \code{plpData} as generated using
+#'                          \code{\link{getDbPlpData}}.
 #'
 #' @details
 #' Shows the coefficients and names of the covariates with non-zero coefficients.
 #'
 #' @export
-getModelDetails <- function(predictiveModel, covariateData) {
+getModelDetails <- function(predictiveModel, plpData) {
   cfs <- predictiveModel$coefficients
   
   cfs <- cfs[cfs != 0]
@@ -164,7 +198,7 @@ getModelDetails <- function(predictiveModel, covariateData) {
   cfs <- data.frame(coefficient = cfs, id = as.numeric(attr(cfs, "names")))
   
   cfs <- merge(ff::as.ffdf(cfs),
-               covariateData$covariateRef,
+               plpData$covariateRef,
                by.x = "id",
                by.y = "covariateId",
                all.x = TRUE)

@@ -19,16 +19,21 @@
 .formatAndCheckCode <- function() {
   OhdsiRTools::formatRFolder()
   OhdsiRTools::checkUsagePackage("PatientLevelPrediction")
-  OhdsiRTools::ohdsiLintrFolder()
 }
 
 .createManualAndVignettes <- function() {
 
-  shell("rm man/PatientLevelPrediction.pdf")
-  shell("R CMD Rd2pdf ./ --output=man/PatientLevelPrediction.pdf")
+  shell("rm extras/PatientLevelPrediction.pdf")
+  shell("R CMD Rd2pdf ./ --output=extras/PatientLevelPrediction.pdf")
 
   rmarkdown::render("vignettes/BuildingPredictiveModels.Rmd",
                     output_file = "../inst/doc/BuildingPredictiveModels.pdf",
+                    rmarkdown::pdf_document(latex_engine = "pdflatex",
+                                            toc = TRUE,
+                                            number_sections = TRUE))
+
+  rmarkdown::render("vignettes/CreatingCustomCovariateBuilders.Rmd",
+                    output_file = "../inst/doc/CreatingCustomCovariateBuilders.pdf",
                     rmarkdown::pdf_document(latex_engine = "pdflatex",
                                             toc = TRUE,
                                             number_sections = TRUE))

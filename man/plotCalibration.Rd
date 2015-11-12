@@ -4,20 +4,27 @@
 \alias{plotCalibration}
 \title{Plot the calibration}
 \usage{
-plotCalibration(prediction, outcomeData, numberOfStrata = 5,
-  fileName = NULL)
+plotCalibration(prediction, plpData, removeDropoutsForLr = TRUE,
+  numberOfStrata = 5, truncateFraction = 0.01, fileName = NULL)
 }
 \arguments{
 \item{prediction}{A prediction object as generated using the
 \code{\link{predictProbabilities}} function.}
 
-\item{outcomeData}{An object of type \code{outcomeData}.}
+\item{plpData}{An object of type \code{plpData}.}
+
+\item{removeDropoutsForLr}{If TRUE and modelType is "logistic", subjects that do not have the full
+observation window (i.e. are censored earlier) and do not have the
+outcome are removed prior to evaluating the model.}
 
 \item{numberOfStrata}{The number of strata in the plot.}
 
-\item{fileName}{Name of the file where the plot should be saved, for example 'plot.png'. See
-                        the function \code{ggsave} in the ggplot2 package for supported file
-                        formats.}
+\item{truncateFraction}{This fraction of probability values will be ignored when plotting, to
+avoid the x-axis scale being dominated by a few outliers.}
+
+\item{fileName}{Name of the file where the plot should be saved, for example
+                             'plot.png'. See the function \code{ggsave} in the ggplot2 package for
+                             supported file formats.}
 }
 \value{
 A ggplot object. Use the \code{\link[ggplot2]{ggsave}} function to save to file in a different

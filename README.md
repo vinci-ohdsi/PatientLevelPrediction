@@ -19,10 +19,10 @@ Screenshots
 <table border = "">
 <tr valign="top">
 <td width = 50%>
-  <img src="https://github.com/OHDSI/PatientLevelPrediction/blob/master/man/Calibration.png" alt="Prediction calibration plot" title="Prediction calibration plot" />
+  <img src="https://github.com/OHDSI/PatientLevelPrediction/blob/master/extras/Calibration.png" alt="Prediction calibration plot" title="Prediction calibration plot" />
 </td>
 <td width = 50%>
- <img src="https://github.com/OHDSI/PatientLevelPrediction/blob/master/man/Roc.png" alt="ROC plot" title="ROC plot" />
+ <img src="https://github.com/OHDSI/PatientLevelPrediction/blob/master/extras/Roc.png" alt="ROC plot" title="ROC plot" />
 </td>
 </tr><tr>
 <td>Calibration plot</td><td>ROC plot</td>
@@ -55,6 +55,7 @@ Getting Started
   library(devtools)
   install_github("ohdsi/SqlRender") 
   install_github("ohdsi/DatabaseConnector") 
+  install_github("ohdsi/OhdsiRTools") 
   install_github("ohdsi/Cyclops") 
   install_github("ohdsi/PatientLevelPrediction") 
   ```
@@ -62,7 +63,8 @@ Getting Started
 Getting Involved
 ================
 * Vignette: [Building patient-level predictive models](https://raw.githubusercontent.com/OHDSI/PatientLevelPrediction/master/inst/doc/BuildingPredictiveModels.pdf)
-* Package manual: [PatientLevelPrediction.pdf](https://raw.githubusercontent.com/OHDSI/PatientLevelPrediction/master/man/PatientLevelPrediction.pdf) 
+* Vignette: [Creating custom covariate builders](https://raw.githubusercontent.com/OHDSI/PatientLevelPrediction/master/inst/doc/CreatingCustomCovariateBuilders.pdf)
+* Package manual: [PatientLevelPrediction.pdf](https://raw.githubusercontent.com/OHDSI/PatientLevelPrediction/master/extras/PatientLevelPrediction.pdf) 
 * Developer questions/comments/feedback: <a href="http://forums.ohdsi.org/c/developers">OHDSI Forum</a>
 * We use the <a href="../../issues">GitHub issue tracker</a> for all bugs/issues/enhancements
  
@@ -75,6 +77,9 @@ Development
 PatientLevelPrediction is being developed in R Studio.
 
 ###Development status
+[![Build Status](https://travis-ci.org/OHDSI/PatientLevelPrediction.svg?branch=master)](https://travis-ci.org/OHDSI/PatientLevelPrediction)
+[![codecov.io](https://codecov.io/github/OHDSI/PatientLevelPrediction/coverage.svg?branch=master)](https://codecov.io/github/OHDSI/PatientLevelPrediction?branch=master)
+
 Beta
 
 # Acknowledgements

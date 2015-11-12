@@ -19,36 +19,66 @@
 #' Create predictive probabilities
 #'
 #' @details
-#' Note that the cohortData and covariateData objects need to come from the same population.
+#' Generates predictions for the population specified in plpData given the model.
+#'
+#' @return
+#' The value column in the result data.frame is: logistic: probabilities of the outcome, poisson:
+#' Poisson rate (per day) of the outome, survival: hazard rate (per day) of the outcome.
 #'
 #' @param predictiveModel   An object of type \code{predictiveModel} as generated using
 #'                          \code{\link{fitPredictiveModel}}.
-#' @param cohortData        An object of type \code{cohortData} as generated using
-#'                          \code{\link{getDbCohortData}}.
-#' @param covariateData     An object of type \code{covariateData} as generated using
-#'                          \code{\link{getDbCovariateData}}.
+#' @param plpData           An object of type \code{plpData} as generated using
+#'                          \code{\link{getDbPlpData}}.
 #' @export
-predictProbabilities <- function(predictiveModel, cohortData, covariateData) {
-  cohortId <- predictiveModel$cohortId
-  covariates <- ffbase::subset.ffdf(covariateData$covariates,
-                                    cohortId == cohortId,
-                                    select = c("personId",
-                                               "cohortStartDate",
-                                               "covariateId",
-                                               "covariateValue"))
-  cohorts <- ffbase::subset.ffdf(cohortData$cohorts,
-                                 cohortId == cohortId,
-                                 select = c("personId", "cohortStartDate", "time"))
-  cohorts$rowId <- ff::ff(1:nrow(cohorts))
-  covariates <- merge(covariates, cohorts, by = c("cohortStartDate", "personId"))
+predictProbabilities <- function(predictiveModel, plpData) {
+  start <- Sys.time()
+
+  covariates <- plpData$covariates
+  cohorts <- plpData$cohorts
+
+  if (length(plpData$metaData$cohortIds) > 1) {
+    # Filter by cohort ID:
+    cohortId <- predictiveModel$cohortId
+    t <- cohorts$cohortId == cohortId
+    if (!ffbase::any.ff(t)) {
+      stop(paste("No cohorts with cohort ID", cohortId))
+    }
+    cohorts <- cohorts[ffbase::ffwhich(t, t == TRUE), ]
+
+    idx <- ffbase::ffmatch(x = covariates$rowId, table = cohorts$rowId)
+    idx <- ffbase::ffwhich(idx, !is.na(idx))
+    covariates <- covariates[idx, ]
+  }
+
+  if (!is.null(plpData$exclude) && nrow(plpData$exclude) != 0) {
+    # Filter subjects with previous outcomes:
+    exclude <- plpData$exclude
+    outcomeId <- predictiveModel$outcomeId
+    t <- exclude$outcomeId == outcomeId
+    if (ffbase::any.ff(t)) {
+      exclude <- exclude[ffbase::ffwhich(t, t == TRUE), ]
+      t <- ffbase::ffmatch(x = cohorts$rowId, table = exclude$rowId, nomatch = 0L) > 0L
+      if (ffbase::any.ff(t)) {
+        cohorts <- cohorts[ffbase::ffwhich(t, t == FALSE), ]
+      }
+      t <- ffbase::ffmatch(x = covariates$rowId, table = exclude$rowId, nomatch = 0L) > 0L
+      if (ffbase::any.ff(t)) {
+        covariates <- covariates[ffbase::ffwhich(t, t == FALSE), ]
+      }
+    }
+  }
+
   prediction <- predictFfdf(predictiveModel$coefficients,
                             cohorts,
                             covariates,
                             predictiveModel$modelType)
   prediction$time <- NULL
   attr(prediction, "modelType") <- predictiveModel$modelType
-  attr(prediction, "cohortConceptId") <- predictiveModel$cohortConceptId
-  attr(prediction, "outcomeConceptId") <- predictiveModel$outcomeConceptId
+  attr(prediction, "cohortId") <- predictiveModel$cohortId
+  attr(prediction, "outcomeId") <- predictiveModel$outcomeId
+
+  delta <- Sys.time() - start
+  writeLines(paste("Prediction took", signif(delta, 3), attr(delta, "units")))
   return(prediction)
 }
 
@@ -66,11 +96,10 @@ predictProbabilities <- function(predictiveModel, cohortData, covariateData) {
 #' These columns are expected in the outcome object: \tabular{lll}{ \verb{rowId} \tab(integer) \tab
 #' Row ID is used to link multiple covariates (x) to a single outcome (y) \cr \verb{time} \tab(real)
 #' \tab For models that use time (e.g. Poisson or Cox regression) this contains time \cr \tab
-#' \tab(e.g. number of days) \cr }
-#' These columns are expected in the covariates object: \tabular{lll}{ \verb{rowId} \tab(integer) \tab
-#' Row ID is used to link multiple covariates (x) to a single outcome (y) \cr \verb{covariateId}
-#' \tab(integer) \tab A numeric identifier of a covariate \cr \verb{covariateValue} \tab(real) \tab
-#' The value of the specified covariate \cr }
+#' \tab(e.g. number of days) \cr } These columns are expected in the covariates object: \tabular{lll}{
+#' \verb{rowId} \tab(integer) \tab Row ID is used to link multiple covariates (x) to a single outcome
+#' (y) \cr \verb{covariateId} \tab(integer) \tab A numeric identifier of a covariate \cr
+#' \verb{covariateValue} \tab(real) \tab The value of the specified covariate \cr }
 #'
 #' @export
 predictFfdf <- function(coefficients, outcomes, covariates, modelType = "logistic") {
@@ -100,12 +129,7 @@ predictFfdf <- function(coefficients, outcomes, covariates, modelType = "logisti
       return(1/(1 + exp(0 - x)))
     }
     prediction$value <- link(prediction$value)
-  } else if (modelType == "poisson") {
-    
-    prediction$value <- exp(prediction$value)
-    prediction$value <- prediction$value * prediction$time
-  } else {
-    # modelType == 'survival'
+  } else if (modelType == "poisson" || modelType == "survival") {
     prediction$value <- exp(prediction$value)
   }
   return(prediction)
@@ -124,5 +148,5 @@ predictFfdf <- function(coefficients, outcomes, covariates, modelType = "logisti
 #' @export
 bySumFf <- function(values, bins) {
   .bySum(values, bins)
-  # .Call("PatientLevelPrediction_bySum", PACKAGE = "PatientLevelPrediction", values, bins)
+  # .Call('PatientLevelPrediction_bySum', PACKAGE = 'PatientLevelPrediction', values, bins)
 }
