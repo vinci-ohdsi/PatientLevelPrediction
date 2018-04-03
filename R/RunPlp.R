@@ -220,12 +220,17 @@ runPlp <- function(population, plpData,  minCovariateFraction = 0.001,
   population <- merge(population, indexes)
   colnames(population)[colnames(population)=='index'] <- 'indexes'
   attr(population, "metaData") <- tempmeta
+  cleanData =  TRUE
+  if (modelSettings$model == 'fitCNNTorch' | modelSettings$model == 'fitRNNTorch' | modelSettings$model == 'fitCIReNN'){
+    cleanData = FALSE
+  }
   
   settings <- list(data=plpData, minCovariateFraction=minCovariateFraction,
                    modelSettings = modelSettings,
                    population=population,
                    cohortId=cohortId,
                    outcomeId=outcomeId)
+                   #, cleanData = cleanData)
   
   flog.info(sprintf('Training %s model',settings$modelSettings$name))  
   # the call is sinked because of the external calls (Python etc)
@@ -233,7 +238,6 @@ runPlp <- function(population, plpData,  minCovariateFraction = 0.001,
     flog.warn(paste0('sink had ',sink.number(),' connections open!'))
   }
   sink(logFileName, append = TRUE, split = TRUE)
-  
   model <- ftry(do.call(fitPlp, settings),
                 error = function(e) {sink()
                   flog.error(e)
@@ -241,25 +245,36 @@ runPlp <- function(population, plpData,  minCovariateFraction = 0.001,
                 finally = {
                   flog.trace('Done.')})
   sink()
-  
+
   # save the model
   if(saveModel==T){
     modelLoc <- file.path(save,analysisId, 'savedModel' )
+    
     ftry(savePlpModel(model, modelLoc),finally= flog.trace('Done.'))
     flog.info(paste0('Model saved to ..\\',analysisId,'\\savedModel'))
     
     #update the python saved location
-    if(attr(model, 'type')=='python'){
+    if(attr(model, 'type')=='python' ){
       model$model <- file.path(modelLoc,'python_model')
-      model$predict <- createTransform(model)
+      model$predict <- createTransform(model, cleanData = cleanData)
+    }
+    
+    #save keras model for CIReNN 
+    if(modelSettings$model == 'fitCIReNN'){
+      keras::save_model_hdf5(model$model$model, file.path(modelLoc,'CIReNN_model.h5'), overwrite = TRUE,include_optimizer = TRUE)
+      model$predict <- createTransform(model)  
     }
   }
   
   # calculate metrics
   flog.seperator()
   flog.trace('Prediction')
+  
   prediction <- ftry(predictPlp(plpModel = model, population = population, plpData = plpData, index = NULL), 
                      finally = flog.trace('Done.'))
+  if(modelSettings$model == 'fitCIReNN'){
+    prediction<-predict.CIReNN(plpData=plpData, population=population, plpModel=model)
+  }
   if(ifelse(is.null(prediction), FALSE, length(unique(prediction$value))>1)){
     
     # add analysisID

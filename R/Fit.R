@@ -80,13 +80,20 @@ fitPlp <- function(population, data,   modelSettings,#featureSettings,
   
   # normalise the data:
   class(plpData) <- c(class(plpData), 'covariateData')
-  plpData <- tidyCovariateData(covariateData=plpData, 
-                                minFraction = minCovariateFraction,
-                                normalize = TRUE,
-                                removeRedundancy = TRUE)
-  if(length(plpData$metaData$deletedInfrequentCovariateIds)>0){
-    plpData$covariateRef <- plpData$covariateRef[!ffbase::`%in%`(plpData$covariateRef$covariateId, plpData$metaData$deletedInfrequentCovariateIds), ]
+  cleanData = TRUE
+  if (modelSettings$model == 'fitCNNTorch' | modelSettings$model == 'fitRNNTorch' | modelSettings$model == 'fitCIReNN'){
+    cleanData = FALSE
   }
+  if (cleanData){
+    plpData <- tidyCovariateData(covariateData=plpData, 
+                                 minFraction = minCovariateFraction,
+                                 normalize = TRUE,
+                                 removeRedundancy = TRUE)
+    if(length(plpData$metaData$deletedInfrequentCovariateIds)>0){
+      plpData$covariateRef <- plpData$covariateRef[!ffbase::`%in%`(plpData$covariateRef$covariateId, plpData$metaData$deletedInfrequentCovariateIds), ]
+    }
+  }
+  
   
   # get the pre-processing settings
   ##preprocessSettings <- plpData$metaData  #normFactors, deletedRedundantCovariateIds
@@ -178,28 +185,44 @@ createTransform <- function(plpModel){
       flog.warn('outcomeId of new data does not match training data or does not exist')
     
     # apply normalsation to new data
-    plpData2 <- list(outcomes =plpData$outcomes,
-                    cohorts = plpData$cohorts,
-                    covariates =ff::clone(plpData$covariates),
-                    covariateRef=ff::clone(plpData $covariateRef),
-                    metaData=plpData$metaData)
-    plpData2$covariates <- limitCovariatesToPopulation(plpData2$covariates, ff::as.ff(population$rowId))
-    plpData2 <- applyTidyCovariateData(plpData2,plpModel$metaData$preprocessSettings)
-    if(length(plpModel$metaData$preprocessSettings$deletedInfrequentCovariateIds)>0){
-      plpData2$covariateRef <- plpData2$covariateRef[!ffbase::`%in%`(plpData2$covariateRef$covariateId, plpModel$metaData$preprocessSettings$deletedInfrequentCovariateIds), ]
+    if(attr(plpModel$model,"type")!="CIReNN"){
+      plpData2 <- list(outcomes =plpData$outcomes,
+                       cohorts = plpData$cohorts,
+                       covariates =ff::clone(plpData$covariates),
+                       covariateRef=ff::clone(plpData $covariateRef),
+                       metaData=plpData$metaData)
+      plpData2$covariates <- limitCovariatesToPopulation(plpData2$covariates, ff::as.ff(population$rowId))
+      plpData2 <- applyTidyCovariateData(plpData2,plpModel$metaData$preprocessSettings)
+      if(length(plpModel$metaData$preprocessSettings$deletedInfrequentCovariateIds)>0){
+        plpData2$covariateRef <- plpData2$covariateRef[!ffbase::`%in%`(plpData2$covariateRef$covariateId, plpModel$metaData$preprocessSettings$deletedInfrequentCovariateIds), ]
+      }
+      pred <- do.call(paste0('predict.',attr(plpModel, 'type')), list(plpModel=plpModel,
+                                                                      plpData=plpData2, 
+                                                                      population=population))
+      metaData <- list(trainDatabase = strsplit(do.call(paste, list(plpModel$metaData$call$cdmDatabaseSchema)),'\\.')[[1]][1],
+                       testDatabase = strsplit(do.call(paste, list(plpData$metaData$call$cdmDatabaseSchema)),'\\.')[[1]][1],
+                       studyStartDate = do.call(paste,list(plpModel$metaData$call$studyStartDate)), 
+                       studyEndDate = do.call(paste,list(plpModel$metaData$call$studyEndDate)),
+                       cohortId = plpModel$cohortId,
+                       outcomeId = plpModel$outcomeId,
+                       predictionType ='binary'
+      )
+      attr(pred, 'metaData') <- metaData
     }
-    pred <- do.call(paste0('predict.',attr(plpModel, 'type')), list(plpModel=plpModel,
-                                                                    plpData=plpData2, 
-                                                                    population=population))
-    metaData <- list(trainDatabase = strsplit(do.call(paste, list(plpModel$metaData$call$cdmDatabaseSchema)),'\\.')[[1]][1],
-                     testDatabase = strsplit(do.call(paste, list(plpData$metaData$call$cdmDatabaseSchema)),'\\.')[[1]][1],
-                     studyStartDate = do.call(paste,list(plpModel$metaData$call$studyStartDate)), 
-                     studyEndDate = do.call(paste,list(plpModel$metaData$call$studyEndDate)),
-                     cohortId = plpModel$cohortId,
-                     outcomeId = plpModel$outcomeId,
-                     predictionType ='binary'
-    )
-    attr(pred, 'metaData') <- metaData
+    if(attr(plpModel$model,"type")=="CIReNN"){
+      pred <- do.call(paste0('predict.',attr(plpModel$model, 'type')), list(plpModel=plpModel,
+                                                                      plpData=plpData, 
+                                                                      population=population))
+      metaData <- list(trainDatabase = strsplit(do.call(paste, list(plpModel$metaData$call$cdmDatabaseSchema)),'\\.')[[1]][1],
+                       testDatabase = strsplit(do.call(paste, list(plpData$metaData$call$cdmDatabaseSchema)),'\\.')[[1]][1],
+                       studyStartDate = do.call(paste,list(plpModel$metaData$call$studyStartDate)), 
+                       studyEndDate = do.call(paste,list(plpModel$metaData$call$studyEndDate)),
+                       cohortId = plpModel$cohortId,
+                       outcomeId = plpModel$outcomeId,
+                       predictionType ='binary'
+      )
+      attr(pred, 'metaData') <- metaData
+    }
     return(pred)
   }
   return(transform)

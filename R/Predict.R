@@ -95,6 +95,22 @@ predict.xgboost <- function(plpModel,population, plpData, ...){
   
 }
 
+# for CIReNN
+predict.CIReNN<-function(plpData, population, plpModel, ...){
+  result<-toSparseArray(plpData,population,map=NULL)
+  data <-result$data[population$rowId,,]
+  data<-as.array(data)
+  #stats::predict(plpModel$model$model, data)
+  prediction<-data.frame(rowId=population$rowId, 
+                         value=stats::predict(plpModel$model$model, data)
+                         )
+  prediction <- merge(population, prediction, by='rowId')
+  prediction <- prediction[,colnames(prediction)%in%c('rowId','outcomeCount','indexes', 'value.2')] # need to fix no index issue
+  colnames(prediction)[grep("value",colnames(prediction))]<-"value"
+  attr(prediction, "metaData") <- list(predictionType = "binary") 
+  return(prediction)
+}
+
 # TODO: edit caret methods (or remove as slow - replace with python)
 # caret model prediction 
 predict.python <- function(plpModel, population, plpData){
@@ -179,6 +195,7 @@ predict.knn <- function(plpData, population, plpModel, ...){
   
   return(prediction)
 }
+
 
 
 
