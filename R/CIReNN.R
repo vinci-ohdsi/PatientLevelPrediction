@@ -53,21 +53,22 @@ MapCovariates <- function(covariates, covariateRef, population, map){
 }
 
 
- toSparseArray <- function(plpData,population, map=NULL#,UsetidyCovariateData=TRUE
+ toSparseArray <- function(plpData,population, map=NULL
+                           #,minCovariateFraction = 0.01
                           ){
-  # if (UsetidyCovariateData){
-  #   tidyCovariates<-FeatureExtraction::tidyCovariateData(covariates=plpData$covariates, 
-  #                                             covariateRef=plpData$covariateRef,
-  #                                             populationSize = nrow(plpData$cohorts),
-  #                                             minFraction = 0.001,
-  #                                             normalize = TRUE,
-  #                                             removeRedundancy = TRUE)
-  #   cov <- ff::clone(tidyCovariates$covariates)
-  #   covref <- ff::clone(tidyCovariates$covariateRef)
-  # }else{
-  #   cov <- ff::clone(plpData$covariates)
-  #   covref <- ff::clone(plpData$covariateRef)
-  # }
+  # if (minCovariateFraction != 0){
+  #    tidyCovariates<-FeatureExtraction::tidyCovariateData(covariates=plpData$covariates, 
+  #                                              covariateRef=plpData$covariateRef,
+  #                                              populationSize = nrow(plpData$cohorts),
+  #                                              minFraction = minCovariateFraction,
+  #                                              normalize = TRUE,
+  #                                              removeRedundancy = FALSE)
+  #    cov <- ff::clone(tidyCovariates$covariates)
+  #    covref <- ff::clone(tidyCovariates$covariateRef)
+  #  }else{
+   #   cov <- ff::clone(plpData$covariates)
+   #   covref <- ff::clone(plpData$covariateRef)
+   # }
   cov <- ff::clone(plpData$covariates)
   covref <- ff::clone(plpData$covariateRef)
    
@@ -134,6 +135,7 @@ MapCovariates <- function(covariates, covariateRef, population, map){
 #'
 #' @param units         The number of units of RNN layer
 #' @param indexFolder The directory where the results and intermediate steps are output
+#' @param minCovariateFraction NULL or fraction. Minimum fraction of the population that shoul have a non-zero value for a covariate for that covariate to be kept. Set to 0 to don't filter on frequency
 #'
 #' @examples
 #' \dontrun{
@@ -142,7 +144,9 @@ MapCovariates <- function(covariates, covariateRef, population, map){
 #' @export
 setCIReNN <- function(units=c(128, 64), recurrent_dropout=c(0.2), layer_dropout=c(0.2),
     lr =c(1e-4), decay=c(1e-5), outcome_weight = c(1.0), batch_size = c(100), 
-    epochs= c(100), indexFolder=file.path(getwd(),'CIReNN'), seed=NULL  ){
+    epochs= c(100), 
+    #minCovariateFraction=0.01,
+    indexFolder=file.path(getwd(),'CIReNN'), seed=NULL  ){
     
     # if(class(indexFolder)!='character')
     #     stop('IndexFolder must be a character')
@@ -194,6 +198,7 @@ setCIReNN <- function(units=c(128, 64), recurrent_dropout=c(0.2), layer_dropout=
       units=units, recurrent_dropout=recurrent_dropout, 
         layer_dropout=layer_dropout,
         lr =lr, decay=decay, outcome_weight=outcome_weight,epochs= epochs,
+        #minCovariateFraction= minCovariateFraction,
         seed=ifelse(is.null(seed),'NULL', seed)),
     1:(length(units)*length(recurrent_dropout)*length(layer_dropout)*length(lr)*length(decay)*length(outcome_weight)*length(epochs)*max(1,length(seed)))),
       indexFolder=indexFolder,
@@ -267,11 +272,12 @@ fitCIReNN <- function(plpData,population, param, search='grid', quiet=F,
 
 trainCIReNN<-function(units=128, recurrent_dropout=0.2, layer_dropout=0.2,
     lr =1e-4, decay=1e-5, outcome_weight = 1.0, batch_size = 100, 
-    epochs= 100, indexFolder=file.path(getwd(),'CIReNN'), seed=NULL, train=TRUE){
+    epochs= 100, minCovariateFraction = 0.01,
+    indexFolder=file.path(getwd(),'CIReNN'), seed=NULL, train=TRUE){
     
     #set seed
     if(!is.null(seed)){keras::use_session_with_seed(seed)}
-  # check plpData is coo format:
+    #check plpData is coo format:
     if(!'ffdf'%in%class(plpData$covariates) || class(plpData)=='plpData.libsvm')
         stop('CIReNN requires plpData in coo format')
     
@@ -281,7 +287,7 @@ trainCIReNN<-function(units=128, recurrent_dropout=0.2, layer_dropout=0.2,
     attr(population, 'metaData') <- metaData
     
     start <- Sys.time()
-
+    subanalysisId <- gsub(':','',gsub('-','',gsub(' ','',start)))
 
     #normalizing if UsetidyCovariateData is TRUE
     
@@ -318,9 +324,9 @@ trainCIReNN<-function(units=128, recurrent_dropout=0.2, layer_dropout=0.2,
       metrics = c('accuracy'),
       optimizer = keras::optimizer_rmsprop(lr = lr,decay = decay)
     )
-    earlyStopping=keras::callback_early_stopping(monitor = "val_loss", patience=10,mode="auto",min_delta = 1e-4)
+    earlyStopping=keras::callback_early_stopping(monitor = "val_loss", patience=max(10,round(epochs/50)),mode="auto",min_delta = 0)
     reduceLr=keras::callback_reduce_lr_on_plateau(monitor="val_loss", factor =0.1, 
-                                           patience = 5,mode = "auto", epsilon = 1e-5, cooldown = 0, min_lr = 0)
+                                           patience = max(5,round(epochs/100)),mode = "auto", epsilon = 1e-5, cooldown = 0, min_lr = 0)
     class_weight=list("0"=1,"1"=outcome_weight)
     history<-model %>% keras::fit(data, population$y , epochs=epochs,
                            batch_size =batch_size
@@ -335,16 +341,18 @@ trainCIReNN<-function(units=128, recurrent_dropout=0.2, layer_dropout=0.2,
     writeLines(paste0('Model CIReNN train - took:',  format(comp, digits=3)))
     #keras::save_model_hdf5(model, filepath, overwrite = TRUE,include_optimizer = TRUE)
     
-    
     #eval<- model %>% keras::evaluate(data, population$y) 
     #pred_class<- model %>% keras::predict_classes(data)
     
     
     #value<- stats::predict(model,data[population$indexes==index,,])  need to be revised, how can I differentiate train and test?
+    #pROC::roc(prediction$y[,2],prediction$value[,2])
+
     
     pred <- stats::predict(model, data)
     prediction <- population
-    prediction$value <- pred
+    prediction$value <- pred[,2]
+    prediction$y<-prediction$y[,2]
     attr(prediction, "metaData") <- list(predictionType = "binary") 
     auc <- computeAuc(prediction)
     
@@ -362,9 +370,9 @@ trainCIReNN<-function(units=128, recurrent_dropout=0.2, layer_dropout=0.2,
     varImp<- ff::as.ram(plpData$covariateRef)
     varImp$covariateValue <- rep(0, nrow(varImp))
     
-    param.val <- paste0('units: ',units,'-- recurrent_dropout: ', recurrent_dropout,
-                        'layer_dropout: ',layer_dropout,'-- lr: ', lr,
-                        '-- decay: ', decay, '-- batch_size: ',batch_size, '-- epochs: ', epochs)
+    param.val <- paste0('units: ',units,' --recurrent_dropout: ', recurrent_dropout,
+                        ' --layer_dropout: ',layer_dropout,'-- lr: ', lr,
+                        ' --decay: ', decay, ' --batch_size: ',batch_size, ' --planned epochs: ', epochs, ' --outcome_weight:', outcome_weight)
     writeLines('==========================================')
     writeLines(paste0('CIReNN with parameters:', param.val,' obtained an AUC of ',auc))
     writeLines('==========================================')
@@ -373,17 +381,30 @@ trainCIReNN<-function(units=128, recurrent_dropout=0.2, layer_dropout=0.2,
                    auc=auc,
                    hyperSum = unlist(list(units=units, recurrent_dropout=recurrent_dropout, 
                                           layer_dropout=layer_dropout,lr =lr, decay=decay,
-                                          batch_size = batch_size, epochs= epochs)),
+                                          batch_size = batch_size, outcome_weight=outcome_weight,
+                                          epochs= epochs)),
                    metaData = plpData$metaData,
                    populationSettings = attr(population, 'metaData'),
                    outcomeId=population$outcomeId,
                    cohortId=population$cohortId,
                    varImp = varImp,
-                   trainingTime =comp
+                   trainingTime =comp,
+                   history=history$metrics
     )
+    # hyperSumHistory<-cbind(as.data.frame(history$metrics),as.data.frame(unlist(list(units=units, recurrent_dropout=recurrent_dropout, 
+    #                                                          layer_dropout=layer_dropout,lr =lr, decay=decay,
+    #                                                          batch_size = batch_size, outcome_weight=outcome_weight,
+    #                                                          epochs= epochs))))
+    
+    modelPath<-file.path(analysisPath,'savedModel',subanalysisId)
+    if(!dir.exists(modelPath)){dir.create(modelPath,recursive=T)}
+    saveRDS(result,file=file.path(modelPath,"CIReNN_history.rds"))
+    write.csv(as.data.frame(history$metrics),file=file.path(modelPath,"CIReNN_history.csv"))
+    
     class(result) <- 'plpModel'
     attr(result, 'type') <- 'CIReNN'
     attr(result, 'predictionType') <- 'binary'
+    
     return(result)
 
 }

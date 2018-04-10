@@ -154,7 +154,7 @@ runPlp <- function(population, plpData,  minCovariateFraction = 0.001,
   
   # TODO: This will not work for example if libsvm conversion is needed and no Save is filled in.
   
-  analysisPath = file.path(save,analysisId)
+  analysisPath <<- file.path(save,analysisId)
   if(!dir.exists(analysisPath)){dir.create(analysisPath,recursive=T)}
   logFileName = paste0(analysisPath,'/plplog.txt')
   

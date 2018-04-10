@@ -80,20 +80,18 @@ fitPlp <- function(population, data,   modelSettings,#featureSettings,
   
   # normalise the data:
   class(plpData) <- c(class(plpData), 'covariateData')
-  cleanData = TRUE
-  if (modelSettings$model == 'fitCNNTorch' | modelSettings$model == 'fitRNNTorch' | modelSettings$model == 'fitCIReNN'){
-    cleanData = FALSE
-  }
-  if (cleanData){
-    plpData <- tidyCovariateData(covariateData=plpData, 
-                                 minFraction = minCovariateFraction,
-                                 normalize = TRUE,
-                                 removeRedundancy = TRUE)
-    if(length(plpData$metaData$deletedInfrequentCovariateIds)>0){
-      plpData$covariateRef <- plpData$covariateRef[!ffbase::`%in%`(plpData$covariateRef$covariateId, plpData$metaData$deletedInfrequentCovariateIds), ]
+  if (modelSettings$model == 'fitCIReNN'){plpData <- FeatureExtraction::tidyCovariateData(covariateData=plpData, 
+                                                                                          minFraction = minCovariateFraction*length(ff::as.ram(unique(plpData$covariates$timeId))),
+                                                                                          normalize = TRUE,
+                                                                                          removeRedundancy = FALSE)
+  }else{plpData <- FeatureExtraction::tidyCovariateData(covariateData=plpData, 
+                                                        minFraction = minCovariateFraction,
+                                                        normalize = TRUE,
+                                                        removeRedundancy = TRUE)  
     }
+  if(length(plpData$metaData$deletedInfrequentCovariateIds)>0){
+    plpData$covariateRef <- plpData$covariateRef[!ffbase::`%in%`(plpData$covariateRef$covariateId, plpData$metaData$deletedInfrequentCovariateIds), ]
   }
-  
   
   # get the pre-processing settings
   ##preprocessSettings <- plpData$metaData  #normFactors, deletedRedundantCovariateIds
