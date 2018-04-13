@@ -297,28 +297,26 @@ trainCIReNN<-function(units=128, recurrent_dropout=0.2, layer_dropout=0.2,
     #                                                            minFraction = 0.001,
     #                                                            normalize = TRUE,
     #                                                            removeRedundancy = TRUE)} 
+    
     #covert data into sparse Array
     result<-toSparseArray(plpData,population,map=NULL)
-    
-    data <-result$data[population$rowId,,]
-    data<-as.array(data)
-
-    #one-hot encoding
     population$y <-keras::to_categorical(population$outcomeCount, length(unique(population$outcomeCount)))
     
-    comp <- Sys.time() - start
     #if(!quiet)
+    comp <- Sys.time() - start
     writeLines(paste0('Model CIReNN preprocessing - took:',  format(comp, digits=3)))
+    
+    ##SET the Model
     ##single-layer gru
     model <- keras::keras_model_sequential()
     model %>%
       keras::layer_gru(units=units, recurrent_dropout = recurrent_dropout,
-                       input_shape = c(dim(data)[2],dim(data)[3]), #time step x number of features
-                return_sequences=FALSE#,stateful=TRUE
+                       input_shape = c(dim(result$data)[2],dim(result$data)[3]), #input_shape = c(dim(data)[2],dim(data)[3]), #time step x number of features
+                       return_sequences=FALSE#,stateful=TRUE
       ) %>%
       keras::layer_dropout(layer_dropout) %>%
       keras::layer_dense(units=2, activation='softmax')
-
+    
     model %>% keras::compile(
       loss = 'binary_crossentropy',
       metrics = c('accuracy'),
@@ -326,19 +324,58 @@ trainCIReNN<-function(units=128, recurrent_dropout=0.2, layer_dropout=0.2,
     )
     earlyStopping=keras::callback_early_stopping(monitor = "val_loss", patience=max(10,round(epochs/50)),mode="auto",min_delta = 0)
     reduceLr=keras::callback_reduce_lr_on_plateau(monitor="val_loss", factor =0.1, 
-                                           patience = max(5,round(epochs/100)),mode = "auto", epsilon = 1e-5, cooldown = 0, min_lr = 0)
+                                                  patience = max(5,round(epochs/100)),mode = "auto", epsilon = 1e-5, cooldown = 0, min_lr = 0)
     class_weight=list("0"=1,"1"=outcome_weight)
-    history<-model %>% keras::fit(data, population$y , epochs=epochs,
-                           batch_size =batch_size
-                           ,validation_split=0.2
-                           #,validation_data = list(x_val=validation.set,y_val = validation.y)
-                           #,shuffle=TRUE
-                           ,callbacks=list(earlyStopping,reduceLr)
-                           ,class_weight=class_weight
-    )
     
+    ##Train the model 
+    ##If data_augmentation is TRUE, batch-size data is loaded on the R momery from sparse array by sampling generator
+    data_augmentation=TRUE
+    data_sampling_randome=TRUE
+    validation_split=0.2
+    if(data_augmentation){
+      #one-hot encoding
+      data <-result$data[population$rowId,,]
+      
+      #Extract validation set first
+      val_rows<-sample(1:length(population$rowId), length(population$rowId)*validation_split, replace=FALSE)
+      val_data=list(x_val=as.array(data[val_rows,,]), y_val = population$y[val_rows,])
+      
+      sampling_generator<-function(data,population, batch_size, val_rows){
+        function(){
+          gc()
+          targetId<-population$rowId[-population$rowId[val_rows]]
+          rows<-sample(1: (length(targetId)), batch_size, replace=FALSE)
+          list(as.array(data[rows,,]), population$y[rows,])
+        }
+      }
+      
+      history<-model %>% keras::fit_generator(sampling_generator(data,population,batch_size,val_rows),
+                                              steps_per_epoch = length(population$rowId)/batch_size,
+                                              epochs=epochs,
+                                              validation_data=list(as.array(data[val_rows,,]), population$y[val_rows,]),
+                                              #validation_data = val_data,
+                                              #validation_split=0.2,
+                                              callbacks=list(earlyStopping,reduceLr),
+                                              class_weight=class_weight
+                                              #,validation_data = list(x_val=validation.set,y_val = validation.y)
+                                              #,shuffle=TRUE
+      )
+      }else{
+      data <-result$data[population$rowId,,]
+      data<-as.array(data)
+      history<-model %>% keras::fit(data, population$y , epochs=epochs,
+                                    batch_size =batch_size
+                                    ,validation_split=0.2
+                                    #,validation_data = list(x_val=validation.set,y_val = validation.y)
+                                    #,shuffle=TRUE
+                                    ,callbacks=list(earlyStopping,reduceLr)
+                                    ,class_weight=class_weight
+      )
+    }
+
     comp <- Sys.time() - start
     writeLines(paste0('Model CIReNN train - took:',  format(comp, digits=3)))
+    
     #keras::save_model_hdf5(model, filepath, overwrite = TRUE,include_optimizer = TRUE)
     
     #eval<- model %>% keras::evaluate(data, population$y) 
@@ -405,6 +442,7 @@ trainCIReNN<-function(units=128, recurrent_dropout=0.2, layer_dropout=0.2,
     attr(result, 'type') <- 'CIReNN'
     attr(result, 'predictionType') <- 'binary'
     
+    gc()
+    
     return(result)
-
 }
