@@ -24,6 +24,8 @@
 #' @param noShrinkage a set of covariates whcih are to be forced to be included in the final model. default is the intercept 
 #' @param threads    An option to set number of threads when training model
 #' @param useCrossValidation  Set this to FALSE if you want to train a LR with a preset varience
+#' @param upperLimit This sets the upper limit of the grid search used for hyperparameter optimisation
+#' @param lowerLimit This sets the lower limit of the grid search used for hyperparameter optimisation
 #' 
 #' @examples
 #' model.lr <- setLassoLogisticRegression()
