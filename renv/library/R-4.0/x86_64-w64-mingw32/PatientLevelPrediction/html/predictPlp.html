@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: predictPlp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for predictPlp {PatientLevelPrediction}"><tr><td>predictPlp {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>predictPlp</h2>
+
+<h3>Description</h3>
+
+<p>Predict the risk of the outcome using the input plpModel for the input plpData
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+predictPlp(plpModel, population, plpData, index = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>plpModel</code></td>
+<td>
+<p>An object of type <code>plpModel</code> - a patient level prediction model</p>
+</td></tr>
+<tr valign="top"><td><code>population</code></td>
+<td>
+<p>The population created using createStudyPopulation() who will have their risks predicted</p>
+</td></tr>
+<tr valign="top"><td><code>plpData</code></td>
+<td>
+<p>An object of type <code>plpData</code> - the patient level prediction
+data extracted from the CDM.</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+<p>A data frame containing rowId: a vector of rowids and index: a vector of doubles the same length as the rowIds. If used, only the rowIds with a negative index value are used to calculate the prediction.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function applied the trained model on the plpData to make predictions
+</p>
+
+
+<h3>Value</h3>
+
+<p>A dataframe containing the prediction for each person in the population with an attribute metaData containing prediction details.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get a sparse summary of the calibration</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getCalibration {PatientLevelPrediction}"><tr><td>getCalibration {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get a sparse summary of the calibration</h2>
+
+<h3>Description</h3>
+
+<p>Get a sparse summary of the calibration
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getCalibration(prediction, numberOfStrata = 10, truncateFraction = 0.01)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>prediction</code></td>
+<td>
+<p>A prediction object as generated using the
+<code><a href="../../stats/html/predict.html">predict</a></code> functions.</p>
+</td></tr>
+<tr valign="top"><td><code>numberOfStrata</code></td>
+<td>
+<p>The number of strata in the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>truncateFraction</code></td>
+<td>
+<p>This fraction of probability values will be ignored when plotting, to
+avoid the x-axis scale being dominated by a few outliers.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Generates a sparse summary showing the predicted probabilities and the observed fractions. Predictions are
+stratefied into equally sized bins of predicted probabilities.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A dataframe with the calibration summary
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Stop training when a monitored quantity has stopped...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for callback_early_stopping {keras}"><tr><td>callback_early_stopping {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Stop training when a monitored quantity has stopped improving.</h2>
+
+<h3>Description</h3>
+
+<p>Stop training when a monitored quantity has stopped improving.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+callback_early_stopping(
+  monitor = "val_loss",
+  min_delta = 0,
+  patience = 0,
+  verbose = 0,
+  mode = c("auto", "min", "max"),
+  baseline = NULL,
+  restore_best_weights = FALSE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>monitor</code></td>
+<td>
+<p>quantity to be monitored.</p>
+</td></tr>
+<tr valign="top"><td><code>min_delta</code></td>
+<td>
+<p>minimum change in the monitored quantity to qualify as an
+improvement, i.e. an absolute change of less than min_delta, will count as
+no improvement.</p>
+</td></tr>
+<tr valign="top"><td><code>patience</code></td>
+<td>
+<p>number of epochs with no improvement after which training
+will be stopped.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>verbosity mode, 0 or 1.</p>
+</td></tr>
+<tr valign="top"><td><code>mode</code></td>
+<td>
+<p>one of &quot;auto&quot;, &quot;min&quot;, &quot;max&quot;. In <code>min</code> mode, training will stop when
+the quantity monitored has stopped decreasing; in <code>max</code> mode it will stop
+when the quantity monitored has stopped increasing; in <code>auto</code> mode, the
+direction is automatically inferred from the name of the monitored
+quantity.</p>
+</td></tr>
+<tr valign="top"><td><code>baseline</code></td>
+<td>
+<p>Baseline value for the monitored quantity to reach.
+Training will stop if the model doesn't show improvement
+over the baseline.</p>
+</td></tr>
+<tr valign="top"><td><code>restore_best_weights</code></td>
+<td>
+<p>Whether to restore model weights from
+the epoch with the best value of the monitored quantity.
+If <code>FALSE</code>, the model weights obtained at the last step of
+training are used.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other callbacks: 
+<code><a href="callback_csv_logger.html">callback_csv_logger</a>()</code>,
+<code><a href="callback_lambda.html">callback_lambda</a>()</code>,
+<code><a href="callback_learning_rate_scheduler.html">callback_learning_rate_scheduler</a>()</code>,
+<code><a href="callback_model_checkpoint.html">callback_model_checkpoint</a>()</code>,
+<code><a href="callback_progbar_logger.html">callback_progbar_logger</a>()</code>,
+<code><a href="callback_reduce_lr_on_plateau.html">callback_reduce_lr_on_plateau</a>()</code>,
+<code><a href="callback_remote_monitor.html">callback_remote_monitor</a>()</code>,
+<code><a href="callback_tensorboard.html">callback_tensorboard</a>()</code>,
+<code><a href="callback_terminate_on_naan.html">callback_terminate_on_naan</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

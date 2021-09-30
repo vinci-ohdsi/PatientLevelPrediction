@@ -1,0 +1,11 @@
+benchmarkmeData-package	benchmarkmeData-package
+benchmarkmeData	benchmarkmeData-package
+get_datatable_past	get_datatable_past
+is_blas_optimize	is_blas_optimize
+make_data_set	move_files
+move_files	move_files
+past_results	past_results
+past_results_v2	past_results_v2
+plot_past	plot_past
+select_results	select_results
+summarise_results	select_results

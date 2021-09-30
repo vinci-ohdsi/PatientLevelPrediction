@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Save model weights in the SavedModel format</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for save_model_weights_tf {keras}"><tr><td>save_model_weights_tf {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Save model weights in the SavedModel format</h2>
+
+<h3>Description</h3>
+
+<p>Save model weights in the SavedModel format
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+save_model_weights_tf(object, filepath, overwrite = TRUE)
+
+load_model_weights_tf(
+  object,
+  filepath,
+  by_name = FALSE,
+  skip_mismatch = FALSE,
+  reshape = FALSE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Model object to save/load</p>
+</td></tr>
+<tr valign="top"><td><code>filepath</code></td>
+<td>
+<p>Path to the file</p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>Whether to silently overwrite any existing
+file at the target location</p>
+</td></tr>
+<tr valign="top"><td><code>by_name</code></td>
+<td>
+<p>Whether to load weights by name or by topological order.</p>
+</td></tr>
+<tr valign="top"><td><code>skip_mismatch</code></td>
+<td>
+<p>Logical, whether to skip loading of layers
+where there is a mismatch in the number of weights, or a mismatch in the
+shape of the weight (only valid when <code>by_name = FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>reshape</code></td>
+<td>
+<p>Reshape weights to fit the layer when the correct number
+of values are present but the shape does not match.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>When saving in TensorFlow format, all objects referenced by the network
+are saved in the same format as <code>tf.train.Checkpoint</code>, including any Layer instances
+or Optimizer instances assigned to object attributes. For networks constructed from
+inputs and outputs using <code>tf.keras.Model(inputs, outputs)</code>, Layer instances used by
+the network are tracked/saved automatically. For user-defined classes which inherit
+from <code>tf.keras.Model</code>, Layer instances must be assigned to object attributes,
+typically in the constructor.
+</p>
+<p>See the documentation of <code>tf.train.Checkpoint</code> and <code>tf.keras.Model</code> for details.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

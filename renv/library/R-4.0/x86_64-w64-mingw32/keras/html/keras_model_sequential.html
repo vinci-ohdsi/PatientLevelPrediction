@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Keras Model composed of a linear stack of layers</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for keras_model_sequential {keras}"><tr><td>keras_model_sequential {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Keras Model composed of a linear stack of layers</h2>
+
+<h3>Description</h3>
+
+<p>Keras Model composed of a linear stack of layers
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+keras_model_sequential(layers = NULL, name = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>layers</code></td>
+<td>
+<p>List of layers to add to the model</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>Name of model</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Arguments passed on to <code><a href="sequential_model_input_layer.html">sequential_model_input_layer</a></code>
+</p>
+
+<dl>
+<dt><code>input_shape</code></dt><dd><p>an integer vector of dimensions (not including the batch
+axis), or a <code>tf$TensorShape</code> instance (also not including the batch axis).</p>
+</dd>
+<dt><code>batch_size</code></dt><dd><p>Optional input batch size (integer or NULL).</p>
+</dd>
+<dt><code>dtype</code></dt><dd><p>Optional datatype of the input. When not provided, the Keras
+default float type will be used.</p>
+</dd>
+<dt><code>input_tensor</code></dt><dd><p>Optional tensor to use as layer input. If set, the layer
+will use the <code>tf$TypeSpec</code> of this tensor rather than creating a new
+placeholder tensor.</p>
+</dd>
+<dt><code>sparse</code></dt><dd><p>Boolean, whether the placeholder created is meant to be sparse.
+Default to <code>FALSE</code>.</p>
+</dd>
+<dt><code>ragged</code></dt><dd><p>Boolean, whether the placeholder created is meant to be ragged.
+In this case, values of 'NULL' in the 'shape' argument represent ragged
+dimensions. For more information about <code>RaggedTensors</code>, see this
+<a href="https://www.tensorflow.org/guide/ragged_tensor">guide</a>. Default to
+<code>FALSE</code>.</p>
+</dd>
+<dt><code>type_spec</code></dt><dd><p>A <code>tf$TypeSpec</code> object to create Input from. This
+<code>tf$TypeSpec</code> represents the entire batch. When provided, all other args
+except name must be <code>NULL</code>.</p>
+</dd>
+<dt><code>input_layer_name</code></dt><dd><p>Optional name of the input layer (string).</p>
+</dd>
+</dl>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>If any arguments are provided to <code>...</code>, then the sequential model is
+initialized with a <code>InputLayer</code> instance. If not, then the first layer passed
+to a Sequential model should have a defined input shape. What that means is
+that it should have received an <code>input_shape</code> or <code>batch_input_shape</code>
+argument, or for some type of layers (recurrent, Dense...) an <code>input_dim</code>
+argument.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other model functions: 
+<code><a href="compile.keras.engine.training.Model.html">compile.keras.engine.training.Model</a>()</code>,
+<code><a href="evaluate.keras.engine.training.Model.html">evaluate.keras.engine.training.Model</a>()</code>,
+<code><a href="evaluate_generator.html">evaluate_generator</a>()</code>,
+<code><a href="fit.keras.engine.training.Model.html">fit.keras.engine.training.Model</a>()</code>,
+<code><a href="fit_generator.html">fit_generator</a>()</code>,
+<code><a href="get_config.html">get_config</a>()</code>,
+<code><a href="get_layer.html">get_layer</a>()</code>,
+<code><a href="keras_model.html">keras_model</a>()</code>,
+<code><a href="multi_gpu_model.html">multi_gpu_model</a>()</code>,
+<code><a href="pop_layer.html">pop_layer</a>()</code>,
+<code><a href="predict.keras.engine.training.Model.html">predict.keras.engine.training.Model</a>()</code>,
+<code><a href="predict_generator.html">predict_generator</a>()</code>,
+<code><a href="predict_on_batch.html">predict_on_batch</a>()</code>,
+<code><a href="predict_proba.html">predict_proba</a>()</code>,
+<code><a href="summary.keras.engine.training.Model.html">summary.keras.engine.training.Model</a>()</code>,
+<code><a href="train_on_batch.html">train_on_batch</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+
+library(keras)
+
+model &lt;- keras_model_sequential()
+model %&gt;%
+  layer_dense(units = 32, input_shape = c(784)) %&gt;%
+  layer_activation('relu') %&gt;%
+  layer_dense(units = 10) %&gt;%
+  layer_activation('softmax')
+
+model %&gt;% compile(
+  optimizer = 'rmsprop',
+  loss = 'categorical_crossentropy',
+  metrics = c('accuracy')
+)
+
+# alternative way to provide input shape
+model &lt;- keras_model_sequential(input_shape = c(784)) %&gt;%
+  layer_dense(units = 32) %&gt;%
+  layer_activation('relu') %&gt;%
+  layer_dense(units = 10) %&gt;%
+  layer_activation('softmax')
+
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

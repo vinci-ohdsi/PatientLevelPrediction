@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create predictive probabilities using KNN.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for predictKnnUsingPlpData {BigKnn}"><tr><td>predictKnnUsingPlpData {BigKnn}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create predictive probabilities using KNN.</h2>
+
+<h3>Description</h3>
+
+<p>Create predictive probabilities using KNN.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+predictKnnUsingPlpData(
+  plpData,
+  population,
+  indexFolder,
+  k = 1000,
+  weighted = TRUE,
+  threads = 10
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>plpData</code></td>
+<td>
+<p>An object of type <code>plpData</code> as generated using <code>getDbPlpData</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>population</code></td>
+<td>
+<p>The population to predict for.</p>
+</td></tr>
+<tr valign="top"><td><code>indexFolder</code></td>
+<td>
+<p>Path to a local folder where the KNN classifier index is be stored.</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>The number of nearest neighbors to use to predict the outcome.</p>
+</td></tr>
+<tr valign="top"><td><code>weighted</code></td>
+<td>
+<p>Should the prediction be weigthed by the (inverse of the ) distance metric?</p>
+</td></tr>
+<tr valign="top"><td><code>threads</code></td>
+<td>
+<p>Number of parallel threads to used for the computation.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Generates predictions for the population specified in plpData.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The value column in the result data.frame is: logistic: probabilities of the outcome, poisson:
+Poisson rate (per day) of the outcome, survival: hazard rate (per day) of the outcome.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>BigKnn</em> version 1.0.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

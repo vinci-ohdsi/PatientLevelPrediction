@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: create a an object specifying the multiple Plp model settings</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for createPlpModelSettings {PatientLevelPrediction}"><tr><td>createPlpModelSettings {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>create a an object specifying the multiple Plp model settings</h2>
+
+<h3>Description</h3>
+
+<p>create a an object specifying the multiple Plp model settings
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+createPlpModelSettings(modelList, covariateSettingList, populationSettingList)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>modelList</code></td>
+<td>
+<p>A list of model settings</p>
+</td></tr>
+<tr valign="top"><td><code>covariateSettingList</code></td>
+<td>
+<p>A list of covariate settings</p>
+</td></tr>
+<tr valign="top"><td><code>populationSettingList</code></td>
+<td>
+<p>A list of population settings</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Takes a list of models, covariates, population and returns the cartesian product combining all
+settings.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list containing a dataframe settingLookupTable containing all the model, covariate and popualtion combination details, 
+a list models containing all the model settings, a list covariateSettings containing all the covariate settings and a list 
+populationSettings containing all the population settings.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

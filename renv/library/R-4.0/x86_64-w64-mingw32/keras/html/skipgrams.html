@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generates skipgram word pairs.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for skipgrams {keras}"><tr><td>skipgrams {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generates skipgram word pairs.</h2>
+
+<h3>Description</h3>
+
+<p>Generates skipgram word pairs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+skipgrams(
+  sequence,
+  vocabulary_size,
+  window_size = 4,
+  negative_samples = 1,
+  shuffle = TRUE,
+  categorical = FALSE,
+  sampling_table = NULL,
+  seed = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sequence</code></td>
+<td>
+<p>A word sequence (sentence), encoded as a list of word indices
+(integers). If using a <code>sampling_table</code>, word indices are expected to match
+the rank of the words in a reference dataset (e.g. 10 would encode the
+10-th most frequently occuring token). Note that index 0 is expected to be
+a non-word and will be skipped.</p>
+</td></tr>
+<tr valign="top"><td><code>vocabulary_size</code></td>
+<td>
+<p>Int, maximum possible word index + 1</p>
+</td></tr>
+<tr valign="top"><td><code>window_size</code></td>
+<td>
+<p>Int, size of sampling windows (technically half-window).
+The window of a word <code>w_i</code> will be <code style="white-space: pre;">[i-window_size, i+window_size+1]</code></p>
+</td></tr>
+<tr valign="top"><td><code>negative_samples</code></td>
+<td>
+<p>float &gt;= 0. 0 for no negative (i.e. random) samples. 1
+for same number as positive samples.</p>
+</td></tr>
+<tr valign="top"><td><code>shuffle</code></td>
+<td>
+<p>whether to shuffle the word couples before returning them.</p>
+</td></tr>
+<tr valign="top"><td><code>categorical</code></td>
+<td>
+<p>bool. if <code>FALSE</code>, labels will be integers (eg. <code style="white-space: pre;">[0, 1, 1 .. ]</code>),
+if <code>TRUE</code> labels will be categorical eg. <code style="white-space: pre;">[[1,0],[0,1],[0,1] .. ]</code></p>
+</td></tr>
+<tr valign="top"><td><code>sampling_table</code></td>
+<td>
+<p>1D array of size <code>vocabulary_size</code> where the entry i
+encodes the probabibily to sample a word of rank i.</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>Random seed</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function transforms a list of word indexes (lists of integers)
+into lists of words of the form:
+</p>
+
+<ul>
+<li><p> (word, word in the same window), with label 1 (positive samples).
+</p>
+</li>
+<li><p> (word, random word from the vocabulary), with label 0 (negative samples).
+</p>
+</li></ul>
+
+<p>Read more about Skipgram in this gnomic paper by Mikolov et al.:
+<a href="https://arxiv.org/pdf/1301.3781v3.pdf">Efficient Estimation of Word Representations in Vector Space</a>
+</p>
+
+
+<h3>Value</h3>
+
+<p>List of <code>couples</code>, <code>labels</code> where:
+</p>
+
+<ul>
+<li> <p><code>couples</code> is a list of 2-element integer vectors: <code style="white-space: pre;">[word_index, other_word_index]</code>.
+</p>
+</li>
+<li> <p><code>labels</code> is an integer vector of 0 and 1, where 1 indicates that <code>other_word_index</code>
+was found in the same window as <code>word_index</code>, and 0 indicates that <code>other_word_index</code>
+was random.
+</p>
+</li>
+<li><p> if <code>categorical</code> is set to <code>TRUE</code>, the labels are categorical, ie. 1 becomes <code style="white-space: pre;">[0,1]</code>,
+and 0 becomes <code style="white-space: pre;">[1, 0]</code>.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>Other text preprocessing: 
+<code><a href="make_sampling_table.html">make_sampling_table</a>()</code>,
+<code><a href="pad_sequences.html">pad_sequences</a>()</code>,
+<code><a href="text_hashing_trick.html">text_hashing_trick</a>()</code>,
+<code><a href="text_one_hot.html">text_one_hot</a>()</code>,
+<code><a href="text_to_word_sequence.html">text_to_word_sequence</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

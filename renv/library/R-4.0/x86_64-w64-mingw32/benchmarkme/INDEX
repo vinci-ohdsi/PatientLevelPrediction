@@ -1,0 +1,21 @@
+benchmark_io            IO benchmarks
+benchmark_std           Run standard benchmarks
+benchmarkme-package     The benchmarkme package
+bm_matrix_cal_manip     Matrix calculation benchmarks
+bm_matrix_fun_fft       Matrix function benchmarks
+bm_parallel             Benchmark in parallel
+bm_prog_fib             Programming benchmarks
+create_bundle           Upload benchmark results
+get_available_benchmarks
+                        Available benchmarks
+get_byte_compiler       Byte compiler status
+get_cpu                 CPU Description
+get_linear_algebra      Get BLAS and LAPACK libraries Extract the the
+                        blas/lapack from 'sessionInfo()'
+get_platform_info       Platform information
+get_r_version           R version
+get_ram                 Get the amount of RAM
+get_sys_details         General system information
+plot.ben_results        Compare results to past tests
+rank_results            Benchmark rankings
+sample_results          Sample benchmarking results

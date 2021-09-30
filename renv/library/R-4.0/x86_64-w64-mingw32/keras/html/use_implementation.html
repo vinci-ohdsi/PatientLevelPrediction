@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Select a Keras implementation and backend</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for use_implementation {keras}"><tr><td>use_implementation {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Select a Keras implementation and backend</h2>
+
+<h3>Description</h3>
+
+<p>Select a Keras implementation and backend
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+use_implementation(implementation = c("keras", "tensorflow"))
+
+use_backend(backend = c("tensorflow", "cntk", "theano", "plaidml"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>implementation</code></td>
+<td>
+<p>One of &quot;keras&quot; or &quot;tensorflow&quot; (defaults to &quot;keras&quot;).</p>
+</td></tr>
+<tr valign="top"><td><code>backend</code></td>
+<td>
+<p>One of &quot;tensorflow&quot;, &quot;cntk&quot;, or &quot;theano&quot; (defaults
+to &quot;tensorflow&quot;)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Keras has multiple implementations (the original keras implementation
+and the implementation native to TensorFlow) and supports multiple
+backends (&quot;tensorflow&quot;, &quot;cntk&quot;, &quot;theano&quot;, and &quot;plaidml&quot;). These functions allow
+switching between the various implementations and backends.
+</p>
+<p>The functions should be called after <code>library(keras)</code> and before calling
+other functions within the package (see below for an example).
+</p>
+<p>The default implementation and backend should be suitable for most
+use cases. The &quot;tensorflow&quot; implementation is useful when using Keras
+in conjunction with TensorFlow Estimators (the <span class="pkg">tfestimators</span>
+R package).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+# use the tensorflow implementation
+library(keras)
+use_implementation("tensorflow")
+
+# use the cntk backend
+library(keras)
+use_backend("theano")
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a dataframe with the summary details of the population...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getPlpTable {PatientLevelPrediction}"><tr><td>getPlpTable {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a dataframe with the summary details of the population cohort for publications</h2>
+
+<h3>Description</h3>
+
+<p>Create a dataframe with the summary details of the population cohort for publications
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getPlpTable(
+  cdmDatabaseSchema,
+  oracleTempSchema,
+  covariateSettings,
+  longTermStartDays = -365,
+  population,
+  connectionDetails,
+  cohortTable = "#temp_person"
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>cdmDatabaseSchema</code></td>
+<td>
+<p>The schema containing the OMOP CDM data</p>
+</td></tr>
+<tr valign="top"><td><code>oracleTempSchema</code></td>
+<td>
+<p>The oracle schema if needed</p>
+</td></tr>
+<tr valign="top"><td><code>covariateSettings</code></td>
+<td>
+<p>The covariateSettings if different from default</p>
+</td></tr>
+<tr valign="top"><td><code>longTermStartDays</code></td>
+<td>
+<p>How far to look back when looking for the variables in the data</p>
+</td></tr>
+<tr valign="top"><td><code>population</code></td>
+<td>
+<p>The population you want the summary table for</p>
+</td></tr>
+<tr valign="top"><td><code>connectionDetails</code></td>
+<td>
+<p>The connection details used to connect to the CDM database</p>
+</td></tr>
+<tr valign="top"><td><code>cohortTable</code></td>
+<td>
+<p>The name of the temp table that will store the popualtion cohort</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is used to create a summary table for population to be inserted into publications
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+getTable1 (plpData, population, connectionDetails)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

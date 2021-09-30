@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Batch normalization layer (Ioffe and Szegedy, 2014).</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for layer_batch_normalization {keras}"><tr><td>layer_batch_normalization {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Batch normalization layer (Ioffe and Szegedy, 2014).</h2>
+
+<h3>Description</h3>
+
+<p>Normalize the activations of the previous layer at each batch, i.e. applies a
+transformation that maintains the mean activation close to 0 and the
+activation standard deviation close to 1.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+layer_batch_normalization(
+  object,
+  axis = -1L,
+  momentum = 0.99,
+  epsilon = 0.001,
+  center = TRUE,
+  scale = TRUE,
+  beta_initializer = "zeros",
+  gamma_initializer = "ones",
+  moving_mean_initializer = "zeros",
+  moving_variance_initializer = "ones",
+  beta_regularizer = NULL,
+  gamma_regularizer = NULL,
+  beta_constraint = NULL,
+  gamma_constraint = NULL,
+  renorm = FALSE,
+  renorm_clipping = NULL,
+  renorm_momentum = 0.99,
+  fused = NULL,
+  virtual_batch_size = NULL,
+  adjustment = NULL,
+  input_shape = NULL,
+  batch_input_shape = NULL,
+  batch_size = NULL,
+  dtype = NULL,
+  name = NULL,
+  trainable = NULL,
+  weights = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>What to call the new <code>Layer</code> instance with. Typically a keras
+<code>Model</code>, another <code>Layer</code>, or a <code>tf.Tensor</code>/<code>KerasTensor</code>. If <code>object</code> is
+missing, the <code>Layer</code> instance is returned, otherwise, <code>layer(object)</code> is
+returned.</p>
+</td></tr>
+<tr valign="top"><td><code>axis</code></td>
+<td>
+<p>Integer, the axis that should be normalized (typically the
+features axis). For instance, after a <code>Conv2D</code> layer with
+<code>data_format="channels_first"</code>, set <code>axis=1</code> in <code>BatchNormalization</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>momentum</code></td>
+<td>
+<p>Momentum for the moving mean and the moving variance.</p>
+</td></tr>
+<tr valign="top"><td><code>epsilon</code></td>
+<td>
+<p>Small float added to variance to avoid dividing by zero.</p>
+</td></tr>
+<tr valign="top"><td><code>center</code></td>
+<td>
+<p>If TRUE, add offset of <code>beta</code> to normalized tensor. If FALSE,
+<code>beta</code> is ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>If TRUE, multiply by <code>gamma</code>. If FALSE, <code>gamma</code> is not used.
+When the next layer is linear (also e.g. <code>nn.relu</code>), this can be disabled
+since the scaling will be done by the next layer.</p>
+</td></tr>
+<tr valign="top"><td><code>beta_initializer</code></td>
+<td>
+<p>Initializer for the beta weight.</p>
+</td></tr>
+<tr valign="top"><td><code>gamma_initializer</code></td>
+<td>
+<p>Initializer for the gamma weight.</p>
+</td></tr>
+<tr valign="top"><td><code>moving_mean_initializer</code></td>
+<td>
+<p>Initializer for the moving mean.</p>
+</td></tr>
+<tr valign="top"><td><code>moving_variance_initializer</code></td>
+<td>
+<p>Initializer for the moving variance.</p>
+</td></tr>
+<tr valign="top"><td><code>beta_regularizer</code></td>
+<td>
+<p>Optional regularizer for the beta weight.</p>
+</td></tr>
+<tr valign="top"><td><code>gamma_regularizer</code></td>
+<td>
+<p>Optional regularizer for the gamma weight.</p>
+</td></tr>
+<tr valign="top"><td><code>beta_constraint</code></td>
+<td>
+<p>Optional constraint for the beta weight.</p>
+</td></tr>
+<tr valign="top"><td><code>gamma_constraint</code></td>
+<td>
+<p>Optional constraint for the gamma weight.</p>
+</td></tr>
+<tr valign="top"><td><code>renorm</code></td>
+<td>
+<p>Whether to use Batch Renormalization
+(https://arxiv.org/abs/1702.03275). This adds extra variables during
+training. The inference is the same for either value of this parameter.</p>
+</td></tr>
+<tr valign="top"><td><code>renorm_clipping</code></td>
+<td>
+<p>A named list or dictionary that may map keys <code>rmax</code>,
+<code>rmin</code>, <code>dmax</code> to scalar Tensors used to clip the renorm correction. The
+correction <code style="white-space: pre;">(r, d)</code> is used as <code>corrected_value = normalized_value * r + d</code>,
+with <code>r</code> clipped to <code style="white-space: pre;">[rmin, rmax]</code>, and <code>d</code> to <code style="white-space: pre;">[-dmax, dmax]</code>. Missing <code>rmax</code>,
+<code>rmin</code>, <code>dmax</code> are set to <code>Inf</code>, <code>0</code>, <code>Inf</code>, <code>respectively</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>renorm_momentum</code></td>
+<td>
+<p>Momentum used to update the moving means and standard
+deviations with renorm. Unlike momentum, this affects training and should
+be neither too small (which would add noise) nor too large (which would
+give stale estimates). Note that momentum is still applied to get the means
+and variances for inference.</p>
+</td></tr>
+<tr valign="top"><td><code>fused</code></td>
+<td>
+<p><code>TRUE</code>, use a faster, fused implementation, or raise a ValueError
+if the fused implementation cannot be used. If <code>NULL</code>, use the faster
+implementation if possible. If <code>FALSE</code>, do not use the fused implementation.</p>
+</td></tr>
+<tr valign="top"><td><code>virtual_batch_size</code></td>
+<td>
+<p>An integer. By default, virtual_batch_size is <code>NULL</code>,
+which means batch normalization is performed across the whole batch.
+When virtual_batch_size is not <code>NULL</code>, instead perform &quot;Ghost Batch
+Normalization&quot;, which creates virtual sub-batches which are each normalized
+separately (with shared gamma, beta, and moving statistics). Must divide
+the actual <code style="white-space: pre;">batch size</code> during execution.</p>
+</td></tr>
+<tr valign="top"><td><code>adjustment</code></td>
+<td>
+<p>A function taking the Tensor containing the (dynamic) shape
+of the input tensor and returning a pair <code style="white-space: pre;">(scale, bias)</code> to apply to the
+normalized values <code style="white-space: pre;">(before gamma and beta)</code>, only during training.
+For example, if <code>axis==-1</code>,
+<code>adjustment &lt;- function(shape) {
+    tuple(tf$random$uniform(shape[-1:NULL, style = "python"], 0.93, 1.07),
+          tf$random$uniform(shape[-1:NULL, style = "python"], -0.1, 0.1))
+   }</code>
+will scale the normalized value
+by up to 7% up or down, then shift the result by up to 0.1 (with
+independent scaling and bias for each feature but shared across all examples),
+and finally apply gamma and/or beta. If <code>NULL</code>, no adjustment is applied.
+Cannot be specified if virtual_batch_size is specified.</p>
+</td></tr>
+<tr valign="top"><td><code>input_shape</code></td>
+<td>
+<p>Dimensionality of the input (integer) not including the
+samples axis. This argument is required when using this layer as the first
+layer in a model.</p>
+</td></tr>
+<tr valign="top"><td><code>batch_input_shape</code></td>
+<td>
+<p>Shapes, including the batch size. For instance,
+<code>batch_input_shape=c(10, 32)</code> indicates that the expected input will be
+batches of 10 32-dimensional vectors. <code>batch_input_shape=list(NULL, 32)</code>
+indicates batches of an arbitrary number of 32-dimensional vectors.</p>
+</td></tr>
+<tr valign="top"><td><code>batch_size</code></td>
+<td>
+<p>Fixed batch size for layer</p>
+</td></tr>
+<tr valign="top"><td><code>dtype</code></td>
+<td>
+<p>The data type expected by the input, as a string (<code>float32</code>,
+<code>float64</code>, <code>int32</code>...)</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>An optional name string for the layer. Should be unique in a
+model (do not reuse the same name twice). It will be autogenerated if it
+isn't provided.</p>
+</td></tr>
+<tr valign="top"><td><code>trainable</code></td>
+<td>
+<p>Whether the layer weights will be updated during training.</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>Initial weights for layer.</p>
+</td></tr>
+</table>
+
+
+<h3>Input shape</h3>
+
+<p>Arbitrary. Use the keyword argument <code>input_shape</code> (list
+of integers, does not include the samples axis) when using this layer as
+the first layer in a model.
+</p>
+
+
+<h3>Output shape</h3>
+
+<p>Same shape as input.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li> <p><a href="https://arxiv.org/abs/1502.03167">Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift</a>
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

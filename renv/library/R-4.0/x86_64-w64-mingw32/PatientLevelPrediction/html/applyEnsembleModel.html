@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Apply trained ensemble model on new data Apply a Patient...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for applyEnsembleModel {PatientLevelPrediction}"><tr><td>applyEnsembleModel {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply trained ensemble model on new data Apply a Patient Level Prediction model on Patient Level
+Prediction Data and get the predicted risk in [0,1] for each person in the population. If the user
+inputs a population with an outcomeCount column then the function also returns the evaluation of
+the prediction (AUC, brier score, calibration)</h2>
+
+<h3>Description</h3>
+
+<p>Apply trained ensemble model on new data Apply a Patient Level Prediction model on Patient Level
+Prediction Data and get the predicted risk in [0,1] for each person in the population. If the user
+inputs a population with an outcomeCount column then the function also returns the evaluation of
+the prediction (AUC, brier score, calibration)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+applyEnsembleModel(
+  population,
+  dataList,
+  ensembleModel,
+  analysisId = NULL,
+  calculatePerformance = T
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>population</code></td>
+<td>
+<p>The population of people who you want to predict the risk for</p>
+</td></tr>
+<tr valign="top"><td><code>dataList</code></td>
+<td>
+<p>The plpData list for the population</p>
+</td></tr>
+<tr valign="top"><td><code>ensembleModel</code></td>
+<td>
+<p>The trained ensemble model returned by running runEnsembleModel</p>
+</td></tr>
+<tr valign="top"><td><code>analysisId</code></td>
+<td>
+<p>The analysis ID, which is the ID of running ensemble model training.</p>
+</td></tr>
+<tr valign="top"><td><code>calculatePerformance</code></td>
+<td>
+<p>Whether to also calculate the performance metrics [default TRUE]</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+# load the model and data
+plpData &lt;- loadPlpData("plpdata/")
+results &lt;- PatientLevelPrediction::runEnsembleModel(population,
+                                                    dataList = list(plpData, plpData),
+                                                    modelList = list(model, model),
+                                                    testSplit = "person",
+                                                    testFraction = 0.2,
+                                                    nfold = 3,
+                                                    splitSeed = 1000,
+                                                    ensembleStrategy = "stacked")
+# use the same population settings as the model:
+populationSettings &lt;- plpModel$populationSettings
+populationSettings$plpData &lt;- plpData
+population &lt;- do.call(createStudyPopulation, populationSettings)
+
+# get the prediction, please make sure the ensemble strategy for training and apply is the same:
+prediction &lt;- applyEnsembleModel(population,
+                                 dataList = list(plpData, plpData),
+                                 ensembleModel = results,
+                                 analysisId = NULL)$prediction
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

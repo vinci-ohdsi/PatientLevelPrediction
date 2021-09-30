@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Adjust the contrast of an image or images by a random factor</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for layer_random_contrast {keras}"><tr><td>layer_random_contrast {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Adjust the contrast of an image or images by a random factor</h2>
+
+<h3>Description</h3>
+
+<p>Adjust the contrast of an image or images by a random factor
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+layer_random_contrast(object, factor, seed = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>What to call the new <code>Layer</code> instance with. Typically a keras
+<code>Model</code>, another <code>Layer</code>, or a <code>tf.Tensor</code>/<code>KerasTensor</code>. If <code>object</code> is
+missing, the <code>Layer</code> instance is returned, otherwise, <code>layer(object)</code> is
+returned.</p>
+</td></tr>
+<tr valign="top"><td><code>factor</code></td>
+<td>
+<p>a positive float represented as fraction of value, or a list of
+size 2 representing lower and upper bound. When represented as a single
+float, lower = upper. The contrast factor will be randomly picked between
+<code style="white-space: pre;">[1.0 - lower, 1.0 + upper]</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>Integer. Used to create a random seed.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>standard layer arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Contrast is adjusted independently for each channel of each image during
+training.
+</p>
+<p>For each channel, this layer computes the mean of the image pixels in the
+channel and then adjusts each component <code>x</code> of each pixel to
+<code>(x - mean) * contrast_factor + mean</code>.
+</p>
+<p>Input shape:
+3D (unbatched) or 4D (batched) tensor with shape:
+<code style="white-space: pre;">(..., height, width, channels)</code>, in <code>"channels_last"</code> format.
+</p>
+<p>Output shape:
+3D (unbatched) or 4D (batched) tensor with shape:
+<code style="white-space: pre;">(..., height, width, channels)</code>, in <code>"channels_last"</code> format.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/RandomContrast">https://www.tensorflow.org/api_docs/python/tf/keras/layers/RandomContrast</a>
+</p>
+</li>
+<li> <p><a href="https://keras.io/api/layers/preprocessing_layers/">https://keras.io/api/layers/preprocessing_layers/</a>
+</p>
+</li></ul>
+
+<p>Other image augmentation layers: 
+<code><a href="layer_random_crop.html">layer_random_crop</a>()</code>,
+<code><a href="layer_random_flip.html">layer_random_flip</a>()</code>,
+<code><a href="layer_random_height.html">layer_random_height</a>()</code>,
+<code><a href="layer_random_rotation.html">layer_random_rotation</a>()</code>,
+<code><a href="layer_random_translation.html">layer_random_translation</a>()</code>,
+<code><a href="layer_random_width.html">layer_random_width</a>()</code>,
+<code><a href="layer_random_zoom.html">layer_random_zoom</a>()</code>
+</p>
+<p>Other preprocessing layers: 
+<code><a href="layer_category_encoding.html">layer_category_encoding</a>()</code>,
+<code><a href="layer_center_crop.html">layer_center_crop</a>()</code>,
+<code><a href="layer_discretization.html">layer_discretization</a>()</code>,
+<code><a href="layer_hashing.html">layer_hashing</a>()</code>,
+<code><a href="layer_integer_lookup.html">layer_integer_lookup</a>()</code>,
+<code><a href="layer_normalization.html">layer_normalization</a>()</code>,
+<code><a href="layer_random_crop.html">layer_random_crop</a>()</code>,
+<code><a href="layer_random_flip.html">layer_random_flip</a>()</code>,
+<code><a href="layer_random_height.html">layer_random_height</a>()</code>,
+<code><a href="layer_random_rotation.html">layer_random_rotation</a>()</code>,
+<code><a href="layer_random_translation.html">layer_random_translation</a>()</code>,
+<code><a href="layer_random_width.html">layer_random_width</a>()</code>,
+<code><a href="layer_random_zoom.html">layer_random_zoom</a>()</code>,
+<code><a href="layer_rescaling.html">layer_rescaling</a>()</code>,
+<code><a href="layer_resizing.html">layer_resizing</a>()</code>,
+<code><a href="layer_string_lookup.html">layer_string_lookup</a>()</code>,
+<code><a href="layer_text_vectorization.html">layer_text_vectorization</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

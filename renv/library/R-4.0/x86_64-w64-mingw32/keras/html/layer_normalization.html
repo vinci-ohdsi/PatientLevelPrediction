@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A preprocessing layer which normalizes continuous features.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for layer_normalization {keras}"><tr><td>layer_normalization {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A preprocessing layer which normalizes continuous features.</h2>
+
+<h3>Description</h3>
+
+<p>A preprocessing layer which normalizes continuous features.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+layer_normalization(object, axis = -1L, mean = NULL, variance = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>What to call the new <code>Layer</code> instance with. Typically a keras
+<code>Model</code>, another <code>Layer</code>, or a <code>tf.Tensor</code>/<code>KerasTensor</code>. If <code>object</code> is
+missing, the <code>Layer</code> instance is returned, otherwise, <code>layer(object)</code> is
+returned.</p>
+</td></tr>
+<tr valign="top"><td><code>axis</code></td>
+<td>
+<p>Integer, list of integers, or NULL. The axis or axes that should
+have a separate mean and variance for each index in the shape. For
+example, if shape is <code style="white-space: pre;">(NULL, 5)</code> and <code>axis=1</code>, the layer will track 5
+separate mean and variance values for the last axis. If <code>axis</code> is set to
+<code>NULL</code>, the layer will normalize all elements in the input by a scalar
+mean and variance. Defaults to -1, where the last axis of the input is
+assumed to be a feature dimension and is normalized per index. Note that
+in the specific case of batched scalar inputs where the only axis is the
+batch axis, the default will normalize each index in the batch
+separately. In this case, consider passing <code>axis = NULL</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>mean</code></td>
+<td>
+<p>The mean value(s) to use during normalization. The passed value(s)
+will be broadcast to the shape of the kept axes above; if the value(s)
+cannot be broadcast, an error will be raised when this layer's <code>build()</code>
+method is called.</p>
+</td></tr>
+<tr valign="top"><td><code>variance</code></td>
+<td>
+<p>The variance value(s) to use during normalization. The passed
+value(s) will be broadcast to the shape of the kept axes above; if the
+value(s) cannot be broadcast, an error will be raised when this layer's
+<code>build()</code> method is called.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>standard layer arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This layer will shift and scale inputs into a distribution centered around 0
+with standard deviation 1. It accomplishes this by precomputing the mean and
+variance of the data, and calling <code>(input - mean) / sqrt(var)</code> at runtime.
+</p>
+<p>The mean and variance values for the layer must be either supplied on
+construction or learned via <code>adapt()</code>. <code>adapt()</code> will compute the mean and
+variance of the data and store them as the layer's weights. <code>adapt()</code> should
+be called before <code>fit()</code>, <code>evaluate()</code>, or <code>predict()</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code><a href="adapt.html">adapt()</a></code>
+</p>
+</li>
+<li> <p><a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Normalization">https://www.tensorflow.org/api_docs/python/tf/keras/layers/Normalization</a>
+</p>
+</li>
+<li> <p><a href="https://keras.io/api/layers/preprocessing_layers/numerical/normalization">https://keras.io/api/layers/preprocessing_layers/numerical/normalization</a>
+</p>
+</li></ul>
+
+<p>Other numerical features preprocessing layers: 
+<code><a href="layer_discretization.html">layer_discretization</a>()</code>
+</p>
+<p>Other preprocessing layers: 
+<code><a href="layer_category_encoding.html">layer_category_encoding</a>()</code>,
+<code><a href="layer_center_crop.html">layer_center_crop</a>()</code>,
+<code><a href="layer_discretization.html">layer_discretization</a>()</code>,
+<code><a href="layer_hashing.html">layer_hashing</a>()</code>,
+<code><a href="layer_integer_lookup.html">layer_integer_lookup</a>()</code>,
+<code><a href="layer_random_contrast.html">layer_random_contrast</a>()</code>,
+<code><a href="layer_random_crop.html">layer_random_crop</a>()</code>,
+<code><a href="layer_random_flip.html">layer_random_flip</a>()</code>,
+<code><a href="layer_random_height.html">layer_random_height</a>()</code>,
+<code><a href="layer_random_rotation.html">layer_random_rotation</a>()</code>,
+<code><a href="layer_random_translation.html">layer_random_translation</a>()</code>,
+<code><a href="layer_random_width.html">layer_random_width</a>()</code>,
+<code><a href="layer_random_zoom.html">layer_random_zoom</a>()</code>,
+<code><a href="layer_rescaling.html">layer_rescaling</a>()</code>,
+<code><a href="layer_resizing.html">layer_resizing</a>()</code>,
+<code><a href="layer_string_lookup.html">layer_string_lookup</a>()</code>,
+<code><a href="layer_text_vectorization.html">layer_text_vectorization</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

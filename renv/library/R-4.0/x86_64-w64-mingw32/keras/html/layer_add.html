@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Layer that adds a list of inputs.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for layer_add {keras}"><tr><td>layer_add {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Layer that adds a list of inputs.</h2>
+
+<h3>Description</h3>
+
+<p>It takes as input a list of tensors, all of the same shape, and returns a
+single tensor (also of the same shape).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+layer_add(inputs, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>inputs</code></td>
+<td>
+<p>A list of input tensors (at least 2). Can be missing.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Standard layer arguments (must be named).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A tensor, the sum of the inputs. If <code>inputs</code> is missing, a keras
+layer instance is returned.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/add">https://www.tensorflow.org/api_docs/python/tf/keras/layers/add</a>
+</p>
+</li>
+<li> <p><a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Add">https://www.tensorflow.org/api_docs/python/tf/keras/layers/Add</a>
+</p>
+</li>
+<li> <p><a href="https://keras.io/api/layers/merging_layers/add">https://keras.io/api/layers/merging_layers/add</a>
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

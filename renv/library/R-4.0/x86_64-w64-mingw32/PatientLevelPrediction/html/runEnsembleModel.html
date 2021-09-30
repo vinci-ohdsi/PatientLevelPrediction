@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: ensemble - Create an ensembling model using different models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for runEnsembleModel {PatientLevelPrediction}"><tr><td>runEnsembleModel {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>ensemble - Create an ensembling model using different models</h2>
+
+<h3>Description</h3>
+
+<p>#'
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+runEnsembleModel(
+  population,
+  dataList,
+  modelList,
+  testSplit = "time",
+  testFraction = 0.2,
+  stackerUseCV = TRUE,
+  splitSeed = NULL,
+  nfold = 3,
+  saveDirectory = NULL,
+  saveEnsemble = F,
+  savePlpData = F,
+  savePlpResult = F,
+  savePlpPlots = F,
+  saveEvaluation = F,
+  analysisId = NULL,
+  verbosity = "INFO",
+  ensembleStrategy = "mean",
+  cores = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>population</code></td>
+<td>
+<p>The population created using createStudyPopulation() who will be used to
+develop the model</p>
+</td></tr>
+<tr valign="top"><td><code>dataList</code></td>
+<td>
+<p>An list of object of type <code>plpData</code> - the patient level prediction
+data extracted from the CDM.</p>
+</td></tr>
+<tr valign="top"><td><code>modelList</code></td>
+<td>
+<p>An list of type of base model created using one of the function in final
+ensembling model, the base model can be any model implemented in this
+package.</p>
+</td></tr>
+<tr valign="top"><td><code>testSplit</code></td>
+<td>
+<p>Either 'person' or 'time' specifying the type of evaluation used. 'time'
+find the date where testFraction of patients had an index after the date
+and assigns patients with an index prior to this date into the training
+set and post the date into the test set 'person' splits the data into test
+(1-testFraction of the data) and train (validationFraction of the data)
+sets.  The split is stratified by the class label.</p>
+</td></tr>
+<tr valign="top"><td><code>testFraction</code></td>
+<td>
+<p>The fraction of the data to be used as the test set in the patient split
+evaluation.</p>
+</td></tr>
+<tr valign="top"><td><code>stackerUseCV</code></td>
+<td>
+<p>When doing stacking you can either use the train CV predictions to train the stacker (TRUE) or leave 20 percent of the data to train the stacker</p>
+</td></tr>
+<tr valign="top"><td><code>splitSeed</code></td>
+<td>
+<p>The seed used to split the test/train set when using a person type
+testSplit</p>
+</td></tr>
+<tr valign="top"><td><code>nfold</code></td>
+<td>
+<p>The number of folds used in the cross validation (default 3)</p>
+</td></tr>
+<tr valign="top"><td><code>saveDirectory</code></td>
+<td>
+<p>The path to the directory where the results will be saved (if NULL uses working directory)</p>
+</td></tr>
+<tr valign="top"><td><code>saveEnsemble</code></td>
+<td>
+<p>Binary indicating whether to save the ensemble</p>
+</td></tr>
+<tr valign="top"><td><code>savePlpData</code></td>
+<td>
+<p>Binary indicating whether to save the plpData object (default is F)</p>
+</td></tr>
+<tr valign="top"><td><code>savePlpResult</code></td>
+<td>
+<p>Binary indicating whether to save the object returned by runPlp (default is F)</p>
+</td></tr>
+<tr valign="top"><td><code>savePlpPlots</code></td>
+<td>
+<p>Binary indicating whether to save the performance plots as pdf files (default is F)</p>
+</td></tr>
+<tr valign="top"><td><code>saveEvaluation</code></td>
+<td>
+<p>Binary indicating whether to save the oerformance as csv files (default is T)</p>
+</td></tr>
+<tr valign="top"><td><code>analysisId</code></td>
+<td>
+<p>The analysis ID</p>
+</td></tr>
+<tr valign="top"><td><code>verbosity</code></td>
+<td>
+<p>Sets the level of the verbosity. If the log level is at or higher in
+priority than the logger threshold, a message will print. The levels are:
+</p>
+
+<ul>
+<li> <p>DEBUGHighest verbosity showing all debug statements
+</p>
+</li>
+<li> <p>TRACEShowing information about start and end of steps
+</p>
+</li>
+<li> <p>INFOShow informative information (Default)
+</p>
+</li>
+<li> <p>WARNShow warning messages
+</p>
+</li>
+<li> <p>ERRORShow error messages
+</p>
+</li>
+<li> <p>FATALBe silent except for fatal errors
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>ensembleStrategy</code></td>
+<td>
+<p>The strategy used for ensembling the outputs from different models, it can
+be 'mean', 'product', 'weighted' and 'stacked' 'mean' the average
+probability from differnt models 'product' the product rule 'weighted' the
+weighted average probability from different models using train AUC as
+weights. 'stacked' the stakced ensemble trains a logistics regression on
+different models.</p>
+</td></tr>
+<tr valign="top"><td><code>cores</code></td>
+<td>
+<p>The number of cores to use when training the ensemble</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function applied a list of models and combines them into an ensemble model
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

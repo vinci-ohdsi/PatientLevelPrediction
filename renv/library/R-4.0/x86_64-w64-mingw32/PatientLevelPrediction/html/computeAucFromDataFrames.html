@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute the area under the ROC curve</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for computeAucFromDataFrames {PatientLevelPrediction}"><tr><td>computeAucFromDataFrames {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute the area under the ROC curve</h2>
+
+<h3>Description</h3>
+
+<p>Compute the area under the ROC curve
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+computeAucFromDataFrames(
+  prediction,
+  status,
+  time = NULL,
+  confidenceInterval = FALSE,
+  timePoint,
+  modelType = "logistic"
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>prediction</code></td>
+<td>
+<p>A vector with the predicted hazard rate.</p>
+</td></tr>
+<tr valign="top"><td><code>status</code></td>
+<td>
+<p>A vector with the status of 1 (event) or 0 (no event).</p>
+</td></tr>
+<tr valign="top"><td><code>time</code></td>
+<td>
+<p>Only for survival models: a vector with the time to event or censor
+(which ever comes first).</p>
+</td></tr>
+<tr valign="top"><td><code>confidenceInterval</code></td>
+<td>
+<p>Should 95 percebt confidence intervals be computed?</p>
+</td></tr>
+<tr valign="top"><td><code>timePoint</code></td>
+<td>
+<p>Only for survival models: time point when the AUC should be evaluated</p>
+</td></tr>
+<tr valign="top"><td><code>modelType</code></td>
+<td>
+<p>Type of model. Currently supported are &quot;logistic&quot; and &quot;survival&quot;.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Computes the area under the ROC curve for the predicted probabilities, given the true observed
+outcomes.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Split test/train data by time and then partitions training...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for timeSplitter {PatientLevelPrediction}"><tr><td>timeSplitter {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Split test/train data by time and then partitions training set into random folds stratified by
+class</h2>
+
+<h3>Description</h3>
+
+<p>Split test/train data by time and then partitions training set into random folds stratified by
+class
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+timeSplitter(population, test = 0.3, train = NULL, nfold = 3, seed = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>population</code></td>
+<td>
+<p>An object created using createStudyPopulation().</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>A real number between 0 and 1 indicating the test set fraction of the data</p>
+</td></tr>
+<tr valign="top"><td><code>train</code></td>
+<td>
+<p>A real number between 0 and 1 indicating the training set fraction of the data</p>
+</td></tr>
+<tr valign="top"><td><code>nfold</code></td>
+<td>
+<p>An integer &gt;= 1 specifying the number of folds used in cross validation</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>If set a fixed seed is used, otherwise a random split is performed</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Returns a dataframe of rowIds and indexes with a -1 index indicating the rowId belongs to the test
+set and a positive integer index value indicating the rowId's cross valiation fold within the train
+set.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A dataframe containing the columns: rowId and index
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

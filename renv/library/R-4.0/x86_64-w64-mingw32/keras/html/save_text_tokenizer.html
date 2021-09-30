@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Save a text tokenizer to an external file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for save_text_tokenizer {keras}"><tr><td>save_text_tokenizer {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Save a text tokenizer to an external file</h2>
+
+<h3>Description</h3>
+
+<p>Enables persistence of text tokenizers alongside saved models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+save_text_tokenizer(object, filename)
+
+load_text_tokenizer(filename)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Text tokenizer fit with <code><a href="fit_text_tokenizer.html">fit_text_tokenizer()</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>File to save/load</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>You should always use the same text tokenizer for training and
+prediction. In many cases however prediction will occur in another
+session with a version of the model loaded via <code><a href="save_model_hdf5.html">load_model_hdf5()</a></code>.
+</p>
+<p>In this case you need to save the text tokenizer object after training
+and then reload it prior to prediction.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other text tokenization: 
+<code><a href="fit_text_tokenizer.html">fit_text_tokenizer</a>()</code>,
+<code><a href="sequences_to_matrix.html">sequences_to_matrix</a>()</code>,
+<code><a href="text_tokenizer.html">text_tokenizer</a>()</code>,
+<code><a href="texts_to_matrix.html">texts_to_matrix</a>()</code>,
+<code><a href="texts_to_sequences_generator.html">texts_to_sequences_generator</a>()</code>,
+<code><a href="texts_to_sequences.html">texts_to_sequences</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+
+# vectorize texts then save for use in prediction
+tokenizer &lt;- text_tokenizer(num_words = 10000) %&gt;%
+fit_text_tokenizer(tokenizer, texts)
+save_text_tokenizer(tokenizer, "tokenizer")
+
+# (train model, etc.)
+
+# ...later in another session
+tokenizer &lt;- load_text_tokenizer("tokenizer")
+
+# (use tokenizer to preprocess data for prediction)
+
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

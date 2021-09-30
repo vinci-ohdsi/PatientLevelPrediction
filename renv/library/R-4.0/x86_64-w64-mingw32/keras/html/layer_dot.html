@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Layer that computes a dot product between samples in two...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for layer_dot {keras}"><tr><td>layer_dot {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Layer that computes a dot product between samples in two tensors.</h2>
+
+<h3>Description</h3>
+
+<p>Layer that computes a dot product between samples in two tensors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+layer_dot(inputs, axes, normalize = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>inputs</code></td>
+<td>
+<p>A list of input tensors (at least 2). Can be missing.</p>
+</td></tr>
+<tr valign="top"><td><code>axes</code></td>
+<td>
+<p>Integer or list of integers, axis or axes along which to take the
+dot product.</p>
+</td></tr>
+<tr valign="top"><td><code>normalize</code></td>
+<td>
+<p>Whether to L2-normalize samples along the dot product axis
+before taking the dot product. If set to TRUE, then the output of the dot
+product is the cosine proximity between the two samples.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Standard layer arguments (must be named).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>If <code>inputs</code> is supplied: A tensor, the dot product of the samples
+from the inputs. If <code>inputs</code> is missing, a keras layer instance is
+returned.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/dot">https://www.tensorflow.org/api_docs/python/tf/keras/layers/dot</a>
+</p>
+</li>
+<li> <p><a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dot">https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dot</a>
+</p>
+</li>
+<li> <p><a href="https://keras.io/api/layers/merging_layers/dot/">https://keras.io/api/layers/merging_layers/dot/</a>
+</p>
+</li></ul>
+
+<p>Other merge layers: 
+<code><a href="layer_average.html">layer_average</a>()</code>,
+<code><a href="layer_concatenate.html">layer_concatenate</a>()</code>,
+<code><a href="layer_maximum.html">layer_maximum</a>()</code>,
+<code><a href="layer_minimum.html">layer_minimum</a>()</code>,
+<code><a href="layer_multiply.html">layer_multiply</a>()</code>,
+<code><a href="layer_subtract.html">layer_subtract</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

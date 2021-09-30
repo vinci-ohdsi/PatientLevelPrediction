@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Activation functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for activation_relu {keras}"><tr><td>activation_relu {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Activation functions</h2>
+
+<h3>Description</h3>
+
+<p><code>relu(...)</code>: Applies the rectified linear unit activation function.
+</p>
+<p><code>elu(...)</code>: Exponential Linear Unit.
+</p>
+<p><code>selu(...)</code>: Scaled Exponential Linear Unit (SELU).
+</p>
+<p><code>hard_sigmoid(...)</code>: Hard sigmoid activation function.
+</p>
+<p><code>linear(...)</code>: Linear activation function (pass-through).
+</p>
+<p><code>sigmoid(...)</code>: Sigmoid activation function, <code>sigmoid(x) = 1 / (1 + exp(-x))</code>.
+</p>
+<p><code>softmax(...)</code>: Softmax converts a vector of values to a probability distribution.
+</p>
+<p><code>softplus(...)</code>: Softplus activation function, <code>softplus(x) = log(exp(x) + 1)</code>.
+</p>
+<p><code>softsign(...)</code>: Softsign activation function, <code>softsign(x) = x / (abs(x) + 1)</code>.
+</p>
+<p><code>tanh(...)</code>: Hyperbolic tangent activation function.
+</p>
+<p><code>exponential(...)</code>: Exponential activation function.
+</p>
+<p><code>gelu(...)</code>: Applies the Gaussian error linear unit (GELU) activation function.
+</p>
+<p><code>swish(...)</code>: Swish activation function, <code>swish(x) = x * sigmoid(x)</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+activation_relu(x, alpha = 0, max_value = NULL, threshold = 0)
+
+activation_elu(x, alpha = 1)
+
+activation_selu(x)
+
+activation_hard_sigmoid(x)
+
+activation_linear(x)
+
+activation_sigmoid(x)
+
+activation_softmax(x, axis = -1)
+
+activation_softplus(x)
+
+activation_softsign(x)
+
+activation_tanh(x)
+
+activation_exponential(x)
+
+activation_gelu(x, approximate = FALSE)
+
+activation_swish(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Tensor</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>Alpha value</p>
+</td></tr>
+<tr valign="top"><td><code>max_value</code></td>
+<td>
+<p>Max value</p>
+</td></tr>
+<tr valign="top"><td><code>threshold</code></td>
+<td>
+<p>Threshold value for thresholded activation.</p>
+</td></tr>
+<tr valign="top"><td><code>axis</code></td>
+<td>
+<p>Integer, axis along which the softmax normalization is applied</p>
+</td></tr>
+<tr valign="top"><td><code>approximate</code></td>
+<td>
+<p>A bool, whether to enable approximation.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Activations functions can either be used through <code><a href="layer_activation.html">layer_activation()</a></code>, or
+through the activation argument supported by all forward layers.
+</p>
+
+<ul>
+<li> <p><code>activation_selu()</code> to be used together with the initialization &quot;lecun_normal&quot;.
+</p>
+</li>
+<li> <p><code>activation_selu()</code> to be used together with the dropout variant &quot;AlphaDropout&quot;.
+</p>
+</li></ul>
+
+
+
+<h3>Value</h3>
+
+<p>Tensor with the same shape and dtype as <code>x</code>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li> <p><code>activation_swish()</code>: <a href="https://arxiv.org/abs/1710.05941">Searching for Activation Functions</a>
+</p>
+</li>
+<li> <p><code>activation_gelu()</code>: <a href="https://arxiv.org/abs/1606.08415">Gaussian Error Linear Units (GELUs)</a>
+</p>
+</li>
+<li> <p><code>activation_selu()</code>: <a href="https://arxiv.org/abs/1706.02515">Self-Normalizing Neural Networks</a>
+</p>
+</li>
+<li> <p><code>activation_elu()</code>: <a href="https://arxiv.org/abs/1511.07289">Fast and Accurate Deep Network Learning by Exponential Linear Units (ELUs)</a>
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><a href="https://www.tensorflow.org/api_docs/python/tf/keras/activations">https://www.tensorflow.org/api_docs/python/tf/keras/activations</a>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: runPlp - Train and evaluate the model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for runPlp {PatientLevelPrediction}"><tr><td>runPlp {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>runPlp - Train and evaluate the model</h2>
+
+<h3>Description</h3>
+
+<p>This provides a general framework for training patient level prediction models.  The user can select 
+various default feature selection methods or incorporate their own,  The user can also select from
+a range of default classifiers or incorporate their own.  There are three types of evaluations for the model
+patient (randomly splits people into train/validation sets) or year (randomly splits data into train/validation sets
+based on index year - older in training, newer in validation) or both (same as year spliting but checks there are
+no overlaps in patients within training set and validaiton set - any overlaps are removed from validation set)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+runPlp(
+  population,
+  plpData,
+  minCovariateFraction = 0.001,
+  normalizeData = T,
+  modelSettings,
+  testSplit = "stratified",
+  testFraction = 0.25,
+  trainFraction = NULL,
+  splitSeed = NULL,
+  nfold = 3,
+  indexes = NULL,
+  saveDirectory = NULL,
+  savePlpData = T,
+  savePlpResult = T,
+  savePlpPlots = T,
+  saveEvaluation = T,
+  verbosity = "INFO",
+  timeStamp = FALSE,
+  analysisId = NULL,
+  runCovariateSummary = T,
+  save = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>population</code></td>
+<td>
+<p>The population created using createStudyPopulation() who will be used to develop the model</p>
+</td></tr>
+<tr valign="top"><td><code>plpData</code></td>
+<td>
+<p>An object of type <code>plpData</code> - the patient level prediction
+data extracted from the CDM.</p>
+</td></tr>
+<tr valign="top"><td><code>minCovariateFraction</code></td>
+<td>
+<p>The minimum fraction of target population who must have a covariate for it to be included in the model training</p>
+</td></tr>
+<tr valign="top"><td><code>normalizeData</code></td>
+<td>
+<p>Whether to normalise the covariates before training (Default: TRUE)</p>
+</td></tr>
+<tr valign="top"><td><code>modelSettings</code></td>
+<td>
+<p>An object of class <code>modelSettings</code> created using one of the function:
+</p>
+
+<ul>
+<li><p>setLassoLogisticRegression() A lasso logistic regression model
+</p>
+</li>
+<li><p>setGradientBoostingMachine() A gradient boosting machine
+</p>
+</li>
+<li><p>setAdaBoost() An ada boost model
+</p>
+</li>
+<li><p>setRandomForest() A random forest model
+</p>
+</li>
+<li><p>setDecisionTree() A decision tree model
+</p>
+</li>
+<li><p>setCovNN()) A convolutional neural network model
+</p>
+</li>
+<li><p>setCIReNN() A recurrent neural network model
+</p>
+</li>
+<li><p>setMLP() A neural network model
+</p>
+</li>
+<li><p>setDeepNN() A deep neural network model
+</p>
+</li>
+<li><p>setKNN() A KNN model
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>testSplit</code></td>
+<td>
+<p>Either 'stratified', 'subject' or 'time' specifying the type of evaluation used.
+'time' find the date where testFraction of patients had an index after the date and assigns patients with an index prior to this date into the training set and post the date into the test set
+'stratified' splits the data into test (1-testFraction of the data) and
+train (validationFraction of the data) sets.  The split is stratified by the class label. 'subject' split is useful
+when a subject is in the data multiple times and you want all rows for the same subject in either the test or the train set but not in both.</p>
+</td></tr>
+<tr valign="top"><td><code>testFraction</code></td>
+<td>
+<p>The fraction of the data to be used as the test set in the patient
+split evaluation.</p>
+</td></tr>
+<tr valign="top"><td><code>trainFraction</code></td>
+<td>
+<p>A real number between 0 and 1 indicating the train set fraction of the data.
+If not set trainFraction is equal to 1 - test</p>
+</td></tr>
+<tr valign="top"><td><code>splitSeed</code></td>
+<td>
+<p>The seed used to split the test/train set when using a person type testSplit</p>
+</td></tr>
+<tr valign="top"><td><code>nfold</code></td>
+<td>
+<p>The number of folds used in the cross validation (default 3)</p>
+</td></tr>
+<tr valign="top"><td><code>indexes</code></td>
+<td>
+<p>A dataframe containing a rowId and index column where the index value of -1 means in the test set, and positive integer represents the cross validation fold (default is NULL)</p>
+</td></tr>
+<tr valign="top"><td><code>saveDirectory</code></td>
+<td>
+<p>The path to the directory where the results will be saved (if NULL uses working directory)</p>
+</td></tr>
+<tr valign="top"><td><code>savePlpData</code></td>
+<td>
+<p>Binary indicating whether to save the plpData object (default is T)</p>
+</td></tr>
+<tr valign="top"><td><code>savePlpResult</code></td>
+<td>
+<p>Binary indicating whether to save the object returned by runPlp (default is T)</p>
+</td></tr>
+<tr valign="top"><td><code>savePlpPlots</code></td>
+<td>
+<p>Binary indicating whether to save the performance plots as pdf files (default is T)</p>
+</td></tr>
+<tr valign="top"><td><code>saveEvaluation</code></td>
+<td>
+<p>Binary indicating whether to save the oerformance as csv files (default is T)</p>
+</td></tr>
+<tr valign="top"><td><code>verbosity</code></td>
+<td>
+<p>Sets the level of the verbosity. If the log level is at or higher in priority than the logger threshold, a message will print. The levels are:
+</p>
+
+<ul>
+<li><p>DEBUGHighest verbosity showing all debug statements
+</p>
+</li>
+<li><p>TRACEShowing information about start and end of steps
+</p>
+</li>
+<li><p>INFOShow informative information (Default)
+</p>
+</li>
+<li><p>WARNShow warning messages
+</p>
+</li>
+<li><p>ERRORShow error messages
+</p>
+</li>
+<li><p>FATALBe silent except for fatal errors
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>timeStamp</code></td>
+<td>
+<p>If TRUE a timestamp will be added to each logging statement. Automatically switched on for TRACE level.</p>
+</td></tr>
+<tr valign="top"><td><code>analysisId</code></td>
+<td>
+<p>Identifier for the analysis. It is used to create, e.g., the result folder. Default is a timestamp.</p>
+</td></tr>
+<tr valign="top"><td><code>runCovariateSummary</code></td>
+<td>
+<p>Whether to calculate the mean and sd for each covariate</p>
+</td></tr>
+<tr valign="top"><td><code>save</code></td>
+<td>
+<p>Old input - please now use saveDirectory</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Users can define a risk period of interest for the prediction of the outcome relative to index or use
+the cohprt dates.  The user can then specify whether they wish to exclude patients who are not observed
+during the whole risk period, cohort period or experienced the outcome prior to the risk period.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object containing the model or location where the model is save, the data selection settings, the preprocessing
+and training settings as well as various performance measures obtained by the model.
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>predict</code></td>
+<td>
+<p>A function that can be applied to new data to apply the trained model and make predictions</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A list of class <code>plpModel</code> containing the model, training metrics and model metadata</p>
+</td></tr>
+<tr valign="top"><td><code>prediction</code></td>
+<td>
+<p>A dataframe containing the prediction for each person in the test set </p>
+</td></tr>
+<tr valign="top"><td><code>evalType</code></td>
+<td>
+<p>The type of evaluation that was performed ('person' or 'time')</p>
+</td></tr>
+<tr valign="top"><td><code>performanceTest</code></td>
+<td>
+<p>A list detailing the size of the test sets</p>
+</td></tr>
+<tr valign="top"><td><code>performanceTrain</code></td>
+<td>
+<p>A list detailing the size of the train sets</p>
+</td></tr>
+<tr valign="top"><td><code>time</code></td>
+<td>
+<p>The complete time taken to do the model framework</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+#******** EXAMPLE 1 ********* 
+#load plpData:
+plpData &lt;- loadPlpData(file.path('C:','User','home','data'))
+
+#create study population to develop model on
+#require minimum of 365 days observation prior to at risk start
+#no prior outcome and person must be observed for 365 after index (minTimeAtRisk)
+#with risk window from 0 to 365 days after index
+population &lt;- createStudyPopulation(plpData,outcomeId=2042,
+                                    firstExposureOnly = FALSE,
+                                    washoutPeriod = 365,
+                                    removeSubjectsWithPriorOutcome = TRUE,
+                                    priorOutcomeLookback = 99999,
+                                    requireTimeAtRisk = TRUE,
+                                    minTimeAtRisk=365,
+                                    riskWindowStart = 0,
+                                    addExposureDaysToStart = FALSE,
+                                    riskWindowEnd = 365,
+                                    addExposureDaysToEnd = FALSE)
+
+#lasso logistic regression predicting outcome 200 in cohorts 10 
+#using no feature selection with a time split evaluation with 30% in test set
+#70% in train set where the model hyper-parameters are selected using 3-fold cross validation:
+#and results are saved to file.path('C:','User','home')
+model.lr &lt;- lassoLogisticRegression.set()
+mod.lr &lt;- runPlp(population=population,
+                        plpData= plpData, minCovariateFraction = 0.001,
+                        modelSettings = model.lr ,
+                        testSplit = 'time', testFraction=0.3, 
+                        nfold=3, indexes=NULL,
+                        saveDirectory =file.path('C:','User','myPredictionName'),
+                        verbosity='INFO')
+ 
+#******** EXAMPLE 2 *********                                               
+# Gradient boosting machine with a grid search to select hyper parameters  
+# using the test/train/folds created for the lasso logistic regression above                       
+model.gbm &lt;- gradientBoostingMachine.set(rsampRate=c(0.5,0.9,1),csampRate=1, 
+                           ntrees=c(10,100), bal=c(F,T),
+                           max_depth=c(4,5), learn_rate=c(0.1,0.01))
+mod.gbm &lt;- runPlp(population=population,
+                        plpData= plpData,
+                        modelSettings = model.gbm,
+                        testSplit = 'time', testFraction=0.3, 
+                        nfold=3, indexes=mod.lr$indexes,
+                        saveDirectory =file.path('C:','User','myPredictionName2'))
+
+## End(Not run) 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

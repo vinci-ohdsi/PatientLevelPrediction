@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generated predictions from a regression model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for predictAndromeda {PatientLevelPrediction}"><tr><td>predictAndromeda {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generated predictions from a regression model</h2>
+
+<h3>Description</h3>
+
+<p>Generated predictions from a regression model
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+predictAndromeda(
+  coefficients,
+  population,
+  covariateData,
+  modelType = "logistic"
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>coefficients</code></td>
+<td>
+<p>A names numeric vector where the names are the covariateIds, except for the
+first value which is expected to be the intercept.</p>
+</td></tr>
+<tr valign="top"><td><code>population</code></td>
+<td>
+<p>A data frame containing the population to do the prediction for</p>
+</td></tr>
+<tr valign="top"><td><code>covariateData</code></td>
+<td>
+<p>An andromeda object containing the covariateData with predefined columns
+(see below).</p>
+</td></tr>
+<tr valign="top"><td><code>modelType</code></td>
+<td>
+<p>Current supported types are &quot;logistic&quot;, &quot;poisson&quot;, &quot;cox&quot; or &quot;survival&quot;.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These columns are expected in the outcome object: </p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;"> <code style="white-space: pre;">rowId</code> </td><td style="text-align: left;">(integer) </td><td style="text-align: left;">
+Row ID is used to link multiple covariates (x) to a single outcome (y) </td>
+</tr>
+<tr>
+ <td style="text-align: left;"> <code style="white-space: pre;">time</code> </td><td style="text-align: left;">(real)
+</td><td style="text-align: left;"> For models that use time (e.g. Poisson or Cox regression) this contains time </td>
+</tr>
+<tr>
+ <td style="text-align: left;"> </td><td style="text-align: left;">
+</td><td style="text-align: left;">(e.g. number of days) </td>
+</tr>
+<tr>
+ <td style="text-align: left;"> </td>
+</tr>
+
+</table>
+<p> These columns are expected in the covariates object: </p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">rowId</code> </td><td style="text-align: left;">(integer) </td><td style="text-align: left;"> Row ID is used to link multiple covariates (x) to a single outcome
+(y) </td>
+</tr>
+<tr>
+ <td style="text-align: left;"> <code style="white-space: pre;">covariateId</code> </td><td style="text-align: left;">(integer) </td><td style="text-align: left;"> A numeric identifier of a covariate </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">covariateValue</code> </td><td style="text-align: left;">(real) </td><td style="text-align: left;"> The value of the specified covariate </td>
+</tr>
+<tr>
+ <td style="text-align: left;"> </td>
+</tr>
+
+</table>
+
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

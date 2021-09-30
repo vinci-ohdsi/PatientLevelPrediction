@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Pads sequences to the same length</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pad_sequences {keras}"><tr><td>pad_sequences {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Pads sequences to the same length</h2>
+
+<h3>Description</h3>
+
+<p>Pads sequences to the same length
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pad_sequences(
+  sequences,
+  maxlen = NULL,
+  dtype = "int32",
+  padding = "pre",
+  truncating = "pre",
+  value = 0
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sequences</code></td>
+<td>
+<p>List of lists where each element is a sequence</p>
+</td></tr>
+<tr valign="top"><td><code>maxlen</code></td>
+<td>
+<p>int, maximum length of all sequences</p>
+</td></tr>
+<tr valign="top"><td><code>dtype</code></td>
+<td>
+<p>type of the output sequences</p>
+</td></tr>
+<tr valign="top"><td><code>padding</code></td>
+<td>
+<p>'pre' or 'post', pad either before or after each sequence.</p>
+</td></tr>
+<tr valign="top"><td><code>truncating</code></td>
+<td>
+<p>'pre' or 'post', remove values from sequences larger than
+maxlen either in the beginning or in the end of the sequence</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>float, padding value</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function transforms a list of <code>num_samples</code> sequences (lists
+of integers) into a matrix of shape <code style="white-space: pre;">(num_samples, num_timesteps)</code>.
+<code>num_timesteps</code> is either the <code>maxlen</code> argument if provided, or the length
+of the longest sequence otherwise.
+</p>
+<p>Sequences that are shorter than <code>num_timesteps</code> are padded with <code>value</code> at
+the end.
+</p>
+<p>Sequences longer than <code>num_timesteps</code> are truncated so that they fit the
+desired length. The position where padding or truncation happens is
+determined by the arguments <code>padding</code> and <code>truncating</code>, respectively.
+</p>
+<p>Pre-padding is the default.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Matrix with dimensions (number_of_sequences, maxlen)
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other text preprocessing: 
+<code><a href="make_sampling_table.html">make_sampling_table</a>()</code>,
+<code><a href="skipgrams.html">skipgrams</a>()</code>,
+<code><a href="text_hashing_trick.html">text_hashing_trick</a>()</code>,
+<code><a href="text_one_hot.html">text_one_hot</a>()</code>,
+<code><a href="text_to_word_sequence.html">text_to_word_sequence</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

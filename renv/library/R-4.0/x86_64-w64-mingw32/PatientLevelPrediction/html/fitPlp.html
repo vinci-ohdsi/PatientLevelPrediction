@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: fitPlp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for fitPlp {PatientLevelPrediction}"><tr><td>fitPlp {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>fitPlp</h2>
+
+<h3>Description</h3>
+
+<p>Train various models using a default parameter gird search or user specified parameters
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fitPlp(
+  population,
+  data,
+  modelSettings,
+  cohortId,
+  outcomeId,
+  minCovariateFraction = 0.001,
+  normalizeData = T
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>population</code></td>
+<td>
+<p>The population created using createStudyPopulation() who will have their risks predicted</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>An object of type <code>plpData</code> - the patient level prediction
+data extracted from the CDM.</p>
+</td></tr>
+<tr valign="top"><td><code>modelSettings</code></td>
+<td>
+<p>An object of class <code>modelSettings</code> created using one of the function:
+</p>
+
+<ul>
+<li><p>logisticRegressionModel() A lasso logistic regression model
+</p>
+</li>
+<li><p>GBMclassifier() A gradient boosting machine
+</p>
+</li>
+<li><p>RFclassifier() A random forest model
+</p>
+</li>
+<li><p>GLMclassifier () A generalised linear model
+</p>
+</li>
+<li><p>KNNclassifier() A KNN model
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>cohortId</code></td>
+<td>
+<p>Id of study cohort</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeId</code></td>
+<td>
+<p>Id of outcome cohort</p>
+</td></tr>
+<tr valign="top"><td><code>minCovariateFraction</code></td>
+<td>
+<p>The minimum fraction of the target popualtion who have a variable for it to be included in the model training</p>
+</td></tr>
+<tr valign="top"><td><code>normalizeData</code></td>
+<td>
+<p>Whether to normalise the data before model fitting</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The user can define the machine learning model to train (regularised logistic regression, random forest,
+gradient boosting machine, neural network and )
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>plpModel</code> containing:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>The trained prediction model</p>
+</td></tr>
+<tr valign="top"><td><code>modelLoc</code></td>
+<td>
+<p>The path to where the model is saved (if saved)</p>
+</td></tr>
+<tr valign="top"><td><code>trainAuc</code></td>
+<td>
+<p>The AUC obtained on the training set</p>
+</td></tr>
+<tr valign="top"><td><code>trainCalibration</code></td>
+<td>
+<p>The calibration obtained on the training set</p>
+</td></tr>
+<tr valign="top"><td><code>modelSettings</code></td>
+<td>
+<p>A list specifiying the model, preprocessing, outcomeId and cohortId</p>
+</td></tr>
+<tr valign="top"><td><code>metaData</code></td>
+<td>
+<p>The model meta data</p>
+</td></tr>
+<tr valign="top"><td><code>trainingTime</code></td>
+<td>
+<p>The time taken to train the classifier</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

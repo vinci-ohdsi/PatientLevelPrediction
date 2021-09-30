@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Model configuration as JSON</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for model_to_json {keras}"><tr><td>model_to_json {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Model configuration as JSON</h2>
+
+<h3>Description</h3>
+
+<p>Save and re-load models configurations as JSON. Note that the representation
+does not include the weights, only the architecture.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+model_to_json(object)
+
+model_from_json(json, custom_objects = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Model object to save</p>
+</td></tr>
+<tr valign="top"><td><code>json</code></td>
+<td>
+<p>JSON with model configuration</p>
+</td></tr>
+<tr valign="top"><td><code>custom_objects</code></td>
+<td>
+<p>Optional named list mapping names to custom classes or
+functions to be considered during deserialization.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other model persistence: 
+<code><a href="get_weights.html">get_weights</a>()</code>,
+<code><a href="model_to_yaml.html">model_to_yaml</a>()</code>,
+<code><a href="save_model_hdf5.html">save_model_hdf5</a>()</code>,
+<code><a href="save_model_tf.html">save_model_tf</a>()</code>,
+<code><a href="save_model_weights_hdf5.html">save_model_weights_hdf5</a>()</code>,
+<code><a href="serialize_model.html">serialize_model</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: 2D deconvolution (i.e. transposed convolution).</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for k_conv2d_transpose {keras}"><tr><td>k_conv2d_transpose {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>2D deconvolution (i.e. transposed convolution).</h2>
+
+<h3>Description</h3>
+
+<p>2D deconvolution (i.e. transposed convolution).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+k_conv2d_transpose(
+  x,
+  kernel,
+  output_shape,
+  strides = c(1, 1),
+  padding = "valid",
+  data_format = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Tensor or variable.</p>
+</td></tr>
+<tr valign="top"><td><code>kernel</code></td>
+<td>
+<p>kernel tensor.</p>
+</td></tr>
+<tr valign="top"><td><code>output_shape</code></td>
+<td>
+<p>1D int tensor for the output shape.</p>
+</td></tr>
+<tr valign="top"><td><code>strides</code></td>
+<td>
+<p>strides list.</p>
+</td></tr>
+<tr valign="top"><td><code>padding</code></td>
+<td>
+<p>string, <code>"same"</code> or <code>"valid"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>data_format</code></td>
+<td>
+<p>string, <code>"channels_last"</code> or <code>"channels_first"</code>. Whether
+to use Theano or TensorFlow/CNTK data format for inputs/kernels/outputs.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A tensor, result of transposed 2D convolution.
+</p>
+
+
+<h3>Keras Backend</h3>
+
+<p>This function is part of a set of Keras backend functions that enable
+lower level access to the core operations of the backend tensor engine
+(e.g. TensorFlow, CNTK, Theano, etc.).
+</p>
+<p>You can see a list of all available backend functions here:
+<a href="https://keras.rstudio.com/articles/backend.html#backend-functions">https://keras.rstudio.com/articles/backend.html#backend-functions</a>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

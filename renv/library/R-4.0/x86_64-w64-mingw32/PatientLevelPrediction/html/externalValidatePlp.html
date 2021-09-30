@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: externalValidatePlp - Validate a model on new databases</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for externalValidatePlp {PatientLevelPrediction}"><tr><td>externalValidatePlp {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>externalValidatePlp - Validate a model on new databases</h2>
+
+<h3>Description</h3>
+
+<p>This function extracts data using a user specified connection and cdm_schema, applied the model and then calcualtes the performance
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+externalValidatePlp(
+  plpResult,
+  connectionDetails,
+  validationSchemaTarget,
+  validationSchemaOutcome,
+  validationSchemaCdm,
+  databaseNames,
+  validationTableTarget = "cohort",
+  validationTableOutcome = "cohort",
+  validationIdTarget = NULL,
+  validationIdOutcome = NULL,
+  oracleTempSchema = NULL,
+  verbosity = "INFO",
+  keepPrediction = F,
+  recalibrate = NULL,
+  sampleSize = NULL,
+  outputFolder
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>plpResult</code></td>
+<td>
+<p>The object returned by runPlp() containing the trained model</p>
+</td></tr>
+<tr valign="top"><td><code>connectionDetails</code></td>
+<td>
+<p>The connection details for extracting the new data</p>
+</td></tr>
+<tr valign="top"><td><code>validationSchemaTarget</code></td>
+<td>
+<p>A string or vector of strings specifying the database containing the target cohorts</p>
+</td></tr>
+<tr valign="top"><td><code>validationSchemaOutcome</code></td>
+<td>
+<p>A string or vector of strings specifying the database containing the outcome cohorts</p>
+</td></tr>
+<tr valign="top"><td><code>validationSchemaCdm</code></td>
+<td>
+<p>A string or vector of strings specifying the database containing the cdm</p>
+</td></tr>
+<tr valign="top"><td><code>databaseNames</code></td>
+<td>
+<p>A string of vector of strings specifying sharing friendly database names corresponding to validationSchemaCdm</p>
+</td></tr>
+<tr valign="top"><td><code>validationTableTarget</code></td>
+<td>
+<p>A string or vector of strings specifying the table containing the target cohorts</p>
+</td></tr>
+<tr valign="top"><td><code>validationTableOutcome</code></td>
+<td>
+<p>A string or vector of strings specifying the table containing the outcome cohorts</p>
+</td></tr>
+<tr valign="top"><td><code>validationIdTarget</code></td>
+<td>
+<p>An iteger specifying the cohort id for the target cohort</p>
+</td></tr>
+<tr valign="top"><td><code>validationIdOutcome</code></td>
+<td>
+<p>An iteger specifying the cohort id for the outcome cohort</p>
+</td></tr>
+<tr valign="top"><td><code>oracleTempSchema</code></td>
+<td>
+<p>The temp oracle schema requires read/write</p>
+</td></tr>
+<tr valign="top"><td><code>verbosity</code></td>
+<td>
+<p>Sets the level of the verbosity. If the log level is at or higher in priority than the logger threshold, a message will print. The levels are:
+</p>
+
+<ul>
+<li><p>DEBUGHighest verbosity showing all debug statements
+</p>
+</li>
+<li><p>TRACEShowing information about start and end of steps
+</p>
+</li>
+<li><p>INFOShow informative information (Default)
+</p>
+</li>
+<li><p>WARNShow warning messages
+</p>
+</li>
+<li><p>ERRORShow error messages
+</p>
+</li>
+<li><p>FATALBe silent except for fatal errors
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>keepPrediction</code></td>
+<td>
+<p>Whether to keep the predicitons for the new data</p>
+</td></tr>
+<tr valign="top"><td><code>recalibrate</code></td>
+<td>
+<p>A vector of characters specifying the recalibration method to apply</p>
+</td></tr>
+<tr valign="top"><td><code>sampleSize</code></td>
+<td>
+<p>If not NULL, the number of people to sample from the target cohort</p>
+</td></tr>
+<tr valign="top"><td><code>outputFolder</code></td>
+<td>
+<p>If you want to save the results enter the directory to save here</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Users need to input a trained model (the output of runPlp()) and new database connections. The function will return a list of length equal to the 
+number of cdm_schemas input with the performance on the new data
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list containing the performance for each validation_schema
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

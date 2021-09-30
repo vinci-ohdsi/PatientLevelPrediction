@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: createPlpJournalDocument</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for createPlpJournalDocument {PatientLevelPrediction}"><tr><td>createPlpJournalDocument {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>createPlpJournalDocument</h2>
+
+<h3>Description</h3>
+
+<p>Creates a template for a prediction journal paper with the characteristics/results filled in
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+createPlpJournalDocument(
+  plpResult = NULL,
+  plpValidation = NULL,
+  plpData = NULL,
+  targetName = "&lt;target population&gt;",
+  outcomeName = "&lt;outcome&gt;",
+  table1 = F,
+  connectionDetails = NULL,
+  includeTrain = FALSE,
+  includeTest = TRUE,
+  includePredictionPicture = TRUE,
+  includeAttritionPlot = TRUE,
+  outputLocation = file.path(getwd(), "plp_journal_document.docx"),
+  save = T
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>plpResult</code></td>
+<td>
+<p>An object of type <code>plpResult</code> returned by running runPlp()</p>
+</td></tr>
+<tr valign="top"><td><code>plpValidation</code></td>
+<td>
+<p>An object of type <code>validatePlp</code> returned by running externalValidatePlp()</p>
+</td></tr>
+<tr valign="top"><td><code>plpData</code></td>
+<td>
+<p>The plpData</p>
+</td></tr>
+<tr valign="top"><td><code>targetName</code></td>
+<td>
+<p>A string with the target description name</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeName</code></td>
+<td>
+<p>A string with the outcome description name</p>
+</td></tr>
+<tr valign="top"><td><code>table1</code></td>
+<td>
+<p>Whether to include table1 (characteristics)</p>
+</td></tr>
+<tr valign="top"><td><code>connectionDetails</code></td>
+<td>
+<p>The connection required to calcualte the characteristics</p>
+</td></tr>
+<tr valign="top"><td><code>includeTrain</code></td>
+<td>
+<p>Whether to include the train set performance</p>
+</td></tr>
+<tr valign="top"><td><code>includeTest</code></td>
+<td>
+<p>Whether to include the test set performance</p>
+</td></tr>
+<tr valign="top"><td><code>includePredictionPicture</code></td>
+<td>
+<p>Whether to include a picture detailing the prediction problem</p>
+</td></tr>
+<tr valign="top"><td><code>includeAttritionPlot</code></td>
+<td>
+<p>Whether to include the attriction plot</p>
+</td></tr>
+<tr valign="top"><td><code>outputLocation</code></td>
+<td>
+<p>The location to write the document to</p>
+</td></tr>
+<tr valign="top"><td><code>save</code></td>
+<td>
+<p>If false this fucntion returns the document and does not save to outputLocation</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function creates a word document containing the analysis details, data summary and prediction model results.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A work document containing the selected outputs within the user's directory at location specified in outputLocation
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

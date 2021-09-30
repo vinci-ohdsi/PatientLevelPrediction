@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: (Deprecated) Base R6 class for Keras constraints</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for KerasConstraint {keras}"><tr><td>KerasConstraint {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>(Deprecated) Base R6 class for Keras constraints</h2>
+
+<h3>Description</h3>
+
+<p>New custom constraints are encouraged to subclass <code>keras$constraints$Constraint</code> directly.
+</p>
+
+
+<h3>Format</h3>
+
+<p>An <a href="../../R6/html/R6Class.html">R6Class</a> generator object
+</p>
+
+
+<h3>Details</h3>
+
+<p>You can implement a custom constraint either by creating an
+R function that accepts a weights (<code>w</code>) parameter, or by creating
+an R6 class that derives from <code>KerasConstraint</code> and implements a
+<code>call</code> method.
+</p>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt><code>call(w)</code></dt><dd><p>Constrain the specified weights.</p>
+</dd>
+</dl>
+
+
+
+<h3>Note</h3>
+
+<p>Models which use custom constraints cannot be serialized using
+<code><a href="save_model_hdf5.html">save_model_hdf5()</a></code>. Rather, the weights of the model should be saved
+and restored using <code><a href="save_model_weights_hdf5.html">save_model_weights_hdf5()</a></code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="constraints.html">constraints</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+CustomNonNegConstraint &lt;- R6::R6Class(
+  "CustomNonNegConstraint",
+  inherit = KerasConstraint,
+  public = list(
+    call = function(x) {
+       w * k_cast(k_greater_equal(w, 0), k_floatx())
+    }
+  )
+)
+
+layer_dense(units = 32, input_shape = c(784),
+            kernel_constraint = CustomNonNegConstraint$new())
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

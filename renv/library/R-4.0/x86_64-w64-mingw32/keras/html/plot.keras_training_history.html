@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot training history</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.keras_training_history {keras}"><tr><td>plot.keras_training_history {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot training history</h2>
+
+<h3>Description</h3>
+
+<p>Plots metrics recorded during training.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'keras_training_history'
+plot(
+  x,
+  y,
+  metrics = NULL,
+  method = c("auto", "ggplot2", "base"),
+  smooth = getOption("keras.plot.history.smooth", TRUE),
+  theme_bw = getOption("keras.plot.history.theme_bw", FALSE),
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Training history object returned from
+<code>fit.keras.engine.training.Model()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Unused.</p>
+</td></tr>
+<tr valign="top"><td><code>metrics</code></td>
+<td>
+<p>One or more metrics to plot (e.g. <code>c('loss', 'accuracy')</code>).
+Defaults to plotting all captured metrics.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Method to use for plotting. The default &quot;auto&quot; will use
+<span class="pkg">ggplot2</span> if available, and otherwise will use base graphics.</p>
+</td></tr>
+<tr valign="top"><td><code>smooth</code></td>
+<td>
+<p>Whether a loess smooth should be added to the plot, only
+available for the <code>ggplot2</code> method. If the number of epochs is smaller
+than ten, it is forced to false.</p>
+</td></tr>
+<tr valign="top"><td><code>theme_bw</code></td>
+<td>
+<p>Use <code>ggplot2::theme_bw()</code> to plot the history in
+black and white.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional parameters to pass to the <code><a href="../../graphics/html/plot.default.html">plot()</a></code> method.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

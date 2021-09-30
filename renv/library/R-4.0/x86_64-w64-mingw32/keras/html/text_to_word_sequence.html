@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert text to a sequence of words (or tokens).</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for text_to_word_sequence {keras}"><tr><td>text_to_word_sequence {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert text to a sequence of words (or tokens).</h2>
+
+<h3>Description</h3>
+
+<p>Convert text to a sequence of words (or tokens).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+text_to_word_sequence(
+  text,
+  filters = "!\"#$%&amp;()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~\t\n",
+  lower = TRUE,
+  split = " "
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>Input text (string).</p>
+</td></tr>
+<tr valign="top"><td><code>filters</code></td>
+<td>
+<p>Sequence of characters to filter out such as
+punctuation. Default includes basic punctuation, tabs, and newlines.</p>
+</td></tr>
+<tr valign="top"><td><code>lower</code></td>
+<td>
+<p>Whether to convert the input to lowercase.</p>
+</td></tr>
+<tr valign="top"><td><code>split</code></td>
+<td>
+<p>Sentence split marker (string).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Words (or tokens)
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other text preprocessing: 
+<code><a href="make_sampling_table.html">make_sampling_table</a>()</code>,
+<code><a href="pad_sequences.html">pad_sequences</a>()</code>,
+<code><a href="skipgrams.html">skipgrams</a>()</code>,
+<code><a href="text_hashing_trick.html">text_hashing_trick</a>()</code>,
+<code><a href="text_one_hot.html">text_one_hot</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

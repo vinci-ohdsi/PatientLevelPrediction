@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Transposed 1D convolution layer (sometimes called...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for layer_conv_1d_transpose {keras}"><tr><td>layer_conv_1d_transpose {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Transposed 1D convolution layer (sometimes called Deconvolution).</h2>
+
+<h3>Description</h3>
+
+<p>The need for transposed convolutions generally arises from the desire to use
+a transformation going in the opposite direction of a normal convolution,
+i.e., from something that has the shape of the output of some convolution to
+something that has the shape of its input while maintaining a connectivity
+pattern that is compatible with said convolution.
+When using this layer as the first layer in a model,
+provide the keyword argument <code>input_shape</code>
+(tuple of integers, does not include the sample axis),
+e.g. <code style="white-space: pre;">input_shape=(128, 3)</code> for data with 128 time steps and 3 channels.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+layer_conv_1d_transpose(
+  object,
+  filters,
+  kernel_size,
+  strides = 1,
+  padding = "valid",
+  output_padding = NULL,
+  data_format = NULL,
+  dilation_rate = 1,
+  activation = NULL,
+  use_bias = TRUE,
+  kernel_initializer = "glorot_uniform",
+  bias_initializer = "zeros",
+  kernel_regularizer = NULL,
+  bias_regularizer = NULL,
+  activity_regularizer = NULL,
+  kernel_constraint = NULL,
+  bias_constraint = NULL,
+  input_shape = NULL,
+  batch_input_shape = NULL,
+  batch_size = NULL,
+  dtype = NULL,
+  name = NULL,
+  trainable = NULL,
+  weights = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>What to call the new <code>Layer</code> instance with. Typically a keras
+<code>Model</code>, another <code>Layer</code>, or a <code>tf.Tensor</code>/<code>KerasTensor</code>. If <code>object</code> is
+missing, the <code>Layer</code> instance is returned, otherwise, <code>layer(object)</code> is
+returned.</p>
+</td></tr>
+<tr valign="top"><td><code>filters</code></td>
+<td>
+<p>Integer, the dimensionality of the output space (i.e. the
+number of output filters in the convolution).</p>
+</td></tr>
+<tr valign="top"><td><code>kernel_size</code></td>
+<td>
+<p>An integer or list of a single integer, specifying the
+length of the 1D convolution window.</p>
+</td></tr>
+<tr valign="top"><td><code>strides</code></td>
+<td>
+<p>An integer or list of a single integer, specifying the stride
+length of the convolution. Specifying any stride value != 1 is incompatible
+with specifying any <code>dilation_rate</code> value != 1.</p>
+</td></tr>
+<tr valign="top"><td><code>padding</code></td>
+<td>
+<p>one of <code>"valid"</code> or <code>"same"</code> (case-insensitive).</p>
+</td></tr>
+<tr valign="top"><td><code>output_padding</code></td>
+<td>
+<p>An integer specifying the amount of padding along
+the time dimension of the output tensor.
+The amount of output padding must be lower than the stride.
+If set to <code>NULL</code> (default), the output shape is inferred.</p>
+</td></tr>
+<tr valign="top"><td><code>data_format</code></td>
+<td>
+<p>A string, one of <code>"channels_last"</code> (default) or <code>"channels_first"</code>.
+The ordering of the dimensions in the inputs. <code>"channels_last"</code> corresponds
+to inputs with shape <code style="white-space: pre;">(batch, length, channels)</code> (default format for
+temporal data in Keras) while <code>"channels_first"</code> corresponds to inputs
+with shape <code style="white-space: pre;">(batch, channels, length)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>dilation_rate</code></td>
+<td>
+<p>an integer or list of a single integer, specifying the
+dilation rate to use for dilated convolution. Currently, specifying any
+<code>dilation_rate</code> value != 1 is incompatible with specifying any <code>strides</code>
+value != 1.</p>
+</td></tr>
+<tr valign="top"><td><code>activation</code></td>
+<td>
+<p>Activation function to use. If you don't specify anything,
+no activation is applied (ie. &quot;linear&quot; activation: <code>a(x) = x</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>use_bias</code></td>
+<td>
+<p>Boolean, whether the layer uses a bias vector.</p>
+</td></tr>
+<tr valign="top"><td><code>kernel_initializer</code></td>
+<td>
+<p>Initializer for the <code>kernel</code> weights matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>bias_initializer</code></td>
+<td>
+<p>Initializer for the bias vector.</p>
+</td></tr>
+<tr valign="top"><td><code>kernel_regularizer</code></td>
+<td>
+<p>Regularizer function applied to the <code>kernel</code>
+weights matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>bias_regularizer</code></td>
+<td>
+<p>Regularizer function applied to the bias vector.</p>
+</td></tr>
+<tr valign="top"><td><code>activity_regularizer</code></td>
+<td>
+<p>Regularizer function applied to the output of the
+layer (its &quot;activation&quot;)..</p>
+</td></tr>
+<tr valign="top"><td><code>kernel_constraint</code></td>
+<td>
+<p>Constraint function applied to the kernel matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>bias_constraint</code></td>
+<td>
+<p>Constraint function applied to the bias vector.</p>
+</td></tr>
+<tr valign="top"><td><code>input_shape</code></td>
+<td>
+<p>Dimensionality of the input (integer) not including the
+samples axis. This argument is required when using this layer as the first
+layer in a model.</p>
+</td></tr>
+<tr valign="top"><td><code>batch_input_shape</code></td>
+<td>
+<p>Shapes, including the batch size. For instance,
+<code>batch_input_shape=c(10, 32)</code> indicates that the expected input will be
+batches of 10 32-dimensional vectors. <code>batch_input_shape=list(NULL, 32)</code>
+indicates batches of an arbitrary number of 32-dimensional vectors.</p>
+</td></tr>
+<tr valign="top"><td><code>batch_size</code></td>
+<td>
+<p>Fixed batch size for layer</p>
+</td></tr>
+<tr valign="top"><td><code>dtype</code></td>
+<td>
+<p>The data type expected by the input, as a string (<code>float32</code>,
+<code>float64</code>, <code>int32</code>...)</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>An optional name string for the layer. Should be unique in a
+model (do not reuse the same name twice). It will be autogenerated if it
+isn't provided.</p>
+</td></tr>
+<tr valign="top"><td><code>trainable</code></td>
+<td>
+<p>Whether the layer weights will be updated during training.</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>Initial weights for layer.</p>
+</td></tr>
+</table>
+
+
+<h3>Input shape</h3>
+
+<p>3D tensor with shape: <code style="white-space: pre;">(batch, steps, channels)</code>
+</p>
+
+
+<h3>Output shape</h3>
+
+<p>3D tensor with shape: <code style="white-space: pre;">(batch, new_steps, filters)</code>
+If <code>output_padding</code> is specified:</p>
+<pre>new_timesteps = ((timesteps - 1) * strides + kernel_size - 2 * padding + output_padding)
+</pre>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li> <p><a href="https://arxiv.org/abs/1603.07285v1">A guide to convolution arithmetic for deep learning</a>
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>Other convolutional layers: 
+<code><a href="layer_conv_1d.html">layer_conv_1d</a>()</code>,
+<code><a href="layer_conv_2d_transpose.html">layer_conv_2d_transpose</a>()</code>,
+<code><a href="layer_conv_2d.html">layer_conv_2d</a>()</code>,
+<code><a href="layer_conv_3d_transpose.html">layer_conv_3d_transpose</a>()</code>,
+<code><a href="layer_conv_3d.html">layer_conv_3d</a>()</code>,
+<code><a href="layer_conv_lstm_2d.html">layer_conv_lstm_2d</a>()</code>,
+<code><a href="layer_cropping_1d.html">layer_cropping_1d</a>()</code>,
+<code><a href="layer_cropping_2d.html">layer_cropping_2d</a>()</code>,
+<code><a href="layer_cropping_3d.html">layer_cropping_3d</a>()</code>,
+<code><a href="layer_depthwise_conv_2d.html">layer_depthwise_conv_2d</a>()</code>,
+<code><a href="layer_separable_conv_1d.html">layer_separable_conv_1d</a>()</code>,
+<code><a href="layer_separable_conv_2d.html">layer_separable_conv_2d</a>()</code>,
+<code><a href="layer_upsampling_1d.html">layer_upsampling_1d</a>()</code>,
+<code><a href="layer_upsampling_2d.html">layer_upsampling_2d</a>()</code>,
+<code><a href="layer_upsampling_3d.html">layer_upsampling_3d</a>()</code>,
+<code><a href="layer_zero_padding_1d.html">layer_zero_padding_1d</a>()</code>,
+<code><a href="layer_zero_padding_2d.html">layer_zero_padding_2d</a>()</code>,
+<code><a href="layer_zero_padding_3d.html">layer_zero_padding_3d</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

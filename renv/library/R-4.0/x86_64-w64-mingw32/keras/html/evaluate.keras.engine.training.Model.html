@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Evaluate a Keras model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for evaluate.keras.engine.training.Model {keras}"><tr><td>evaluate.keras.engine.training.Model {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate a Keras model</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate a Keras model
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'keras.engine.training.Model'
+evaluate(
+  object,
+  x = NULL,
+  y = NULL,
+  batch_size = NULL,
+  verbose = 1,
+  sample_weight = NULL,
+  steps = NULL,
+  callbacks = NULL,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Model object to evaluate</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Vector, matrix, or array of test data (or list if the model has
+multiple inputs). If all inputs in the model are named, you can also pass a
+list mapping input names to data. <code>x</code> can be <code>NULL</code> (default) if feeding
+from framework-native tensors (e.g. TensorFlow data tensors). You can also
+pass a <code>tfdataset</code> or a generator returning a list with <code style="white-space: pre;">(inputs, targets)</code> or
+<code style="white-space: pre;">(inputs, targets, sample_weights)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Vector, matrix, or array of target (label) data (or list if the model has
+multiple outputs). If all outputs in the model are named, you can also pass
+a list mapping output names to data. <code>y</code> can be <code>NULL</code> (default) if feeding
+from framework-native tensors (e.g. TensorFlow data tensors).</p>
+</td></tr>
+<tr valign="top"><td><code>batch_size</code></td>
+<td>
+<p>Integer or <code>NULL</code>. Number of samples per gradient update.
+If unspecified, <code>batch_size</code> will default to 32.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Verbosity mode (0 = silent, 1 = progress bar, 2 = one line per
+epoch).</p>
+</td></tr>
+<tr valign="top"><td><code>sample_weight</code></td>
+<td>
+<p>Optional array of the same length as x, containing
+weights to apply to the model's loss for each sample. In the case of
+temporal data, you can pass a 2D array with shape (samples,
+sequence_length), to apply a different weight to every timestep of every
+sample. In this case you should make sure to specify
+<code>sample_weight_mode="temporal"</code> in <code><a href="reexports.html">compile()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>steps</code></td>
+<td>
+<p>Total number of steps (batches of samples) before declaring the
+evaluation round finished. Ignored with the default value of <code>NULL</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>callbacks</code></td>
+<td>
+<p>List of callbacks to apply during evaluation.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Unused</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Named list of model test loss (or losses for models with multiple
+outputs) and model metrics.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other model functions: 
+<code><a href="compile.keras.engine.training.Model.html">compile.keras.engine.training.Model</a>()</code>,
+<code><a href="evaluate_generator.html">evaluate_generator</a>()</code>,
+<code><a href="fit.keras.engine.training.Model.html">fit.keras.engine.training.Model</a>()</code>,
+<code><a href="fit_generator.html">fit_generator</a>()</code>,
+<code><a href="get_config.html">get_config</a>()</code>,
+<code><a href="get_layer.html">get_layer</a>()</code>,
+<code><a href="keras_model_sequential.html">keras_model_sequential</a>()</code>,
+<code><a href="keras_model.html">keras_model</a>()</code>,
+<code><a href="multi_gpu_model.html">multi_gpu_model</a>()</code>,
+<code><a href="pop_layer.html">pop_layer</a>()</code>,
+<code><a href="predict.keras.engine.training.Model.html">predict.keras.engine.training.Model</a>()</code>,
+<code><a href="predict_generator.html">predict_generator</a>()</code>,
+<code><a href="predict_on_batch.html">predict_on_batch</a>()</code>,
+<code><a href="predict_proba.html">predict_proba</a>()</code>,
+<code><a href="summary.keras.engine.training.Model.html">summary.keras.engine.training.Model</a>()</code>,
+<code><a href="train_on_batch.html">train_on_batch</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

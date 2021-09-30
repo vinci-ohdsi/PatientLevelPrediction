@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Layer that concatenates a list of inputs.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for layer_concatenate {keras}"><tr><td>layer_concatenate {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Layer that concatenates a list of inputs.</h2>
+
+<h3>Description</h3>
+
+<p>It takes as input a list of tensors, all of the same shape expect for the
+concatenation axis, and returns a single tensor, the concatenation of all
+inputs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+layer_concatenate(inputs, axis = -1, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>inputs</code></td>
+<td>
+<p>A list of input tensors (at least 2). Can be missing.</p>
+</td></tr>
+<tr valign="top"><td><code>axis</code></td>
+<td>
+<p>Concatenation axis.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Standard layer arguments (must be named).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A tensor, the concatenation of the inputs alongside axis <code>axis</code>. If
+<code>inputs</code> is missing, a keras layer instance is returned.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/concatenate">https://www.tensorflow.org/api_docs/python/tf/keras/layers/concatenate</a>
+</p>
+</li>
+<li> <p><a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Concatenate">https://www.tensorflow.org/api_docs/python/tf/keras/layers/Concatenate</a>
+</p>
+</li>
+<li> <p><a href="https://keras.io/api/layers/merging_layers/concatenate">https://keras.io/api/layers/merging_layers/concatenate</a>
+</p>
+</li></ul>
+
+<p>Other merge layers: 
+<code><a href="layer_average.html">layer_average</a>()</code>,
+<code><a href="layer_dot.html">layer_dot</a>()</code>,
+<code><a href="layer_maximum.html">layer_maximum</a>()</code>,
+<code><a href="layer_minimum.html">layer_minimum</a>()</code>,
+<code><a href="layer_multiply.html">layer_multiply</a>()</code>,
+<code><a href="layer_subtract.html">layer_subtract</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

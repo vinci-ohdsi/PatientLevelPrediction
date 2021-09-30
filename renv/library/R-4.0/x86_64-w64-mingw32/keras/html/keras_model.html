@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Keras Model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for keras_model {keras}"><tr><td>keras_model {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Keras Model</h2>
+
+<h3>Description</h3>
+
+<p>A model is a directed acyclic graph of layers.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+keras_model(inputs, outputs = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>inputs</code></td>
+<td>
+<p>Input layer</p>
+</td></tr>
+<tr valign="top"><td><code>outputs</code></td>
+<td>
+<p>Output layer</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Any additional arguments</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other model functions: 
+<code><a href="compile.keras.engine.training.Model.html">compile.keras.engine.training.Model</a>()</code>,
+<code><a href="evaluate.keras.engine.training.Model.html">evaluate.keras.engine.training.Model</a>()</code>,
+<code><a href="evaluate_generator.html">evaluate_generator</a>()</code>,
+<code><a href="fit.keras.engine.training.Model.html">fit.keras.engine.training.Model</a>()</code>,
+<code><a href="fit_generator.html">fit_generator</a>()</code>,
+<code><a href="get_config.html">get_config</a>()</code>,
+<code><a href="get_layer.html">get_layer</a>()</code>,
+<code><a href="keras_model_sequential.html">keras_model_sequential</a>()</code>,
+<code><a href="multi_gpu_model.html">multi_gpu_model</a>()</code>,
+<code><a href="pop_layer.html">pop_layer</a>()</code>,
+<code><a href="predict.keras.engine.training.Model.html">predict.keras.engine.training.Model</a>()</code>,
+<code><a href="predict_generator.html">predict_generator</a>()</code>,
+<code><a href="predict_on_batch.html">predict_on_batch</a>()</code>,
+<code><a href="predict_proba.html">predict_proba</a>()</code>,
+<code><a href="summary.keras.engine.training.Model.html">summary.keras.engine.training.Model</a>()</code>,
+<code><a href="train_on_batch.html">train_on_batch</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+library(keras)
+
+# input layer
+inputs &lt;- layer_input(shape = c(784))
+
+# outputs compose input + dense layers
+predictions &lt;- inputs %&gt;%
+  layer_dense(units = 64, activation = 'relu') %&gt;%
+  layer_dense(units = 64, activation = 'relu') %&gt;%
+  layer_dense(units = 10, activation = 'softmax')
+
+# create and compile model
+model &lt;- keras_model(inputs = inputs, outputs = predictions)
+model %&gt;% compile(
+  optimizer = 'rmsprop',
+  loss = 'categorical_crossentropy',
+  metrics = c('accuracy')
+)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

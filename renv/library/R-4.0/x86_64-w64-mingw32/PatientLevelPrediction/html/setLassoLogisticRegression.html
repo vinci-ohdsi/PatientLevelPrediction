@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create setting for lasso logistic regression</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for setLassoLogisticRegression {PatientLevelPrediction}"><tr><td>setLassoLogisticRegression {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create setting for lasso logistic regression</h2>
+
+<h3>Description</h3>
+
+<p>Create setting for lasso logistic regression
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+setLassoLogisticRegression(
+  variance = 0.01,
+  seed = NULL,
+  includeCovariateIds = c(),
+  noShrinkage = c(0),
+  threads = -1,
+  useCrossValidation = TRUE,
+  upperLimit = 20,
+  lowerLimit = 0.01
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>variance</code></td>
+<td>
+<p>a single value used as the starting value for the automatic lambda search</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>An option to add a seed when training the model</p>
+</td></tr>
+<tr valign="top"><td><code>includeCovariateIds</code></td>
+<td>
+<p>a set of covariate IDS to limit the analysis to</p>
+</td></tr>
+<tr valign="top"><td><code>noShrinkage</code></td>
+<td>
+<p>a set of covariates whcih are to be forced to be included in the final model. default is the intercept</p>
+</td></tr>
+<tr valign="top"><td><code>threads</code></td>
+<td>
+<p>An option to set number of threads when training model</p>
+</td></tr>
+<tr valign="top"><td><code>useCrossValidation</code></td>
+<td>
+<p>Set this to FALSE if you want to train a LR with a preset varience</p>
+</td></tr>
+<tr valign="top"><td><code>upperLimit</code></td>
+<td>
+<p>Upper prior variance limit for grid-search</p>
+</td></tr>
+<tr valign="top"><td><code>lowerLimit</code></td>
+<td>
+<p>Lower prior variance limit for grid-search</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+model.lr &lt;- setLassoLogisticRegression()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

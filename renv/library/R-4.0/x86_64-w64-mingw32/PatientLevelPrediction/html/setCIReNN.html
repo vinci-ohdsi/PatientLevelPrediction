@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create setting for CIReNN model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for setCIReNN {PatientLevelPrediction}"><tr><td>setCIReNN {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create setting for CIReNN model</h2>
+
+<h3>Description</h3>
+
+<p>Create setting for CIReNN model
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+setCIReNN(
+  numberOfRNNLayer = c(1),
+  units = c(128, 64),
+  recurrentDropout = c(0.2),
+  layerDropout = c(0.2),
+  lr = c(1e-04),
+  decay = c(1e-05),
+  outcomeWeight = c(0),
+  batchSize = c(100),
+  epochs = c(100),
+  earlyStoppingMinDelta = c(1e-04),
+  earlyStoppingPatience = c(10),
+  bayes = T,
+  useDeepEnsemble = F,
+  numberOfEnsembleNetwork = 5,
+  useVae = T,
+  vaeDataSamplingProportion = 0.1,
+  vaeValidationSplit = 0.2,
+  vaeBatchSize = 100L,
+  vaeLatentDim = 10L,
+  vaeIntermediateDim = 256L,
+  vaeEpoch = 100L,
+  vaeEpislonStd = 1,
+  useGPU = FALSE,
+  maxGPUs = 2,
+  seed = 1234
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>numberOfRNNLayer</code></td>
+<td>
+<p>The number of RNN layer, only 1, 2, or 3 layers available now. eg. 1, c(1,2), c(1,2,3)</p>
+</td></tr>
+<tr valign="top"><td><code>units</code></td>
+<td>
+<p>The number of units of RNN layer - as a list of vectors</p>
+</td></tr>
+<tr valign="top"><td><code>recurrentDropout</code></td>
+<td>
+<p>The reccurrent dropout rate (regularisation)</p>
+</td></tr>
+<tr valign="top"><td><code>layerDropout</code></td>
+<td>
+<p>The layer dropout rate (regularisation)</p>
+</td></tr>
+<tr valign="top"><td><code>lr</code></td>
+<td>
+<p>Learning rate</p>
+</td></tr>
+<tr valign="top"><td><code>decay</code></td>
+<td>
+<p>Learning rate decay over each update.</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeWeight</code></td>
+<td>
+<p>The weight of the outcome class in the loss function. Default is 0, which will be replaced by balanced weight.</p>
+</td></tr>
+<tr valign="top"><td><code>batchSize</code></td>
+<td>
+<p>The number of data points to use per training batch</p>
+</td></tr>
+<tr valign="top"><td><code>epochs</code></td>
+<td>
+<p>Number of times to iterate over dataset</p>
+</td></tr>
+<tr valign="top"><td><code>earlyStoppingMinDelta</code></td>
+<td>
+<p>minimum change in the monitored quantity to qualify as an improvement for early stopping, i.e. an absolute change of less than min_delta in loss of validation data, will count as no improvement.</p>
+</td></tr>
+<tr valign="top"><td><code>earlyStoppingPatience</code></td>
+<td>
+<p>Number of epochs with no improvement after which training will be stopped.</p>
+</td></tr>
+<tr valign="top"><td><code>bayes</code></td>
+<td>
+<p>logical (either TRUE or FALSE) value for using Bayesian Drop Out Layer to measure uncertainty. If it is TRUE, both Epistemic and Aleatoric uncertainty will be measured through Bayesian Drop Out layer</p>
+</td></tr>
+<tr valign="top"><td><code>useDeepEnsemble</code></td>
+<td>
+<p>logical (either TRUE or FALSE) value for using Deep Ensemble (Lakshminarayanan et al., 2017) to measure uncertainty. It cannot be used together with Bayesian deep learing.</p>
+</td></tr>
+<tr valign="top"><td><code>numberOfEnsembleNetwork</code></td>
+<td>
+<p>Integer. Number of network used for Deep Ensemble (Lakshminarayanan et al recommended 5).</p>
+</td></tr>
+<tr valign="top"><td><code>useVae</code></td>
+<td>
+<p>logical (either TRUE or FALSE) value for using Variational AutoEncoder before RNN</p>
+</td></tr>
+<tr valign="top"><td><code>vaeDataSamplingProportion</code></td>
+<td>
+<p>Data sampling proportion for VAE</p>
+</td></tr>
+<tr valign="top"><td><code>vaeValidationSplit</code></td>
+<td>
+<p>Validation split proportion for VAE</p>
+</td></tr>
+<tr valign="top"><td><code>vaeBatchSize</code></td>
+<td>
+<p>batch size for VAE</p>
+</td></tr>
+<tr valign="top"><td><code>vaeLatentDim</code></td>
+<td>
+<p>Number of latent dimesion for VAE</p>
+</td></tr>
+<tr valign="top"><td><code>vaeIntermediateDim</code></td>
+<td>
+<p>Number of intermediate dimesion for VAE</p>
+</td></tr>
+<tr valign="top"><td><code>vaeEpoch</code></td>
+<td>
+<p>Number of times to interate over dataset for VAE</p>
+</td></tr>
+<tr valign="top"><td><code>vaeEpislonStd</code></td>
+<td>
+<p>Epsilon</p>
+</td></tr>
+<tr valign="top"><td><code>useGPU</code></td>
+<td>
+<p>logical (either TRUE or FALSE) value. If you have GPUs in your machine, and want to use multiple GPU for deep learning, set this value as TRUE</p>
+</td></tr>
+<tr valign="top"><td><code>maxGPUs</code></td>
+<td>
+<p>Integer, If you will use GPU, how many GPUs will be used for deep learning in VAE? GPU parallelisation for deep learning will be activated only when parallel vae is true. Integer &gt;= 2 or list of integers, number of GPUs or list of GPU IDs on which to create model replicas.</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>Random seed used by deep learning model</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+model.CIReNN &lt;- setCIReNN()
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

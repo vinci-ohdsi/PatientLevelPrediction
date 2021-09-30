@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Loss functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for loss-functions {keras}"><tr><td>loss-functions {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Loss functions</h2>
+
+<h3>Description</h3>
+
+<p>Loss functions
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+loss_binary_crossentropy(
+  y_true,
+  y_pred,
+  from_logits = FALSE,
+  label_smoothing = 0,
+  axis = -1L,
+  ...,
+  reduction = "auto",
+  name = "binary_crossentropy"
+)
+
+loss_categorical_crossentropy(
+  y_true,
+  y_pred,
+  from_logits = FALSE,
+  label_smoothing = 0L,
+  axis = -1L,
+  ...,
+  reduction = "auto",
+  name = "categorical_crossentropy"
+)
+
+loss_categorical_hinge(
+  y_true,
+  y_pred,
+  ...,
+  reduction = "auto",
+  name = "categorical_hinge"
+)
+
+loss_cosine_similarity(
+  y_true,
+  y_pred,
+  axis = -1L,
+  ...,
+  reduction = "auto",
+  name = "cosine_similarity"
+)
+
+loss_hinge(y_true, y_pred, ..., reduction = "auto", name = "hinge")
+
+loss_huber(
+  y_true,
+  y_pred,
+  delta = 1,
+  ...,
+  reduction = "auto",
+  name = "huber_loss"
+)
+
+loss_kullback_leibler_divergence(
+  y_true,
+  y_pred,
+  ...,
+  reduction = "auto",
+  name = "kl_divergence"
+)
+
+loss_kl_divergence(
+  y_true,
+  y_pred,
+  ...,
+  reduction = "auto",
+  name = "kl_divergence"
+)
+
+loss_logcosh(y_true, y_pred, ..., reduction = "auto", name = "log_cosh")
+
+loss_mean_absolute_error(
+  y_true,
+  y_pred,
+  ...,
+  reduction = "auto",
+  name = "mean_absolute_error"
+)
+
+loss_mean_absolute_percentage_error(
+  y_true,
+  y_pred,
+  ...,
+  reduction = "auto",
+  name = "mean_absolute_percentage_error"
+)
+
+loss_mean_squared_error(
+  y_true,
+  y_pred,
+  ...,
+  reduction = "auto",
+  name = "mean_squared_error"
+)
+
+loss_mean_squared_logarithmic_error(
+  y_true,
+  y_pred,
+  ...,
+  reduction = "auto",
+  name = "mean_squared_logarithmic_error"
+)
+
+loss_poisson(y_true, y_pred, ..., reduction = "auto", name = "poisson")
+
+loss_sparse_categorical_crossentropy(
+  y_true,
+  y_pred,
+  from_logits = FALSE,
+  axis = -1L,
+  ...,
+  reduction = "auto",
+  name = "sparse_categorical_crossentropy"
+)
+
+loss_squared_hinge(
+  y_true,
+  y_pred,
+  ...,
+  reduction = "auto",
+  name = "squared_hinge"
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y_true</code></td>
+<td>
+<p>Ground truth values. shape = <code style="white-space: pre;">[batch_size, d1, .. dN]</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>y_pred</code></td>
+<td>
+<p>The predicted values. shape = <code style="white-space: pre;">[batch_size, d1, .. dN]</code>.
+(Tensor of the same shape as <code>y_true</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>from_logits</code></td>
+<td>
+<p>Whether <code>y_pred</code> is expected to be a logits tensor. By
+default we assume that <code>y_pred</code> encodes a probability distribution.</p>
+</td></tr>
+<tr valign="top"><td><code>label_smoothing</code></td>
+<td>
+<p>Float in <code style="white-space: pre;">[0, 1]</code>. If <code style="white-space: pre;">&gt; 0</code> then smooth the labels.
+For example, if <code>0.1</code>, use <code>0.1 / num_classes</code> for non-target labels and
+<code>0.9 + 0.1 / num_classes</code> for target labels.</p>
+</td></tr>
+<tr valign="top"><td><code>axis</code></td>
+<td>
+<p>The axis along which to compute crossentropy (the features axis).
+Axis is 1-based (e.g, first axis is <code>axis=1</code>). Defaults to <code>-1</code> (the last axis).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed on to the Python callable (for forward
+and backwards compatibility).</p>
+</td></tr>
+<tr valign="top"><td><code>reduction</code></td>
+<td>
+<p>Only applicable if <code>y_true</code> and <code>y_pred</code> are missing. Type
+of <code>keras$losses$Reduction</code> to apply to loss. Default value is <code>AUTO</code>.
+<code>AUTO</code> indicates that the reduction option will be determined by the usage
+context. For almost all cases this defaults to <code>SUM_OVER_BATCH_SIZE</code>. When
+used with <code>tf$distribute$Strategy</code>, outside of built-in training loops such
+as <code>compile</code> and <code>fit</code>, using <code>AUTO</code> or <code>SUM_OVER_BATCH_SIZE</code> will raise an
+error. Please see this custom training <a href="https://www.tensorflow.org/tutorials/distribute/custom_training">tutorial</a> for more
+details.</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>Only applicable if <code>y_true</code> and <code>y_pred</code> are missing. Optional
+name for the Loss instance.</p>
+</td></tr>
+<tr valign="top"><td><code>delta</code></td>
+<td>
+<p>A float, the point where the Huber loss function changes from a
+quadratic to linear.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Loss functions for model training. These are typically supplied in
+the <code>loss</code> parameter of the <code><a href="compile.keras.engine.training.Model.html">compile.keras.engine.training.Model()</a></code>
+function.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If called with <code>y_true</code> and <code>y_pred</code>, then the corresponding loss is
+evaluated and the result returned (as a tensor). Alternatively, if <code>y_true</code>
+and <code>y_pred</code> are missing, then a callable is returned that will compute the
+loss function and, by default, reduce the loss to a scalar tensor; see the
+<code>reduction</code> parameter for details. (The callable is a typically a class
+instance that inherits from <code>keras$losses$Loss</code>).
+</p>
+
+
+<h3>binary_crossentropy</h3>
+
+<p>Computes the binary crossentropy loss.
+</p>
+<p><code>label_smoothing</code> details: Float in <code style="white-space: pre;">[0, 1]</code>. If <code style="white-space: pre;">&gt; 0</code> then smooth the labels
+by squeezing them towards 0.5 That is, using <code>1. - 0.5 * label_smoothing</code>
+for the target class and <code>0.5 * label_smoothing</code> for the non-target class.
+</p>
+
+
+<h3>categorical_crossentropy</h3>
+
+<p>Computes the categorical crossentropy loss.
+</p>
+<p>When using the categorical_crossentropy loss, your targets should be in
+categorical format (e.g. if you have 10 classes, the target for each sample
+should be a 10-dimensional vector that is all-zeros except for a 1 at the
+index corresponding to the class of the sample). In order to convert
+integer targets into categorical targets, you can use the Keras utility
+function <code><a href="to_categorical.html">to_categorical()</a></code>:
+</p>
+<p><code>categorical_labels &lt;- to_categorical(int_labels, num_classes = NULL)</code>
+</p>
+
+
+<h3>huber</h3>
+
+<p>Computes Huber loss value.
+For each value x in <code>error = y_true - y_pred</code>:</p>
+<pre>loss = 0.5 * x^2                  if |x| &lt;= d
+loss = d * |x| - 0.5 * d^2        if |x| &gt; d
+</pre>
+<p>where d is <code>delta</code>. See: https://en.wikipedia.org/wiki/Huber_loss
+</p>
+
+
+<h3>log_cosh</h3>
+
+<p>Logarithm of the hyperbolic cosine of the prediction error.
+</p>
+<p><code>log(cosh(x))</code> is approximately equal to <code>(x ** 2) / 2</code> for small <code>x</code> and
+to <code>abs(x) - log(2)</code> for large <code>x</code>. This means that 'logcosh' works mostly
+like the mean squared error, but will not be so strongly affected by the
+occasional wildly incorrect prediction. However, it may return NaNs if the
+intermediate value <code>cosh(y_pred - y_true)</code> is too large to be represented
+in the chosen precision.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="compile.keras.engine.training.Model.html">compile.keras.engine.training.Model()</a></code>,
+<code><a href="loss-functions.html">loss_binary_crossentropy()</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

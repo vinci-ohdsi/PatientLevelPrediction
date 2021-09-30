@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Decodes the prediction of an ImageNet model.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for imagenet_decode_predictions {keras}"><tr><td>imagenet_decode_predictions {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Decodes the prediction of an ImageNet model.</h2>
+
+<h3>Description</h3>
+
+<p>Decodes the prediction of an ImageNet model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+imagenet_decode_predictions(preds, top = 5)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>preds</code></td>
+<td>
+<p>Tensor encoding a batch of predictions.</p>
+</td></tr>
+<tr valign="top"><td><code>top</code></td>
+<td>
+<p>integer, how many top-guesses to return.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>List of data frames with variables <code>class_name</code>, <code>class_description</code>,
+and <code>score</code> (one data frame per sample in batch input).
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

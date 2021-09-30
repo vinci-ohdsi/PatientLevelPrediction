@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: create the study population settings</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for createStudyPopulationSettings {PatientLevelPrediction}"><tr><td>createStudyPopulationSettings {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>create the study population settings</h2>
+
+<h3>Description</h3>
+
+<p>create the study population settings
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+createStudyPopulationSettings(
+  binary = T,
+  includeAllOutcomes = T,
+  firstExposureOnly = FALSE,
+  washoutPeriod = 0,
+  removeSubjectsWithPriorOutcome = TRUE,
+  priorOutcomeLookback = 99999,
+  requireTimeAtRisk = T,
+  minTimeAtRisk = 364,
+  riskWindowStart = 1,
+  startAnchor = "cohort start",
+  addExposureDaysToStart,
+  riskWindowEnd = 365,
+  endAnchor = "cohort start",
+  addExposureDaysToEnd,
+  verbosity = "INFO"
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>binary</code></td>
+<td>
+<p>Forces the outcomeCount to be 0 or 1 (use for binary prediction problems)</p>
+</td></tr>
+<tr valign="top"><td><code>includeAllOutcomes</code></td>
+<td>
+<p>(binary) indicating whether to include people with outcomes who are not observed for the whole at risk period</p>
+</td></tr>
+<tr valign="top"><td><code>firstExposureOnly</code></td>
+<td>
+<p>Should only the first exposure per subject be included? Note that
+this is typically done in the <code>createStudyPopulation</code> function,</p>
+</td></tr>
+<tr valign="top"><td><code>washoutPeriod</code></td>
+<td>
+<p>The mininum required continuous observation time prior to index
+date for a person to be included in the cohort.</p>
+</td></tr>
+<tr valign="top"><td><code>removeSubjectsWithPriorOutcome</code></td>
+<td>
+<p>Remove subjects that have the outcome prior to the risk window start?</p>
+</td></tr>
+<tr valign="top"><td><code>priorOutcomeLookback</code></td>
+<td>
+<p>How many days should we look back when identifying prior outcomes?</p>
+</td></tr>
+<tr valign="top"><td><code>requireTimeAtRisk</code></td>
+<td>
+<p>Should subject without time at risk be removed?</p>
+</td></tr>
+<tr valign="top"><td><code>minTimeAtRisk</code></td>
+<td>
+<p>The minimum number of days at risk required to be included</p>
+</td></tr>
+<tr valign="top"><td><code>riskWindowStart</code></td>
+<td>
+<p>The start of the risk window (in days) relative to the index date (+
+days of exposure if the <code>addExposureDaysToStart</code> parameter is
+specified).</p>
+</td></tr>
+<tr valign="top"><td><code>startAnchor</code></td>
+<td>
+<p>The anchor point for the start of the risk window. Can be &quot;cohort start&quot; or &quot;cohort end&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>addExposureDaysToStart</code></td>
+<td>
+<p>DEPRECATED: Add the length of exposure the start of the risk window? Use <code>startAnchor</code> instead.</p>
+</td></tr>
+<tr valign="top"><td><code>riskWindowEnd</code></td>
+<td>
+<p>The end of the risk window (in days) relative to the index data (+
+days of exposure if the <code>addExposureDaysToEnd</code> parameter is
+specified).</p>
+</td></tr>
+<tr valign="top"><td><code>endAnchor</code></td>
+<td>
+<p>The anchor point for the end of the risk window. Can be &quot;cohort start&quot; or &quot;cohort end&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>addExposureDaysToEnd</code></td>
+<td>
+<p>DEPRECATED: Add the length of exposure the risk window? Use <code>endAnchor</code> instead.</p>
+</td></tr>
+<tr valign="top"><td><code>verbosity</code></td>
+<td>
+<p>Sets the level of the verbosity. If the log level is at or higher in priority than the logger threshold, a message will print. The levels are:
+</p>
+
+<ul>
+<li><p>DEBUGHighest verbosity showing all debug statements
+</p>
+</li>
+<li><p>TRACEShowing information about start and end of steps
+</p>
+</li>
+<li><p>INFOShow informative information (Default)
+</p>
+</li>
+<li><p>WARNShow warning messages
+</p>
+</li>
+<li><p>ERRORShow error messages
+</p>
+</li>
+<li><p>FATALBe silent except for fatal errors 
+</p>
+</li></ul>
+<p>#'</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Takes as input the inputs to create study population
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list containing all the settings required for creating the study population
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

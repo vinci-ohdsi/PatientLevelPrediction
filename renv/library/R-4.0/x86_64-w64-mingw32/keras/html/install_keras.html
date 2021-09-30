@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Install TensorFlow and Keras, including all Python...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for install_keras {keras}"><tr><td>install_keras {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Install TensorFlow and Keras, including all Python dependencies</h2>
+
+<h3>Description</h3>
+
+<p>This function will install Tensorflow and all Keras dependencies. This is a
+thin wrapper around <code><a href="../../tensorflow/html/install_tensorflow.html">tensorflow::install_tensorflow()</a></code>, with the only
+difference being that this includes by default additional extra packages that
+keras expects, and the default version of tensorflow installed by
+<code>install_keras()</code>  may at times be different from the default installed
+<code>install_tensorflow()</code>. The default version of tensorflow installed by
+<code>install_keras()</code> is &quot;2.6&quot;.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+install_keras(
+  method = c("auto", "virtualenv", "conda"),
+  conda = "auto",
+  version = "default",
+  tensorflow = version,
+  extra_packages = NULL,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Installation method. By default, &quot;auto&quot; automatically finds a
+method that will work in the local environment. Change the default to force
+a specific installation method. Note that the &quot;virtualenv&quot; method is not
+available on Windows.</p>
+</td></tr>
+<tr valign="top"><td><code>conda</code></td>
+<td>
+<p>The path to a <code>conda</code> executable. Use <code>"auto"</code> to allow
+<code>reticulate</code> to automatically find an appropriate <code>conda</code> binary. See
+<strong>Finding Conda</strong> for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>version</code></td>
+<td>
+<p>TensorFlow version to install. Valid values include:
+</p>
+
+<ul>
+<li> <p><code>"default"</code> installs  2.6
+</p>
+</li>
+<li> <p><code>"release"</code> installs the latest release version of tensorflow (which may
+be incompatible with the current version of the R package)
+</p>
+</li>
+<li><p> A version specification like <code>"2.4"</code> or <code>"2.4.0"</code>. Note that if the patch
+version is not supplied, the latest patch release is installed (e.g.,
+<code>"2.4"</code> today installs version &quot;2.4.2&quot;)
+</p>
+</li>
+<li> <p><code>nightly</code> for the latest available nightly build.
+</p>
+</li>
+<li><p> To any specification, you can append &quot;-cpu&quot; to install the cpu version
+only of the package (e.g., <code>"2.4-cpu"</code>)
+</p>
+</li>
+<li><p> The full URL or path to a installer binary or python *.whl file.
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>tensorflow</code></td>
+<td>
+<p>Synonym for <code>version</code>. Maintained for backwards.</p>
+</td></tr>
+<tr valign="top"><td><code>extra_packages</code></td>
+<td>
+<p>Additional Python packages to install along with
+TensorFlow.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments passed to <code><a href="../../reticulate/html/conda-tools.html">reticulate::conda_install()</a></code> or
+<code><a href="../../reticulate/html/virtualenv-tools.html">reticulate::virtualenv_install()</a></code>, depending on the <code>method</code> used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The default additional packages are:
+tensorflow-hub, scipy, requests, pyyaml, Pillow, h5py, pandas, with their
+versions potentially constrained for compatibility with the
+requested tensorflow version.
+</p>
+
+
+<h3>Custom Installation</h3>
+
+<p><code>install_tensorflow()</code> or
+<code>keras::install_keras()</code> isn't required to use tensorflow with the package.
+If you manually configure a python environment with the required
+dependencies, you can tell R to use it by pointing reticulate at it,
+commonly by setting an environment variable:
+</p>
+<p><code>Sys.setenv("RETICULATE_PYTHON" = "~/path/to/python-env/bin/python")</code>
+</p>
+
+
+<h3>Apple Silicon</h3>
+
+<p>Tensorflow on Apple Silicon is not officially
+supported by the tensorflow maintainers. It is known that there can be
+issues running the official Tensorflow package under Rosetta as well.
+Fortunately, for the time being Apple has published a custom version of
+Tensorflow compatible with M1 macs. Installation instructions can be found
+at: <a href="https://developer.apple.com/metal/tensorflow-plugin/">https://developer.apple.com/metal/tensorflow-plugin/</a>. Please note
+that this is an experimental build of both python and tensorflow. After
+following the instructions provided by Apple, you can advise reticulate to
+use that python installation by placing the following in your
+<code>.Renviron</code> file:
+</p>
+<p><code>RETICULATE_PYTHON = "~/miniforge3/bin/python"</code>
+</p>
+
+
+<h3>Additional Packages</h3>
+
+<p>If you wish to add additional PyPI packages to your Keras / TensorFlow
+environment you can either specify the packages in the <code>extra_packages</code>
+argument of <code>install_tensorflow()</code> or <code>install_keras()</code>, or alternatively
+install them into an existing environment using the
+<code><a href="../../reticulate/html/py_install.html">reticulate::py_install()</a></code> function. Note that <code>install_keras()</code> includes a
+set of additional python packages by default, see <code>?keras::install_keras</code>
+for details.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../tensorflow/html/install_tensorflow.html">tensorflow::install_tensorflow()</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

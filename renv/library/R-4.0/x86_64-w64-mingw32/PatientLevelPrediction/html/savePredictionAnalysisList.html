@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Saves a json prediction settings given R settings</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for savePredictionAnalysisList {PatientLevelPrediction}"><tr><td>savePredictionAnalysisList {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Saves a json prediction settings given R settings</h2>
+
+<h3>Description</h3>
+
+<p>Saves a json prediction settings given R settings
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+savePredictionAnalysisList(
+  workFolder = "inst/settings",
+  cohortIds,
+  outcomeIds,
+  cohortSettingCsv = file.path(workFolder, "CohortsToCreate.csv"),
+  covariateSettingList,
+  populationSettingList,
+  modelSettingList,
+  maxSampleSize = NULL,
+  washoutPeriod = 0,
+  minCovariateFraction = 0,
+  normalizeData = T,
+  testSplit = "person",
+  testFraction = 0.25,
+  splitSeed = 1,
+  nfold = 3
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>workFolder</code></td>
+<td>
+<p>Location to save json specification</p>
+</td></tr>
+<tr valign="top"><td><code>cohortIds</code></td>
+<td>
+<p>Vector of target population cohort ids</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeIds</code></td>
+<td>
+<p>Vector of outcome cohort ids</p>
+</td></tr>
+<tr valign="top"><td><code>cohortSettingCsv</code></td>
+<td>
+<p>The location to the csv containing the cohort details</p>
+</td></tr>
+<tr valign="top"><td><code>covariateSettingList</code></td>
+<td>
+<p>A list of covariate settings</p>
+</td></tr>
+<tr valign="top"><td><code>populationSettingList</code></td>
+<td>
+<p>A list of population settings</p>
+</td></tr>
+<tr valign="top"><td><code>modelSettingList</code></td>
+<td>
+<p>A list of model settings</p>
+</td></tr>
+<tr valign="top"><td><code>maxSampleSize</code></td>
+<td>
+<p>If not NULL then max number of target population to sample for model training</p>
+</td></tr>
+<tr valign="top"><td><code>washoutPeriod</code></td>
+<td>
+<p>Minimum prior observation for each person in target pop to be included</p>
+</td></tr>
+<tr valign="top"><td><code>minCovariateFraction</code></td>
+<td>
+<p>Minimum covariate fraction to include</p>
+</td></tr>
+<tr valign="top"><td><code>normalizeData</code></td>
+<td>
+<p>Whether to normalise data</p>
+</td></tr>
+<tr valign="top"><td><code>testSplit</code></td>
+<td>
+<p>Split by person or time</p>
+</td></tr>
+<tr valign="top"><td><code>testFraction</code></td>
+<td>
+<p>Fractiuon of data to use for test set</p>
+</td></tr>
+<tr valign="top"><td><code>splitSeed</code></td>
+<td>
+<p>Seed used in test split</p>
+</td></tr>
+<tr valign="top"><td><code>nfold</code></td>
+<td>
+<p>Number of folds used when training model</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function interprets a json with the multiple prediction settings and creates a list 
+that can be combined with connection settings to run a multiple prediction study
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

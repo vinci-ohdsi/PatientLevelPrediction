@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieve tensors for layers with multiple nodes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for get_input_at {keras}"><tr><td>get_input_at {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieve tensors for layers with multiple nodes</h2>
+
+<h3>Description</h3>
+
+<p>Whenever you are calling a layer on some input, you are creating a new tensor
+(the output of the layer), and you are adding a &quot;node&quot; to the layer, linking
+the input tensor to the output tensor. When you are calling the same layer
+multiple times, that layer owns multiple nodes indexed as 1, 2, 3. These
+functions enable you to retrieve various tensor properties of layers with
+multiple nodes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+get_input_at(object, node_index)
+
+get_output_at(object, node_index)
+
+get_input_shape_at(object, node_index)
+
+get_output_shape_at(object, node_index)
+
+get_input_mask_at(object, node_index)
+
+get_output_mask_at(object, node_index)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Layer or model object</p>
+</td></tr>
+<tr valign="top"><td><code>node_index</code></td>
+<td>
+<p>Integer, index of the node from which to retrieve the
+attribute. E.g. <code>node_index = 1</code> will correspond to the first time the
+layer was called.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A tensor (or list of tensors if the layer has multiple inputs/outputs).
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other layer methods: 
+<code><a href="count_params.html">count_params</a>()</code>,
+<code><a href="get_config.html">get_config</a>()</code>,
+<code><a href="get_weights.html">get_weights</a>()</code>,
+<code><a href="reset_states.html">reset_states</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

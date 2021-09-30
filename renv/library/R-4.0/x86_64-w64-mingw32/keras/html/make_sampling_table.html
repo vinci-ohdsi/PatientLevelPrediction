@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generates a word rank-based probabilistic sampling table.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for make_sampling_table {keras}"><tr><td>make_sampling_table {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generates a word rank-based probabilistic sampling table.</h2>
+
+<h3>Description</h3>
+
+<p>Generates a word rank-based probabilistic sampling table.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+make_sampling_table(size, sampling_factor = 1e-05)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>size</code></td>
+<td>
+<p>Int, number of possible words to sample.</p>
+</td></tr>
+<tr valign="top"><td><code>sampling_factor</code></td>
+<td>
+<p>The sampling factor in the word2vec formula.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Used for generating the <code>sampling_table</code> argument for <code><a href="skipgrams.html">skipgrams()</a></code>.
+<code>sampling_table[[i]]</code> is the probability of sampling the word i-th most common
+word in a dataset (more common words should be sampled less frequently, for balance).
+</p>
+<p>The sampling probabilities are generated according to the sampling distribution used in word2vec:
+</p>
+<p><code>p(word) = min(1, sqrt(word_frequency / sampling_factor) / (word_frequency / sampling_factor))</code>
+</p>
+<p>We assume that the word frequencies follow Zipf's law (s=1) to derive a
+numerical approximation of frequency(rank):
+</p>
+<p><code>frequency(rank) ~ 1/(rank * (log(rank) + gamma) + 1/2 - 1/(12*rank))</code>
+</p>
+<p>where <code>gamma</code> is the Euler-Mascheroni constant.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An array of length <code>size</code> where the ith entry is the
+probability that a word of rank i should be sampled.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The word2vec formula is: p(word) = min(1,
+sqrt(word.frequency/sampling_factor) / (word.frequency/sampling_factor))
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other text preprocessing: 
+<code><a href="pad_sequences.html">pad_sequences</a>()</code>,
+<code><a href="skipgrams.html">skipgrams</a>()</code>,
+<code><a href="text_hashing_trick.html">text_hashing_trick</a>()</code>,
+<code><a href="text_one_hot.html">text_one_hot</a>()</code>,
+<code><a href="text_to_word_sequence.html">text_to_word_sequence</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

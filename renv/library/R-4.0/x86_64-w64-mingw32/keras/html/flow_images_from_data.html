@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generates batches of augmented/normalized data from image...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for flow_images_from_data {keras}"><tr><td>flow_images_from_data {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generates batches of augmented/normalized data from image data and labels</h2>
+
+<h3>Description</h3>
+
+<p>Generates batches of augmented/normalized data from image data and labels
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+flow_images_from_data(
+  x,
+  y = NULL,
+  generator = image_data_generator(),
+  batch_size = 32,
+  shuffle = TRUE,
+  sample_weight = NULL,
+  seed = NULL,
+  save_to_dir = NULL,
+  save_prefix = "",
+  save_format = "png",
+  subset = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>data. Should have rank 4. In case of grayscale data, the channels
+axis should have value 1, and in case of RGB data, it should have value 3.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>labels (can be <code>NULL</code> if no labels are required)</p>
+</td></tr>
+<tr valign="top"><td><code>generator</code></td>
+<td>
+<p>Image data generator to use for augmenting/normalizing image
+data.</p>
+</td></tr>
+<tr valign="top"><td><code>batch_size</code></td>
+<td>
+<p>int (default: <code>32</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>shuffle</code></td>
+<td>
+<p>boolean (defaut: <code>TRUE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>sample_weight</code></td>
+<td>
+<p>Sample weights.</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>int (default: <code>NULL</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>save_to_dir</code></td>
+<td>
+<p><code>NULL</code> or str (default: <code>NULL</code>). This allows you to
+optionally specify a directory to which to save the augmented pictures being
+generated (useful for visualizing what you are doing).</p>
+</td></tr>
+<tr valign="top"><td><code>save_prefix</code></td>
+<td>
+<p>str (default: &rdquo;). Prefix to use for filenames of saved
+pictures (only relevant if <code>save_to_dir</code> is set).</p>
+</td></tr>
+<tr valign="top"><td><code>save_format</code></td>
+<td>
+<p>one of &quot;png&quot;, &quot;jpeg&quot; (only relevant if save_to_dir is
+set). Default: &quot;png&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>Subset of data (<code>"training"</code> or <code>"validation"</code>) if
+<code>validation_split</code> is set in <code><a href="image_data_generator.html">image_data_generator()</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Yields batches indefinitely, in an infinite loop.
+</p>
+
+
+<h3>Yields</h3>
+
+<p><code style="white-space: pre;">(x, y)</code> where <code>x</code> is an array of image data and <code>y</code> is a
+array of corresponding labels. The generator loops indefinitely.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other image preprocessing: 
+<code><a href="fit_image_data_generator.html">fit_image_data_generator</a>()</code>,
+<code><a href="flow_images_from_dataframe.html">flow_images_from_dataframe</a>()</code>,
+<code><a href="flow_images_from_directory.html">flow_images_from_directory</a>()</code>,
+<code><a href="image_load.html">image_load</a>()</code>,
+<code><a href="image_to_array.html">image_to_array</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

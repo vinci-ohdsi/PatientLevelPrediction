@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Make a python class constructor</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for %py_class% {keras}"><tr><td>%py_class% {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Make a python class constructor</h2>
+
+<h3>Description</h3>
+
+<p>Make a python class constructor
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+spec %py_class% body
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>spec</code></td>
+<td>
+<p>a bare symbol <code>MyClassName</code>, or a call <code>MyClassName(SuperClass)</code></p>
+</td></tr>
+<tr valign="top"><td><code>body</code></td>
+<td>
+<p>an expression that can be evaluated to construct the class
+methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The python class constructor, invisibly. Note, the same constructor is
+also assigned in the parent frame.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+MyClass %py_class% {
+  initialize &lt;- function(x) {
+    print("Hi from MyClass$initialize()!")
+    self$x &lt;- x
+  }
+  my_method &lt;- function() {
+    self$x
+  }
+}
+
+my_class_instance &lt;- MyClass(42)
+my_class_instance$my_method()
+
+MyClass2(MyClass) %py_class% {
+  "This will be a __doc__ string for MyClass2"
+
+  initialize &lt;- function(...) {
+    "This will be the __doc__ string for the MyClass2.__init__() method"
+    print("Hi from MyClass2$initialize()!")
+    super$initialize(...)
+  }
+}
+
+my_class_instance2 &lt;- MyClass2(42)
+my_class_instance2$my_method()
+
+reticulate::py_help(MyClass2) # see the __doc__ strings and more!
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

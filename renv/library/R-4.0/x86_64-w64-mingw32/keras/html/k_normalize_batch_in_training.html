@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Computes mean and std for batch then apply...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for k_normalize_batch_in_training {keras}"><tr><td>k_normalize_batch_in_training {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Computes mean and std for batch then apply batch_normalization on batch.</h2>
+
+<h3>Description</h3>
+
+<p>Computes mean and std for batch then apply batch_normalization on batch.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+k_normalize_batch_in_training(x, gamma, beta, reduction_axes, epsilon = 0.001)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Input tensor or variable.</p>
+</td></tr>
+<tr valign="top"><td><code>gamma</code></td>
+<td>
+<p>Tensor by which to scale the input.</p>
+</td></tr>
+<tr valign="top"><td><code>beta</code></td>
+<td>
+<p>Tensor with which to center the input.</p>
+</td></tr>
+<tr valign="top"><td><code>reduction_axes</code></td>
+<td>
+<p>iterable of integers, axes over which to normalize.</p>
+</td></tr>
+<tr valign="top"><td><code>epsilon</code></td>
+<td>
+<p>Fuzz factor.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list length of 3, <code style="white-space: pre;">(normalized_tensor, mean, variance)</code>.
+</p>
+
+
+<h3>Keras Backend</h3>
+
+<p>This function is part of a set of Keras backend functions that enable
+lower level access to the core operations of the backend tensor engine
+(e.g. TensorFlow, CNTK, Theano, etc.).
+</p>
+<p>You can see a list of all available backend functions here:
+<a href="https://keras.rstudio.com/articles/backend.html#backend-functions">https://keras.rstudio.com/articles/backend.html#backend-functions</a>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create setting for neural network model with python</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for setMLP {PatientLevelPrediction}"><tr><td>setMLP {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create setting for neural network model with python</h2>
+
+<h3>Description</h3>
+
+<p>Create setting for neural network model with python
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+setMLP(
+  size = 4,
+  alpha = c(0.3, 0.01, 0.001, 1e-06),
+  maxIter = 2000,
+  tol = 1e-04,
+  learningRateInit = 0.001,
+  nIterNoChange = 10,
+  beta1 = 0.9,
+  beta2 = 0.999,
+  epsilon = c(1, 0.1, 1e-08),
+  seed = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>size</code></td>
+<td>
+<p>The number of hidden nodes</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>The l2 regularisation</p>
+</td></tr>
+<tr valign="top"><td><code>maxIter</code></td>
+<td>
+<p>Maximum number of iterations. The solver iterates until convergence (determined by ‘tol’) or this number of iterations.</p>
+</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+<p>Tolerance for the optimization</p>
+</td></tr>
+<tr valign="top"><td><code>learningRateInit</code></td>
+<td>
+<p>The initial learning rate used. It controls the step-size in updating the weights.</p>
+</td></tr>
+<tr valign="top"><td><code>nIterNoChange</code></td>
+<td>
+<p>Maximum number of epochs to not meet tol improvement.</p>
+</td></tr>
+<tr valign="top"><td><code>beta1</code></td>
+<td>
+<p>Exponential decay rate for estimates of first moment vector in adam, should be in [0, 1).</p>
+</td></tr>
+<tr valign="top"><td><code>beta2</code></td>
+<td>
+<p>Exponential decay rate for estimates of second moment vector in adam, should be in [0, 1).</p>
+</td></tr>
+<tr valign="top"><td><code>epsilon</code></td>
+<td>
+<p>Value for numerical stability in adam.</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>A seed for the model</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+model.mlp &lt;- setMLP(size=4, alpha=0.00001, seed=NULL)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

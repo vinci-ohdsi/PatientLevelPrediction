@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit image data generator internal statistics to some sample...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for fit_image_data_generator {keras}"><tr><td>fit_image_data_generator {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fit image data generator internal statistics to some sample data.</h2>
+
+<h3>Description</h3>
+
+<p>Required for <code>featurewise_center</code>, <code>featurewise_std_normalization</code>
+and <code>zca_whitening</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fit_image_data_generator(object, x, augment = FALSE, rounds = 1, seed = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><code><a href="image_data_generator.html">image_data_generator()</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>array, the data to fit on (should have rank 4). In case of grayscale data,
+the channels axis should have value 1, and in case of RGB data, it should have value 3.</p>
+</td></tr>
+<tr valign="top"><td><code>augment</code></td>
+<td>
+<p>Whether to fit on randomly augmented samples</p>
+</td></tr>
+<tr valign="top"><td><code>rounds</code></td>
+<td>
+<p>If <code>augment</code>, how many augmentation passes to do over the data</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>random seed.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other image preprocessing: 
+<code><a href="flow_images_from_dataframe.html">flow_images_from_dataframe</a>()</code>,
+<code><a href="flow_images_from_data.html">flow_images_from_data</a>()</code>,
+<code><a href="flow_images_from_directory.html">flow_images_from_directory</a>()</code>,
+<code><a href="image_load.html">image_load</a>()</code>,
+<code><a href="image_to_array.html">image_to_array</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: 3D array representation of images</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for image_to_array {keras}"><tr><td>image_to_array {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>3D array representation of images</h2>
+
+<h3>Description</h3>
+
+<p>3D array that represents an image with dimensions (height,width,channels) or
+(channels,height,width) depending on the data_format.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+image_to_array(img, data_format = c("channels_last", "channels_first"))
+
+image_array_resize(
+  img,
+  height,
+  width,
+  data_format = c("channels_last", "channels_first")
+)
+
+image_array_save(
+  img,
+  path,
+  data_format = NULL,
+  file_format = NULL,
+  scale = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>img</code></td>
+<td>
+<p>Image</p>
+</td></tr>
+<tr valign="top"><td><code>data_format</code></td>
+<td>
+<p>Image data format (&quot;channels_last&quot; or &quot;channels_first&quot;)</p>
+</td></tr>
+<tr valign="top"><td><code>height</code></td>
+<td>
+<p>Height to resize to</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>Width to resize to</p>
+</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>Path to save image to</p>
+</td></tr>
+<tr valign="top"><td><code>file_format</code></td>
+<td>
+<p>Optional file format override. If omitted, the format to
+use is determined from the filename extension. If a file object was used
+instead of a filename, this parameter should always be used.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>Whether to rescale image values to be within 0,255</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other image preprocessing: 
+<code><a href="fit_image_data_generator.html">fit_image_data_generator</a>()</code>,
+<code><a href="flow_images_from_dataframe.html">flow_images_from_dataframe</a>()</code>,
+<code><a href="flow_images_from_data.html">flow_images_from_data</a>()</code>,
+<code><a href="flow_images_from_directory.html">flow_images_from_directory</a>()</code>,
+<code><a href="image_load.html">image_load</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

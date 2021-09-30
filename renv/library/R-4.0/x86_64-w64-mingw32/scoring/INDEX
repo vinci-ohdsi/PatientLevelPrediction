@@ -1,0 +1,7 @@
+WeatherProbs            Three-category weather forecasts
+WorldEvents             Forecasts of world events
+brierscore              Calculate Brier Scores And Decompositions
+calcscore               Calculate Scores Under A Specific Rule
+logscore                Calculate Logarithmic Scores
+plotscore               Plot a Two-Alternative Scoring Rule
+sphscore                Calculate Spherical Scores

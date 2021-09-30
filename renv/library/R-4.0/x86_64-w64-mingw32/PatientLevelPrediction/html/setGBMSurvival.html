@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create setting for GBM Survival with python #' @description...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for setGBMSurvival {PatientLevelPrediction}"><tr><td>setGBMSurvival {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create setting for GBM Survival with python
+#' @description
+This creates a setting for fitting  GBM surivial model.  You need sksurv python install.  To install this open your command line and type: conda install -c sebp scikit-survival</h2>
+
+<h3>Description</h3>
+
+<p>Create setting for GBM Survival with python
+#' @description
+This creates a setting for fitting  GBM surivial model.  You need sksurv python install.  To install this open your command line and type: conda install -c sebp scikit-survival
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+setGBMSurvival(
+  loss = "coxph",
+  learningRate = 0.1,
+  nEstimators = c(100),
+  criterion = "friedman_mse",
+  minSamplesSplit = 2,
+  minSamplesLeaf = 1,
+  minWeightFractionLeaf = 0,
+  maxDepth = c(3, 10, 17),
+  minImpuritySplit = NULL,
+  minImpurityDecrease = 0,
+  maxFeatures = NULL,
+  maxLeafNodes = NULL,
+  presort = NULL,
+  subsample = 1,
+  dropoutRate = 0,
+  seed = NULL,
+  quiet = F
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>loss</code></td>
+<td>
+<p>A string specifying the loss function to minimise (default: 'coxph' )</p>
+</td></tr>
+<tr valign="top"><td><code>learningRate</code></td>
+<td>
+<p>A double specifying the learning rate (controls convergence speed)</p>
+</td></tr>
+<tr valign="top"><td><code>nEstimators</code></td>
+<td>
+<p>An integer specifying how many trees to build</p>
+</td></tr>
+<tr valign="top"><td><code>criterion</code></td>
+<td>
+<p>Default: 'friedman_mse'</p>
+</td></tr>
+<tr valign="top"><td><code>minSamplesSplit</code></td>
+<td>
+<p>An integer specifying min samples per tree split (complexity)</p>
+</td></tr>
+<tr valign="top"><td><code>minSamplesLeaf</code></td>
+<td>
+<p>An integer specifying min samples per leaf (complexity)</p>
+</td></tr>
+<tr valign="top"><td><code>minWeightFractionLeaf</code></td>
+<td>
+<p>Lookup</p>
+</td></tr>
+<tr valign="top"><td><code>maxDepth</code></td>
+<td>
+<p>An integer specifying the max depth of trees (complexity)</p>
+</td></tr>
+<tr valign="top"><td><code>minImpuritySplit</code></td>
+<td>
+<p>A double or NULL specifying the minimum impurity split</p>
+</td></tr>
+<tr valign="top"><td><code>minImpurityDecrease</code></td>
+<td>
+<p>will add</p>
+</td></tr>
+<tr valign="top"><td><code>maxFeatures</code></td>
+<td>
+<p>will add</p>
+</td></tr>
+<tr valign="top"><td><code>maxLeafNodes</code></td>
+<td>
+<p>will add</p>
+</td></tr>
+<tr valign="top"><td><code>presort</code></td>
+<td>
+<p>will add</p>
+</td></tr>
+<tr valign="top"><td><code>subsample</code></td>
+<td>
+<p>will add</p>
+</td></tr>
+<tr valign="top"><td><code>dropoutRate</code></td>
+<td>
+<p>will add</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>will add</p>
+</td></tr>
+<tr valign="top"><td><code>quiet</code></td>
+<td>
+<p>will add</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Pick the hyper-parameters you want to do a grid search for
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+gbmSurv &lt;- setGBMSurvival(learningRate=c(0.1,0.01), nEstimators =c(10,50,100),
+ maxDepth=c(4,10,17), seed = 2)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

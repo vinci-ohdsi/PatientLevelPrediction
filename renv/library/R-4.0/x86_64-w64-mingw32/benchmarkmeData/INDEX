@@ -1,0 +1,9 @@
+benchmarkmeData-package
+                        The benchmarkmeData package
+get_datatable_past      Interactive table of results
+is_blas_optimize        BLAS optimize
+make_data_set           Functions for manipulating uploaded results
+past_results            Benchmarking results
+past_results_v2         Benchmarking results
+plot_past               Scatter plot of past benchmarks
+summarise_results       Selecting results

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: (Deprecated) Base R6 class for Keras layers</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for KerasLayer {keras}"><tr><td>KerasLayer {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>(Deprecated) Base R6 class for Keras layers</h2>
+
+<h3>Description</h3>
+
+<p>Custom R6 layers can now inherit directly from <code>keras$layers$Layer</code> or other layers.
+</p>
+
+
+<h3>Format</h3>
+
+<p>An <a href="../../R6/html/R6Class.html">R6Class</a> generator object #'
+</p>
+
+
+<h3>Value</h3>
+
+<p><a href="KerasLayer.html">KerasLayer</a>.
+</p>
+
+
+<h3>Methods</h3>
+
+ <dl>
+<dt><code>build(input_shape)</code></dt><dd><p>Creates the
+layer weights (must be implemented by all layers that have weights)</p>
+</dd>
+<dt><code>call(inputs,mask)</code></dt><dd><p>Call the layer on an input tensor.</p>
+</dd>
+<dt><code>compute_output_shape(input_shape)</code></dt><dd><p>Compute the output shape
+for the layer.</p>
+</dd>
+<dt><code>add_loss(losses, inputs)</code></dt><dd><p>Add losses to the layer.</p>
+</dd>
+<dt><code>add_weight(name,shape,dtype,initializer,regularizer,trainable,constraint)</code></dt><dd><p>Adds
+a weight variable to the layer.</p>
+</dd> </dl>
+
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: (Deprecated) Create a Keras Wrapper</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for create_wrapper {keras}"><tr><td>create_wrapper {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>(Deprecated) Create a Keras Wrapper</h2>
+
+<h3>Description</h3>
+
+<p>R6 classes that inherit from <code>keras$layers$Wrapper</code> can now be instantiated
+directly by <code>create_layer</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+create_wrapper(wrapper_class, object, args = list())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>wrapper_class</code></td>
+<td>
+<p>R6 class of type KerasWrapper</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Object to compose layer with. This is either a
+<code><a href="keras_model_sequential.html">keras_model_sequential()</a></code> to add the layer to, or another Layer which
+this layer will call.</p>
+</td></tr>
+<tr valign="top"><td><code>args</code></td>
+<td>
+<p>List of arguments to layer constructor function</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A Keras wrapper
+</p>
+
+
+<h3>Note</h3>
+
+<p>The <code>object</code> parameter can be missing, in which case the
+layer is created without a connection to an existing graph.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

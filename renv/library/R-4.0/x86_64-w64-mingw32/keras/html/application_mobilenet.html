@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: MobileNet model architecture.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for application_mobilenet {keras}"><tr><td>application_mobilenet {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>MobileNet model architecture.</h2>
+
+<h3>Description</h3>
+
+<p>MobileNet model architecture.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+application_mobilenet(
+  input_shape = NULL,
+  alpha = 1,
+  depth_multiplier = 1,
+  dropout = 0.001,
+  include_top = TRUE,
+  weights = "imagenet",
+  input_tensor = NULL,
+  pooling = NULL,
+  classes = 1000
+)
+
+mobilenet_preprocess_input(x)
+
+mobilenet_decode_predictions(preds, top = 5)
+
+mobilenet_load_model_hdf5(filepath)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>input_shape</code></td>
+<td>
+<p>optional shape list, only to be specified if <code>include_top</code>
+is FALSE (otherwise the input shape has to be <code style="white-space: pre;">(224, 224, 3)</code> (with
+<code>channels_last</code> data format) or (3, 224, 224) (with <code>channels_first</code> data
+format). It should have exactly 3 inputs channels, and width and height
+should be no smaller than 32. E.g. <code style="white-space: pre;">(200, 200, 3)</code> would be one valid
+value.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>controls the width of the network.
+</p>
+
+<ul>
+<li><p> If <code>alpha</code> &lt; 1.0, proportionally decreases the number of filters in each layer.
+</p>
+</li>
+<li><p> If <code>alpha</code> &gt; 1.0, proportionally increases the number of filters in each layer.
+</p>
+</li>
+<li><p> If <code>alpha</code> = 1, default number of filters from the paper are used at each layer.
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>depth_multiplier</code></td>
+<td>
+<p>depth multiplier for depthwise convolution (also
+called the resolution multiplier)</p>
+</td></tr>
+<tr valign="top"><td><code>dropout</code></td>
+<td>
+<p>dropout rate</p>
+</td></tr>
+<tr valign="top"><td><code>include_top</code></td>
+<td>
+<p>whether to include the fully-connected layer at the top of
+the network.</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p><code>NULL</code> (random initialization), <code>imagenet</code> (ImageNet
+weights), or the path to the weights file to be loaded.</p>
+</td></tr>
+<tr valign="top"><td><code>input_tensor</code></td>
+<td>
+<p>optional Keras tensor (i.e. output of <code>layer_input()</code>)
+to use as image input for the model.</p>
+</td></tr>
+<tr valign="top"><td><code>pooling</code></td>
+<td>
+<p>Optional pooling mode for feature extraction when
+<code>include_top</code> is <code>FALSE</code>.
+- <code>NULL</code> means that the output of the model will be the 4D tensor output
+of the last convolutional layer.
+- <code>avg</code> means that global average pooling will be applied to the output
+of the last convolutional layer, and thus the output of the model will
+be a 2D tensor.
+- <code>max</code> means that global max pooling will be applied.</p>
+</td></tr>
+<tr valign="top"><td><code>classes</code></td>
+<td>
+<p>optional number of classes to classify images into, only to be
+specified if <code>include_top</code> is TRUE, and if no <code>weights</code> argument is
+specified.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>input tensor, 4D</p>
+</td></tr>
+<tr valign="top"><td><code>preds</code></td>
+<td>
+<p>Tensor encoding a batch of predictions.</p>
+</td></tr>
+<tr valign="top"><td><code>top</code></td>
+<td>
+<p>integer, how many top-guesses to return.</p>
+</td></tr>
+<tr valign="top"><td><code>filepath</code></td>
+<td>
+<p>File path</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>mobilenet_preprocess_input()</code> function should be used for image
+preprocessing. To load a saved instance of a MobileNet model use
+the <code>mobilenet_load_model_hdf5()</code> function. To prepare image input
+for MobileNet use <code>mobilenet_preprocess_input()</code>. To decode
+predictions use <code>mobilenet_decode_predictions()</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>application_mobilenet()</code> and <code>mobilenet_load_model_hdf5()</code> return a
+Keras model instance. <code>mobilenet_preprocess_input()</code> returns image input
+suitable for feeding into a mobilenet model. <code>mobilenet_decode_predictions()</code>
+returns a list of data frames with variables <code>class_name</code>, <code>class_description</code>,
+and <code>score</code> (one data frame per sample in batch input).
+</p>
+
+
+<h3>Reference</h3>
+
+
+<ul>
+<li> <p><a href="https://arxiv.org/pdf/1704.04861v1.pdf">MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications</a>.
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

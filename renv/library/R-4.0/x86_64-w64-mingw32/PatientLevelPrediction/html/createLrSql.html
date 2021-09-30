@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert logistic regression model to sql code...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for createLrSql {PatientLevelPrediction}"><tr><td>createLrSql {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert logistic regression model to sql code...</h2>
+
+<h3>Description</h3>
+
+<p>Convert logistic regression model to sql code...
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+createLrSql(
+  models,
+  modelNames,
+  covariateConstructionName = "prediction",
+  modelTable = "#model_table",
+  analysisId = 111,
+  e = environment(),
+  databaseOutput = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>models</code></td>
+<td>
+<p>A trianed plp model.</p>
+</td></tr>
+<tr valign="top"><td><code>modelNames</code></td>
+<td>
+<p>A name used in the covariate function names (no spaces)</p>
+</td></tr>
+<tr valign="top"><td><code>covariateConstructionName</code></td>
+<td>
+<p>the name used for the create covariate function</p>
+</td></tr>
+<tr valign="top"><td><code>modelTable</code></td>
+<td>
+<p>The temporary table name storing the model details</p>
+</td></tr>
+<tr valign="top"><td><code>analysisId</code></td>
+<td>
+<p>The covariate analysis_id</p>
+</td></tr>
+<tr valign="top"><td><code>e</code></td>
+<td>
+<p>The environment to output the covariate setting functions to</p>
+</td></tr>
+<tr valign="top"><td><code>databaseOutput</code></td>
+<td>
+<p>If you want to output to go inot a cohort table add the &quot;database.schema.tablename&quot; here</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is used to create custom covariates for a logistic regression model
+(currently only supports, demographics/conditions/drug/procedures/observations and measurement concepts)
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

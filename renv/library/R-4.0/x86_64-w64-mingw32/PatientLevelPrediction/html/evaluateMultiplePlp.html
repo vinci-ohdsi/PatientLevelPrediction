@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: externally validate the multiple plp models across new...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for evaluateMultiplePlp {PatientLevelPrediction}"><tr><td>evaluateMultiplePlp {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>externally validate the multiple plp models across new datasets</h2>
+
+<h3>Description</h3>
+
+<p>This function loads all the models in a multiple plp analysis folder and
+validates the models on new data
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+evaluateMultiplePlp(
+  analysesLocation,
+  outputLocation,
+  connectionDetails,
+  validationSchemaTarget,
+  validationSchemaOutcome,
+  validationSchemaCdm,
+  databaseNames,
+  validationTableTarget,
+  validationTableOutcome,
+  validationIdTarget = NULL,
+  validationIdOutcome = NULL,
+  oracleTempSchema = NULL,
+  verbosity = "INFO",
+  keepPrediction = F,
+  recalibrate = NULL,
+  sampleSize = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>analysesLocation</code></td>
+<td>
+<p>The location where the multiple plp analyses are</p>
+</td></tr>
+<tr valign="top"><td><code>outputLocation</code></td>
+<td>
+<p>The location to save to validation results</p>
+</td></tr>
+<tr valign="top"><td><code>connectionDetails</code></td>
+<td>
+<p>The connection details for extracting the new data</p>
+</td></tr>
+<tr valign="top"><td><code>validationSchemaTarget</code></td>
+<td>
+<p>A string or list of strings specifying the database containing the target cohorts</p>
+</td></tr>
+<tr valign="top"><td><code>validationSchemaOutcome</code></td>
+<td>
+<p>A string or list of strings specifying the database containing the outcome cohorts</p>
+</td></tr>
+<tr valign="top"><td><code>validationSchemaCdm</code></td>
+<td>
+<p>A string or list of strings specifying the database containing the cdm</p>
+</td></tr>
+<tr valign="top"><td><code>databaseNames</code></td>
+<td>
+<p>A string of lift of strings specifying sharing friendly database names corresponding to validationSchemaCdm</p>
+</td></tr>
+<tr valign="top"><td><code>validationTableTarget</code></td>
+<td>
+<p>A string or list of strings specifying the table containing the target cohorts</p>
+</td></tr>
+<tr valign="top"><td><code>validationTableOutcome</code></td>
+<td>
+<p>A string or list of strings specifying the table containing the outcome cohorts</p>
+</td></tr>
+<tr valign="top"><td><code>validationIdTarget</code></td>
+<td>
+<p>An iteger or list of integers specifying the cohort id for the target cohorts</p>
+</td></tr>
+<tr valign="top"><td><code>validationIdOutcome</code></td>
+<td>
+<p>An iteger or list of integers specifying the cohort id for the outcome cohorts</p>
+</td></tr>
+<tr valign="top"><td><code>oracleTempSchema</code></td>
+<td>
+<p>The temp oracle schema requires read/write</p>
+</td></tr>
+<tr valign="top"><td><code>verbosity</code></td>
+<td>
+<p>Sets the level of the verbosity. If the log level is at or higher in priority than the logger threshold, a message will print. The levels are:
+</p>
+
+<ul>
+<li><p>DEBUGHighest verbosity showing all debug statements
+</p>
+</li>
+<li><p>TRACEShowing information about start and end of steps
+</p>
+</li>
+<li><p>INFOShow informative information (Default)
+</p>
+</li>
+<li><p>WARNShow warning messages
+</p>
+</li>
+<li><p>ERRORShow error messages
+</p>
+</li>
+<li><p>FATALBe silent except for fatal errors
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>keepPrediction</code></td>
+<td>
+<p>Whether to keep the predicitons for the new data</p>
+</td></tr>
+<tr valign="top"><td><code>recalibrate</code></td>
+<td>
+<p>A vector of recalibration methods (currently supports 'RecalibrationintheLarge' and/or 'weakRecalibration')</p>
+</td></tr>
+<tr valign="top"><td><code>sampleSize</code></td>
+<td>
+<p>If not NULL, the number of people to sample from the target cohort</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Users need to input a location where the results of the multiple plp analyses
+are found and the connection and database settings for the new data
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

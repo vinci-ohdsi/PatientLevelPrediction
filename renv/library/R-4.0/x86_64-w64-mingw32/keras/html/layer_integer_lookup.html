@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A preprocessing layer which maps integer features to...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for layer_integer_lookup {keras}"><tr><td>layer_integer_lookup {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A preprocessing layer which maps integer features to contiguous ranges.</h2>
+
+<h3>Description</h3>
+
+<p>A preprocessing layer which maps integer features to contiguous ranges.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+layer_integer_lookup(
+  object,
+  max_tokens = NULL,
+  num_oov_indices = 1L,
+  mask_token = NULL,
+  oov_token = -1L,
+  vocabulary = NULL,
+  invert = FALSE,
+  output_mode = "int",
+  sparse = FALSE,
+  pad_to_max_tokens = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>What to call the new <code>Layer</code> instance with. Typically a keras
+<code>Model</code>, another <code>Layer</code>, or a <code>tf.Tensor</code>/<code>KerasTensor</code>. If <code>object</code> is
+missing, the <code>Layer</code> instance is returned, otherwise, <code>layer(object)</code> is
+returned.</p>
+</td></tr>
+<tr valign="top"><td><code>max_tokens</code></td>
+<td>
+<p>The maximum size of the vocabulary for this layer. If <code>NULL</code>,
+there is no cap on the size of the vocabulary. Note that this size
+includes the OOV and mask tokens. Default to <code>NULL.</code></p>
+</td></tr>
+<tr valign="top"><td><code>num_oov_indices</code></td>
+<td>
+<p>The number of out-of-vocabulary tokens to use. If this
+value is more than 1, OOV inputs are modulated to determine their OOV
+value. If this value is 0, OOV inputs will cause an error when calling the
+layer. Defaults to 1.</p>
+</td></tr>
+<tr valign="top"><td><code>mask_token</code></td>
+<td>
+<p>An integer token that represents masked inputs. When
+<code>output_mode</code> is <code>"int"</code>, the token is included in vocabulary and mapped
+to index 0. In other output modes, the token will not appear in the
+vocabulary and instances of the mask token in the input will be dropped.
+If set to <code>NULL</code>, no mask term will be added. Defaults to <code>NULL</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>oov_token</code></td>
+<td>
+<p>Only used when <code>invert</code> is <code>TRUE.</code> The token to return for OOV
+indices. Defaults to -1.</p>
+</td></tr>
+<tr valign="top"><td><code>vocabulary</code></td>
+<td>
+<p>Optional. Either an array of integers or a string path to a text
+file. If passing an array, can pass a list, list, 1D numpy array, or 1D
+tensor containing the integer vocabulary terms. If passing a file path, the
+file should contain one line per term in the vocabulary. If this argument
+is set, there is no need to <code>adapt</code> the layer.</p>
+</td></tr>
+<tr valign="top"><td><code>invert</code></td>
+<td>
+<p>Only valid when <code>output_mode</code> is <code>"int"</code>. If <code>TRUE</code>, this layer will
+map indices to vocabulary items instead of mapping vocabulary items to
+indices. Default to <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>output_mode</code></td>
+<td>
+<p>Specification for the output of the layer. Defaults to <code>"int"</code>.
+Values can be <code>"int"</code>, <code>"one_hot"</code>, <code>"multi_hot"</code>, <code>"count"</code>, or
+<code>"tf_idf"</code> configuring the layer as follows:
+</p>
+
+<ul>
+<li> <p><code>"int"</code>: Return the vocabulary indices of the input tokens.
+</p>
+</li>
+<li> <p><code>"one_hot"</code>: Encodes each individual element in the input into an
+array the same size as the vocabulary, containing a 1 at the element
+index. If the last dimension is size 1, will encode on that dimension.
+If the last dimension is not size 1, will append a new dimension for
+the encoded output.
+</p>
+</li>
+<li> <p><code>"multi_hot"</code>: Encodes each sample in the input into a single array
+the same size as the vocabulary, containing a 1 for each vocabulary
+term present in the sample. Treats the last dimension as the sample
+dimension, if input shape is (..., sample_length), output shape will
+be (..., num_tokens).
+</p>
+</li>
+<li> <p><code>"count"</code>: As <code>"multi_hot"</code>, but the int array contains a count of the
+number of times the token at that index appeared in the sample.
+</p>
+</li>
+<li> <p><code>"tf_idf"</code>: As <code>"multi_hot"</code>, but the TF-IDF algorithm is applied to
+find the value in each token slot.
+For <code>"int"</code> output, any shape of input and output is supported. For all
+other output modes, currently only output up to rank 2 is supported.
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>sparse</code></td>
+<td>
+<p>Boolean. Only applicable when <code>output_mode</code> is <code>"multi_hot"</code>,
+<code>"count"</code>, or <code>"tf_idf"</code>. If <code>TRUE</code>, returns a <code>SparseTensor</code> instead of a
+dense <code>Tensor</code>. Defaults to <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>pad_to_max_tokens</code></td>
+<td>
+<p>Only applicable when <code>output_mode</code> is <code>"multi_hot"</code>,
+<code>"count"</code>, or <code>"tf_idf"</code>. If TRUE, the output will have its feature axis
+padded to <code>max_tokens</code> even if the number of unique tokens in the
+vocabulary is less than max_tokens, resulting in a tensor of shape
+<code style="white-space: pre;">[batch_size, max_tokens]</code> regardless of vocabulary size. Defaults to <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>standard layer arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This layer maps a set of arbitrary integer input tokens into indexed
+integer output via a table-based vocabulary lookup. The layer's output indices
+will be contiguously arranged up to the maximum vocab size, even if the input
+tokens are non-continguous or unbounded. The layer supports multiple options
+for encoding the output via <code>output_mode</code>, and has optional support for
+out-of-vocabulary (OOV) tokens and masking.
+</p>
+<p>The vocabulary for the layer can be supplied on construction or learned via
+<code>adapt()</code>. During <code>adapt()</code>, the layer will analyze a data set, determine the
+frequency of individual integer tokens, and create a vocabulary from them. If
+the vocabulary is capped in size, the most frequent tokens will be used to
+create the vocabulary and all others will be treated as OOV.
+</p>
+<p>There are two possible output modes for the layer.
+When <code>output_mode</code> is <code>"int"</code>,
+input integers are converted to their index in the vocabulary (an integer).
+When <code>output_mode</code> is <code>"multi_hot"</code>, <code>"count"</code>, or <code>"tf_idf"</code>, input integers
+are encoded into an array where each dimension corresponds to an element in
+the vocabulary.
+</p>
+<p>The vocabulary for the layer must be either supplied on construction or
+learned via <code>adapt()</code>. During <code>adapt()</code>, the layer will analyze a data set,
+determine the frequency of individual integer tokens, and create a vocabulary
+from them. If the vocabulary is capped in size, the most frequent tokens will
+be used to create the vocabulary and all others will be treated as OOV.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code><a href="adapt.html">adapt()</a></code>
+</p>
+</li>
+<li> <p><a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/IntegerLookup">https://www.tensorflow.org/api_docs/python/tf/keras/layers/IntegerLookup</a>
+</p>
+</li>
+<li> <p><a href="https://keras.io/api/layers/preprocessing_layers/categorical/integer_lookup">https://keras.io/api/layers/preprocessing_layers/categorical/integer_lookup</a>
+</p>
+</li></ul>
+
+<p>Other categorical features preprocessing layers: 
+<code><a href="layer_category_encoding.html">layer_category_encoding</a>()</code>,
+<code><a href="layer_hashing.html">layer_hashing</a>()</code>,
+<code><a href="layer_string_lookup.html">layer_string_lookup</a>()</code>
+</p>
+<p>Other preprocessing layers: 
+<code><a href="layer_category_encoding.html">layer_category_encoding</a>()</code>,
+<code><a href="layer_center_crop.html">layer_center_crop</a>()</code>,
+<code><a href="layer_discretization.html">layer_discretization</a>()</code>,
+<code><a href="layer_hashing.html">layer_hashing</a>()</code>,
+<code><a href="layer_normalization.html">layer_normalization</a>()</code>,
+<code><a href="layer_random_contrast.html">layer_random_contrast</a>()</code>,
+<code><a href="layer_random_crop.html">layer_random_crop</a>()</code>,
+<code><a href="layer_random_flip.html">layer_random_flip</a>()</code>,
+<code><a href="layer_random_height.html">layer_random_height</a>()</code>,
+<code><a href="layer_random_rotation.html">layer_random_rotation</a>()</code>,
+<code><a href="layer_random_translation.html">layer_random_translation</a>()</code>,
+<code><a href="layer_random_width.html">layer_random_width</a>()</code>,
+<code><a href="layer_random_zoom.html">layer_random_zoom</a>()</code>,
+<code><a href="layer_rescaling.html">layer_rescaling</a>()</code>,
+<code><a href="layer_resizing.html">layer_resizing</a>()</code>,
+<code><a href="layer_string_lookup.html">layer_string_lookup</a>()</code>,
+<code><a href="layer_text_vectorization.html">layer_text_vectorization</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: [Under development] Transfer learning</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for transferLearning {PatientLevelPrediction}"><tr><td>transferLearning {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>[Under development] Transfer learning</h2>
+
+<h3>Description</h3>
+
+<p>[Under development] Transfer learning
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+transferLearning(
+  plpResult,
+  plpData,
+  population,
+  fixLayers = T,
+  includeTop = F,
+  addLayers = c(100, 10),
+  layerDropout = c(T, T),
+  layerActivation = c("relu", "softmax"),
+  outcomeWeight = 1,
+  batchSize = 10000,
+  epochs = 20
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>plpResult</code></td>
+<td>
+<p>The plp result when training a kersa deep learning model on big data</p>
+</td></tr>
+<tr valign="top"><td><code>plpData</code></td>
+<td>
+<p>The new data to fine tune the model on</p>
+</td></tr>
+<tr valign="top"><td><code>population</code></td>
+<td>
+<p>The population for the new data</p>
+</td></tr>
+<tr valign="top"><td><code>fixLayers</code></td>
+<td>
+<p>boolean specificying whether to fix weights in model being transferred</p>
+</td></tr>
+<tr valign="top"><td><code>includeTop</code></td>
+<td>
+<p>If TRUE the final layer of the model being transferred is removed</p>
+</td></tr>
+<tr valign="top"><td><code>addLayers</code></td>
+<td>
+<p>vector specifying nodes in each layer to add e.g. c(100,10) will add another layer with 100 nodels and then a final layer with 10</p>
+</td></tr>
+<tr valign="top"><td><code>layerDropout</code></td>
+<td>
+<p>Add dropout to each new layer (binary vector length of addLayers)</p>
+</td></tr>
+<tr valign="top"><td><code>layerActivation</code></td>
+<td>
+<p>Activation function for each new layer (string vector length of addLayers)</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeWeight</code></td>
+<td>
+<p>The weight to assign the class 1 when training the model</p>
+</td></tr>
+<tr valign="top"><td><code>batchSize</code></td>
+<td>
+<p>Size of each batch for updating layers</p>
+</td></tr>
+<tr valign="top"><td><code>epochs</code></td>
+<td>
+<p>Number of epoches to run</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+modelSet &lt;- setDeepNN()
+plpResult &lt;- runPlp(plpData, population, modelSettings = modelSet, ...)
+
+transferLearning(...)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

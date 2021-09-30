@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: MultiHeadAttention layer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for layer_multi_head_attention {keras}"><tr><td>layer_multi_head_attention {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>MultiHeadAttention layer</h2>
+
+<h3>Description</h3>
+
+<p>This is an implementation of multi-headed attention based on &quot;Attention is all
+you Need&quot;. If query, key, value are the same, then this is self-attention.
+Each timestep in query attends to the corresponding sequence in key, and returns
+a fixed-width vector.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+layer_multi_head_attention(
+  inputs,
+  num_heads,
+  key_dim,
+  value_dim = NULL,
+  dropout = 0,
+  use_bias = TRUE,
+  output_shape = NULL,
+  attention_axes = NULL,
+  kernel_initializer = "glorot_uniform",
+  bias_initializer = "zeros",
+  kernel_regularizer = NULL,
+  bias_regularizer = NULL,
+  activity_regularizer = NULL,
+  kernel_constraint = NULL,
+  bias_constraint = NULL,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>inputs</code></td>
+<td>
+<p>a list of inputs first should be the query tensor, the second the value tensor</p>
+</td></tr>
+<tr valign="top"><td><code>num_heads</code></td>
+<td>
+<p>Number of attention heads.</p>
+</td></tr>
+<tr valign="top"><td><code>key_dim</code></td>
+<td>
+<p>Size of each attention head for query and key.</p>
+</td></tr>
+<tr valign="top"><td><code>value_dim</code></td>
+<td>
+<p>Size of each attention head for value.</p>
+</td></tr>
+<tr valign="top"><td><code>dropout</code></td>
+<td>
+<p>Dropout probability.</p>
+</td></tr>
+<tr valign="top"><td><code>use_bias</code></td>
+<td>
+<p>Boolean, whether the dense layers use bias vectors/matrices.</p>
+</td></tr>
+<tr valign="top"><td><code>output_shape</code></td>
+<td>
+<p>The expected shape of an output tensor, besides the batch and sequence dims. If not specified, projects back to the key feature dim.</p>
+</td></tr>
+<tr valign="top"><td><code>attention_axes</code></td>
+<td>
+<p>axes over which the attention is applied. None means attention over all axes, but batch, heads, and features.</p>
+</td></tr>
+<tr valign="top"><td><code>kernel_initializer</code></td>
+<td>
+<p>Initializer for dense layer kernels.</p>
+</td></tr>
+<tr valign="top"><td><code>bias_initializer</code></td>
+<td>
+<p>Initializer for dense layer biases.</p>
+</td></tr>
+<tr valign="top"><td><code>kernel_regularizer</code></td>
+<td>
+<p>Regularizer for dense layer kernels.</p>
+</td></tr>
+<tr valign="top"><td><code>bias_regularizer</code></td>
+<td>
+<p>Regularizer for dense layer biases.</p>
+</td></tr>
+<tr valign="top"><td><code>activity_regularizer</code></td>
+<td>
+<p>Regularizer for dense layer activity.</p>
+</td></tr>
+<tr valign="top"><td><code>kernel_constraint</code></td>
+<td>
+<p>Constraint for dense layer kernels.</p>
+</td></tr>
+<tr valign="top"><td><code>bias_constraint</code></td>
+<td>
+<p>Constraint for dense layer kernels.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed to the layer. Eg, <code>name</code>, <code>training</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This layer first projects query, key and value. These are (effectively) a list
+of tensors of length num_attention_heads, where the corresponding shapes are
+<code style="white-space: pre;">[batch_size, , key_dim]</code>, <code style="white-space: pre;">[batch_size, , key_dim]</code>, <code style="white-space: pre;">[batch_size, , value_dim]</code>.
+</p>
+<p>Then, the query and key tensors are dot-producted and scaled. These are softmaxed
+to obtain attention probabilities. The value tensors are then interpolated by
+these probabilities, then concatenated back to a single tensor.
+</p>
+<p>Finally, the result tensor with the last dimension as value_dim can take an
+linear projection and return.
+</p>
+
+
+<h3>Value</h3>
+
+
+<ul>
+<li><p> attention_output: The result of the computation, of shape <code style="white-space: pre;">[B, T, E]</code>, where
+T is for target sequence shapes and E is the query input last dimension if
+output_shape is None. Otherwise, the multi-head outputs are project to the
+shape specified by output_shape.
+</p>
+</li>
+<li><p> attention_scores: (Optional) multi-head attention coeffients over attention axes.
+</p>
+</li></ul>
+
+
+
+<h3>Call arguments</h3>
+
+
+<ul>
+<li><p> query: Query Tensor of shape <code style="white-space: pre;">[B, T, dim]</code>.
+</p>
+</li>
+<li><p> value: Value Tensor of shape <code style="white-space: pre;">[B, S, dim]</code>.
+</p>
+</li>
+<li><p> key: Optional key Tensor of shape <code style="white-space: pre;">[B, S, dim]</code>. If not given, will use value
+for both key and value, which is the most common case.
+</p>
+</li>
+<li><p> attention_mask: a boolean mask of shape <code style="white-space: pre;">[B, T, S]</code>, that prevents attention
+to certain positions.
+</p>
+</li>
+<li><p> return_attention_scores: A boolean to indicate whether the output should be
+attention output if TRUE, or (attention_output, attention_scores) if FALSE.
+Defaults to FALSE.
+</p>
+</li>
+<li><p> training: Python boolean indicating whether the layer should behave in
+training mode (adding dropout) or in inference mode (no dropout). Defaults
+to either using the training mode of the parent layer/model, or FALSE
+(inference) if there is no parent layer.
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

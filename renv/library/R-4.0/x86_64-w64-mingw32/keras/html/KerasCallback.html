@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: (Deprecated) Base R6 class for Keras callbacks</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for KerasCallback {keras}"><tr><td>KerasCallback {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>(Deprecated) Base R6 class for Keras callbacks</h2>
+
+<h3>Description</h3>
+
+<p>New custom callbacks implemented as R6 classes are encouraged to inherit from
+keras$callbacks$Callback directly.
+</p>
+
+
+<h3>Format</h3>
+
+<p>An <a href="../../R6/html/R6Class.html">R6Class</a> generator object
+</p>
+
+
+<h3>Details</h3>
+
+<p>The <code>logs</code> named list that callback methods take as argument will
+contain keys for quantities relevant to the current batch or epoch.
+</p>
+<p>Currently, the <code>fit.keras.engine.training.Model()</code> method for sequential
+models will include the following quantities in the <code>logs</code> that
+it passes to its callbacks:
+</p>
+
+<ul>
+<li> <p><code>on_epoch_end</code>: logs include <code>acc</code> and <code>loss</code>, and optionally include <code>val_loss</code> (if validation is enabled in <code>fit</code>), and <code>val_acc</code> (if validation and accuracy monitoring are enabled).
+</p>
+</li>
+<li> <p><code>on_batch_begin</code>: logs include <code>size</code>, the number of samples in the current batch.
+</p>
+</li>
+<li> <p><code>on_batch_end</code>: logs include <code>loss</code>, and optionally <code>acc</code> (if accuracy monitoring is enabled).
+</p>
+</li></ul>
+
+
+
+<h3>Value</h3>
+
+<p><a href="KerasCallback.html">KerasCallback</a>.
+</p>
+
+
+<h3>Fields</h3>
+
+
+<dl>
+<dt><code>params</code></dt><dd><p>Named list with training parameters (eg. verbosity, batch size, number of epochs...).</p>
+</dd>
+<dt><code>model</code></dt><dd><p>Reference to the Keras model being trained.</p>
+</dd>
+</dl>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt><code>on_epoch_begin(epoch, logs)</code></dt><dd><p>Called at the beginning of each epoch.</p>
+</dd>
+<dt><code>on_epoch_end(epoch, logs)</code></dt><dd><p>Called at the end of each epoch.</p>
+</dd>
+<dt><code>on_batch_begin(batch, logs)</code></dt><dd><p>Called at the beginning of each batch.</p>
+</dd>
+<dt><code>on_batch_end(batch, logs)</code></dt><dd><p>Called at the end of each batch.</p>
+</dd>
+<dt><code>on_train_begin(logs)</code></dt><dd><p>Called at the beginning of training.</p>
+</dd>
+<dt><code>on_train_end(logs)</code></dt><dd><p>Called at the end of training.</p>
+</dd>
+</dl>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+library(keras)
+
+LossHistory &lt;- R6::R6Class("LossHistory",
+  inherit = KerasCallback,
+
+  public = list(
+
+    losses = NULL,
+
+    on_batch_end = function(batch, logs = list()) {
+      self$losses &lt;- c(self$losses, logs[["loss"]])
+    }
+  )
+)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

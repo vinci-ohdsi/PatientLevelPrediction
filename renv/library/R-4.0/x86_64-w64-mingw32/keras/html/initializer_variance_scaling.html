@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Initializer capable of adapting its scale to the shape of...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for initializer_variance_scaling {keras}"><tr><td>initializer_variance_scaling {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Initializer capable of adapting its scale to the shape of weights.</h2>
+
+<h3>Description</h3>
+
+<p>With <code>distribution="normal"</code>, samples are drawn from a truncated normal
+distribution centered on zero, with <code>stddev = sqrt(scale / n)</code> where n is:
+</p>
+
+<ul>
+<li><p> number of input units in the weight tensor, if mode = &quot;fan_in&quot;
+</p>
+</li>
+<li><p> number of output units, if mode = &quot;fan_out&quot;
+</p>
+</li>
+<li><p> average of the numbers of input and output units, if mode = &quot;fan_avg&quot;
+</p>
+</li></ul>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+initializer_variance_scaling(
+  scale = 1,
+  mode = c("fan_in", "fan_out", "fan_avg"),
+  distribution = c("normal", "uniform", "truncated_normal", "untruncated_normal"),
+  seed = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>Scaling factor (positive float).</p>
+</td></tr>
+<tr valign="top"><td><code>mode</code></td>
+<td>
+<p>One of &quot;fan_in&quot;, &quot;fan_out&quot;, &quot;fan_avg&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>distribution</code></td>
+<td>
+<p>One of &quot;truncated_normal&quot;, &quot;untruncated_normal&quot; and &quot;uniform&quot;.
+For backward compatibility, &quot;normal&quot; will be accepted and converted to
+&quot;untruncated_normal&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>Integer used to seed the random generator.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>With <code>distribution="uniform"</code>, samples are drawn from a uniform distribution
+within <code style="white-space: pre;">-limit, limit</code>, with <code>limit = sqrt(3 * scale / n)</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other initializers: 
+<code><a href="initializer_constant.html">initializer_constant</a>()</code>,
+<code><a href="initializer_glorot_normal.html">initializer_glorot_normal</a>()</code>,
+<code><a href="initializer_glorot_uniform.html">initializer_glorot_uniform</a>()</code>,
+<code><a href="initializer_he_normal.html">initializer_he_normal</a>()</code>,
+<code><a href="initializer_he_uniform.html">initializer_he_uniform</a>()</code>,
+<code><a href="initializer_identity.html">initializer_identity</a>()</code>,
+<code><a href="initializer_lecun_normal.html">initializer_lecun_normal</a>()</code>,
+<code><a href="initializer_lecun_uniform.html">initializer_lecun_uniform</a>()</code>,
+<code><a href="initializer_ones.html">initializer_ones</a>()</code>,
+<code><a href="initializer_orthogonal.html">initializer_orthogonal</a>()</code>,
+<code><a href="initializer_random_normal.html">initializer_random_normal</a>()</code>,
+<code><a href="initializer_random_uniform.html">initializer_random_uniform</a>()</code>,
+<code><a href="initializer_truncated_normal.html">initializer_truncated_normal</a>()</code>,
+<code><a href="initializer_zeros.html">initializer_zeros</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

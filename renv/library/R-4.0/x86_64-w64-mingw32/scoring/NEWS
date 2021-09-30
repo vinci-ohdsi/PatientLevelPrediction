@@ -1,0 +1,62 @@
+Changes in Version 0.6
+
+    o Weighted Brier decompositions, optionally with resampling,
+      are now available via brierscore().
+
+    o Scoring family parameters can now be specified by row,
+      allowing for a unique scoring rule for each forecast.
+
+    o logscore() now receives the reverse argument so that
+      scores go from -infty (worst) to 0 (best).
+
+Changes in Version 0.5-1
+
+    o Fixed a bug in calcscore() when ordered=TRUE, whereby
+      forecasts associated with outcomes in the final category
+      were scored incorrectly.
+
+Changes in Version 0.5
+
+    o Added support for scoring rules that are sensitive
+      to distance; see Jose et al, 2009, Management Science.
+
+    o Added Brier score convenience function that also returns
+      mean scores and Brier score decompositions.  Also added
+      log score and spherical score convenience functions.
+
+    o Fixed bug in scalescores(), whereby a lower bound < 0 and
+      reverse=TRUE resulted in incorrect scaling.
+
+    o Added code testing via testthat package to ensure bugs stay
+      fixed.
+
+Changes in Version 0.4
+
+    o Fixed bug in scalescores(), causing some min/max values of
+      pow- and sph-families to be computed incorrectly.  This
+      impacted attempted use of the 'bounds' argument.
+
+    o Corrected the 'made' column of WeatherProbs to reflect correct
+      dates.
+
+Changes in Version 0.3
+
+    o Added support for scoring forecasts with greater than 2
+      alternatives.
+
+    o Added data WeatherProbs, which contains three-category weather
+      forecasts concerning temperature and precipitation.
+
+    o Argument 'scaling' in calcscore() and plotscore() replaced with
+      'bounds', so the user can supply desired lower and upper bounds
+      of the scores.
+
+    o Added a 'reverse' argument that, if TRUE, assigns larger 
+      scores to good forecasters (as opposed to smaller scores).
+
+Changes in Version 0.2
+
+    o Fixed a bug associated with the beta family, where scaling=TRUE 
+      sometimes still resulted in scores > 1.
+
+    o Updated Merkle & Steyvers reference to reflect its acceptance.

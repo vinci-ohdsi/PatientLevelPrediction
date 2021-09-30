@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: diagnostic - Investigates the prediction problem settings -...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for diagnostic {PatientLevelPrediction}"><tr><td>diagnostic {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>diagnostic - Investigates the prediction problem settings - use before training a model</h2>
+
+<h3>Description</h3>
+
+<p>This function runs a set of prediction diagnoses to help pick a suitable T, O, TAR and determine 
+whether the prediction problem is worth executing.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+diagnostic(
+  plpData = NULL,
+  cdmDatabaseName,
+  connectionDetails,
+  cdmDatabaseSchema,
+  oracleTempSchema = NULL,
+  cohortId,
+  cohortName = cohortId,
+  outcomeIds,
+  outcomeNames = outcomeIds,
+  cohortDatabaseSchema,
+  cohortTable = "cohort",
+  outcomeDatabaseSchema = cohortDatabaseSchema,
+  outcomeTable = cohortTable,
+  cdmVersion = 5,
+  riskWindowStart = c(1, 1, 1, 1, 1),
+  startAnchor = rep("cohort start", 5),
+  riskWindowEnd = c(365, 365 * 2, 365 * 3, 365 * 4, 365 * 5),
+  endAnchor = rep("cohort start", 5),
+  outputFolder = NULL,
+  sampleSize = NULL,
+  minCellCount = 5
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>plpData</code></td>
+<td>
+<p>The data object to do the diagnostic on - if NULL you need to specify the connection settings below</p>
+</td></tr>
+<tr valign="top"><td><code>cdmDatabaseName</code></td>
+<td>
+<p>Name of the database</p>
+</td></tr>
+<tr valign="top"><td><code>connectionDetails</code></td>
+<td>
+<p>An R object of type<br /><code>connectionDetails</code> created using the
+function <code>createConnectionDetails</code> in the
+<code>DatabaseConnector</code> package.</p>
+</td></tr>
+<tr valign="top"><td><code>cdmDatabaseSchema</code></td>
+<td>
+<p>The name of the database schema that contains the OMOP CDM
+instance.  Requires read permissions to this database. On SQL
+Server, this should specifiy both the database and the schema,
+so for example 'cdm_instance.dbo'.</p>
+</td></tr>
+<tr valign="top"><td><code>oracleTempSchema</code></td>
+<td>
+<p>For Oracle only: the name of the database schema where you want
+all temporary tables to be managed. Requires create/insert
+permissions to this database.</p>
+</td></tr>
+<tr valign="top"><td><code>cohortId</code></td>
+<td>
+<p>A unique identifier to define the at risk cohorts. CohortId is
+used to select the cohort_concept_id in the cohort-like table.</p>
+</td></tr>
+<tr valign="top"><td><code>cohortName</code></td>
+<td>
+<p>A string specifying the name of the target cohort</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeIds</code></td>
+<td>
+<p>A vector of cohort_definition_ids used to define outcomes.</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeNames</code></td>
+<td>
+<p>A vector of names for each outcome.</p>
+</td></tr>
+<tr valign="top"><td><code>cohortDatabaseSchema</code></td>
+<td>
+<p>The name of the database schema that is the location where the
+cohort data used to define the at risk cohort is available.
+If cohortTable = DRUG_ERA, cohortDatabaseSchema is not used
+by assumed to be cdmSchema.  Requires read permissions to this
+database.</p>
+</td></tr>
+<tr valign="top"><td><code>cohortTable</code></td>
+<td>
+<p>The tablename that contains the at risk cohort.  If
+cohortTable &lt;&gt; DRUG_ERA, then expectation is cohortTable has
+format of COHORT table: cohort_concept_id, SUBJECT_ID,
+COHORT_START_DATE, COHORT_END_DATE.</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeDatabaseSchema</code></td>
+<td>
+<p>The name of the database schema that is the location where
+the data used to define the outcome cohorts is available. If
+cohortTable = CONDITION_ERA, exposureDatabaseSchema is not
+used by assumed to be cdmSchema.  Requires read permissions
+to this database.</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeTable</code></td>
+<td>
+<p>The tablename that contains the outcome cohorts.  If
+outcomeTable &lt;&gt; CONDITION_OCCURRENCE, then expectation is
+outcomeTable has format of COHORT table:
+COHORT_DEFINITION_ID, SUBJECT_ID, COHORT_START_DATE,
+COHORT_END_DATE.</p>
+</td></tr>
+<tr valign="top"><td><code>cdmVersion</code></td>
+<td>
+<p>Define the OMOP CDM version used: currently support &quot;4&quot; and &quot;5&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>riskWindowStart</code></td>
+<td>
+<p>The start of the risk window (in days) relative to the <code>startAnchor</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>startAnchor</code></td>
+<td>
+<p>The anchor point for the start of the risk window. Can be &quot;cohort start&quot; or &quot;cohort end&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>riskWindowEnd</code></td>
+<td>
+<p>The end of the risk window (in days) relative to the <code>endAnchor</code> parameter</p>
+</td></tr>
+<tr valign="top"><td><code>endAnchor</code></td>
+<td>
+<p>The anchor point for the end of the risk window. Can be &quot;cohort start&quot; or &quot;cohort end&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>outputFolder</code></td>
+<td>
+<p>Location to save results for shiny app</p>
+</td></tr>
+<tr valign="top"><td><code>sampleSize</code></td>
+<td>
+<p>Sample from the target population</p>
+</td></tr>
+<tr valign="top"><td><code>minCellCount</code></td>
+<td>
+<p>The minimum count that will be displayed</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Users can define set of Ts, Os, databases and population settings.  A list of data.frames containing details such as
+follow-up time distribution, time-to-event information, characteriszation details, time from last prior event, 
+observation time distribution.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object containing the model or location where the model is save, the data selection settings, the preprocessing
+and training settings as well as various performance measures obtained by the model.
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>distribution</code></td>
+<td>
+<p>list for each O of a data.frame containing: i) Time to observation end distribution, ii) Time from observation start distribution, iii) Time to event distribution and iv) Time from last prior event to index distribution (only for patients in T who have O before index) </p>
+</td></tr>
+<tr valign="top"><td><code>incident</code></td>
+<td>
+<p>list for each O of incidence of O in T during TAR</p>
+</td></tr>
+<tr valign="top"><td><code>characterization</code></td>
+<td>
+<p>list for each O of Characterization of T, TnO, Tn~O</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+#******** EXAMPLE 1 ********* 
+
+## End(Not run) 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

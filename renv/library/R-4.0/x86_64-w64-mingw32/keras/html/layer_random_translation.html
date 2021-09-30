@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Randomly translate each image during training</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for layer_random_translation {keras}"><tr><td>layer_random_translation {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Randomly translate each image during training</h2>
+
+<h3>Description</h3>
+
+<p>Randomly translate each image during training
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+layer_random_translation(
+  object,
+  height_factor,
+  width_factor,
+  fill_mode = "reflect",
+  interpolation = "bilinear",
+  seed = NULL,
+  fill_value = 0,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>What to call the new <code>Layer</code> instance with. Typically a keras
+<code>Model</code>, another <code>Layer</code>, or a <code>tf.Tensor</code>/<code>KerasTensor</code>. If <code>object</code> is
+missing, the <code>Layer</code> instance is returned, otherwise, <code>layer(object)</code> is
+returned.</p>
+</td></tr>
+<tr valign="top"><td><code>height_factor</code></td>
+<td>
+<p>a float represented as fraction of value, or a list of size
+2 representing lower and upper bound for shifting vertically. A negative
+value means shifting image up, while a positive value means shifting image
+down. When represented as a single positive float, this value is used for
+both the upper and lower bound. For instance, <code>height_factor = c(-0.2, 0.3)</code>
+results in an output shifted by a random amount in the range
+<code style="white-space: pre;">[-20%, +30%]</code>.
+<code>height_factor = 0.2</code> results in an output height shifted by a random amount
+in the range <code style="white-space: pre;">[-20%, +20%]</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>width_factor</code></td>
+<td>
+<p>a float represented as fraction of value, or a list of size 2
+representing lower and upper bound for shifting horizontally. A negative
+value means shifting image left, while a positive value means shifting
+image right. When represented as a single positive float, this value is
+used for both the upper and lower bound. For instance,
+<code>width_factor = c(-0.2, 0.3)</code> results in an output shifted left by 20%, and
+shifted right by 30%. <code>width_factor = 0.2</code> results in an output height
+shifted left or right by 20%.</p>
+</td></tr>
+<tr valign="top"><td><code>fill_mode</code></td>
+<td>
+<p>Points outside the boundaries of the input are filled according
+to the given mode (one of <code style="white-space: pre;">{"constant", "reflect", "wrap", "nearest"}</code>).
+</p>
+
+<ul>
+<li> <p><em>reflect</em>: <code style="white-space: pre;">(d c b a | a b c d | d c b a)</code> The input is extended by
+reflecting about the edge of the last pixel.
+</p>
+</li>
+<li> <p><em>constant</em>: <code style="white-space: pre;">(k k k k | a b c d | k k k k)</code> The input is extended by
+filling all values beyond the edge with the same constant value k = 0.
+</p>
+</li>
+<li> <p><em>wrap</em>: <code style="white-space: pre;">(a b c d | a b c d | a b c d)</code> The input is extended by
+wrapping around to the opposite edge.
+</p>
+</li>
+<li> <p><em>nearest</em>: <code style="white-space: pre;">(a a a a | a b c d | d d d d)</code> The input is extended by the
+nearest pixel.
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>interpolation</code></td>
+<td>
+<p>Interpolation mode. Supported values: <code>"nearest"</code>,
+<code>"bilinear"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>Integer. Used to create a random seed.</p>
+</td></tr>
+<tr valign="top"><td><code>fill_value</code></td>
+<td>
+<p>a float represents the value to be filled outside the boundaries
+when <code>fill_mode="constant"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>standard layer arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/RandomTranslation">https://www.tensorflow.org/api_docs/python/tf/keras/layers/RandomTranslation</a>
+</p>
+</li>
+<li> <p><a href="https://keras.io/api/layers/preprocessing_layers/">https://keras.io/api/layers/preprocessing_layers/</a>
+</p>
+</li></ul>
+
+<p>Other image augmentation layers: 
+<code><a href="layer_random_contrast.html">layer_random_contrast</a>()</code>,
+<code><a href="layer_random_crop.html">layer_random_crop</a>()</code>,
+<code><a href="layer_random_flip.html">layer_random_flip</a>()</code>,
+<code><a href="layer_random_height.html">layer_random_height</a>()</code>,
+<code><a href="layer_random_rotation.html">layer_random_rotation</a>()</code>,
+<code><a href="layer_random_width.html">layer_random_width</a>()</code>,
+<code><a href="layer_random_zoom.html">layer_random_zoom</a>()</code>
+</p>
+<p>Other preprocessing layers: 
+<code><a href="layer_category_encoding.html">layer_category_encoding</a>()</code>,
+<code><a href="layer_center_crop.html">layer_center_crop</a>()</code>,
+<code><a href="layer_discretization.html">layer_discretization</a>()</code>,
+<code><a href="layer_hashing.html">layer_hashing</a>()</code>,
+<code><a href="layer_integer_lookup.html">layer_integer_lookup</a>()</code>,
+<code><a href="layer_normalization.html">layer_normalization</a>()</code>,
+<code><a href="layer_random_contrast.html">layer_random_contrast</a>()</code>,
+<code><a href="layer_random_crop.html">layer_random_crop</a>()</code>,
+<code><a href="layer_random_flip.html">layer_random_flip</a>()</code>,
+<code><a href="layer_random_height.html">layer_random_height</a>()</code>,
+<code><a href="layer_random_rotation.html">layer_random_rotation</a>()</code>,
+<code><a href="layer_random_width.html">layer_random_width</a>()</code>,
+<code><a href="layer_random_zoom.html">layer_random_zoom</a>()</code>,
+<code><a href="layer_rescaling.html">layer_rescaling</a>()</code>,
+<code><a href="layer_resizing.html">layer_resizing</a>()</code>,
+<code><a href="layer_string_lookup.html">layer_string_lookup</a>()</code>,
+<code><a href="layer_text_vectorization.html">layer_text_vectorization</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Text tokenization utility</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for text_tokenizer {keras}"><tr><td>text_tokenizer {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Text tokenization utility</h2>
+
+<h3>Description</h3>
+
+<p>Vectorize a text corpus, by turning each text into either a sequence of
+integers (each integer being the index of a token in a dictionary) or into a
+vector where the coefficient for each token could be binary, based on word
+count, based on tf-idf...
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+text_tokenizer(
+  num_words = NULL,
+  filters = "!\"#$%&amp;()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~\t\n",
+  lower = TRUE,
+  split = " ",
+  char_level = FALSE,
+  oov_token = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>num_words</code></td>
+<td>
+<p>the maximum number of words to keep, based on word
+frequency. Only the most common <code>num_words</code> words will be kept.</p>
+</td></tr>
+<tr valign="top"><td><code>filters</code></td>
+<td>
+<p>a string where each element is a character that will be
+filtered from the texts. The default is all punctuation, plus tabs and line
+breaks, minus the ' character.</p>
+</td></tr>
+<tr valign="top"><td><code>lower</code></td>
+<td>
+<p>boolean. Whether to convert the texts to lowercase.</p>
+</td></tr>
+<tr valign="top"><td><code>split</code></td>
+<td>
+<p>character or string to use for token splitting.</p>
+</td></tr>
+<tr valign="top"><td><code>char_level</code></td>
+<td>
+<p>if <code>TRUE</code>, every character will be treated as a token</p>
+</td></tr>
+<tr valign="top"><td><code>oov_token</code></td>
+<td>
+<p><code>NULL</code> or string If given, it will be added to 'word_index&ldquo;
+and used to replace out-of-vocabulary words during text_to_sequence calls.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>By default, all punctuation is removed, turning the texts into
+space-separated sequences of words (words maybe include the ' character).
+These sequences are then split into lists of tokens. They will then be
+indexed or vectorized. <code>0</code> is a reserved index that won't be assigned to any
+word.
+</p>
+
+
+<h3>Attributes</h3>
+
+<p>The tokenizer object has the following attributes:
+</p>
+
+<ul>
+<li> <p><code>word_counts</code> &mdash; named list mapping words to the number of times they appeared
+on during fit. Only set after <code>fit_text_tokenizer()</code> is called on the tokenizer.
+</p>
+</li>
+<li> <p><code>word_docs</code> &mdash; named list mapping words to the number of documents/texts they
+appeared on during fit. Only set after <code>fit_text_tokenizer()</code> is called on the tokenizer.
+</p>
+</li>
+<li> <p><code>word_index</code> &mdash; named list mapping words to their rank/index (int). Only set
+after <code>fit_text_tokenizer()</code> is called on the tokenizer.
+</p>
+</li>
+<li> <p><code>document_count</code> &mdash; int. Number of documents (texts/sequences) the tokenizer
+was trained on. Only set after <code>fit_text_tokenizer()</code> is called on the tokenizer.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>Other text tokenization: 
+<code><a href="fit_text_tokenizer.html">fit_text_tokenizer</a>()</code>,
+<code><a href="save_text_tokenizer.html">save_text_tokenizer</a>()</code>,
+<code><a href="sequences_to_matrix.html">sequences_to_matrix</a>()</code>,
+<code><a href="texts_to_matrix.html">texts_to_matrix</a>()</code>,
+<code><a href="texts_to_sequences_generator.html">texts_to_sequences_generator</a>()</code>,
+<code><a href="texts_to_sequences.html">texts_to_sequences</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Utility function for generating batches of temporal data.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for timeseries_generator {keras}"><tr><td>timeseries_generator {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Utility function for generating batches of temporal data.</h2>
+
+<h3>Description</h3>
+
+<p>Utility function for generating batches of temporal data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+timeseries_generator(
+  data,
+  targets,
+  length,
+  sampling_rate = 1,
+  stride = 1,
+  start_index = 0,
+  end_index = NULL,
+  shuffle = FALSE,
+  reverse = FALSE,
+  batch_size = 128
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>Object containing consecutive data points (timesteps). The data
+should be 2D, and axis 1 is expected to be the time dimension.</p>
+</td></tr>
+<tr valign="top"><td><code>targets</code></td>
+<td>
+<p>Targets corresponding to timesteps in <code>data</code>.
+It should have same length as <code>data</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>length</code></td>
+<td>
+<p>Length of the output sequences (in number of timesteps).</p>
+</td></tr>
+<tr valign="top"><td><code>sampling_rate</code></td>
+<td>
+<p>Period between successive individual timesteps
+within sequences. For rate <code>r</code>, timesteps <code>data[i]</code>, <code>data[i-r]</code>, ... <code>data[i - length]</code>
+are used for create a sample sequence.</p>
+</td></tr>
+<tr valign="top"><td><code>stride</code></td>
+<td>
+<p>Period between successive output sequences.
+For stride <code>s</code>, consecutive output samples would
+be centered around <code>data[i]</code>, <code>data[i+s]</code>, <code>data[i+2*s]</code>, etc.</p>
+</td></tr>
+<tr valign="top"><td><code>start_index, end_index</code></td>
+<td>
+<p>Data points earlier than <code>start_index</code>
+or later than <code>end_index</code> will not be used in the output sequences.
+This is useful to reserve part of the data for test or validation.</p>
+</td></tr>
+<tr valign="top"><td><code>shuffle</code></td>
+<td>
+<p>Whether to shuffle output samples,
+or instead draw them in chronological order.</p>
+</td></tr>
+<tr valign="top"><td><code>reverse</code></td>
+<td>
+<p>Boolean: if <code>true</code>, timesteps in each output sample will be
+in reverse chronological order.</p>
+</td></tr>
+<tr valign="top"><td><code>batch_size</code></td>
+<td>
+<p>Number of timeseries samples in each batch
+(except maybe the last one).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object that can be passed to generator based training
+functions (e.g. <code><a href="fit_generator.html">fit_generator()</a></code>).ma
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

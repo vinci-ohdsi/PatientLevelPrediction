@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Reduce learning rate when a metric has stopped improving.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for callback_reduce_lr_on_plateau {keras}"><tr><td>callback_reduce_lr_on_plateau {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Reduce learning rate when a metric has stopped improving.</h2>
+
+<h3>Description</h3>
+
+<p>Models often benefit from reducing the learning rate by a factor of 2-10 once
+learning stagnates. This callback monitors a quantity and if no improvement
+is seen for a 'patience' number of epochs, the learning rate is reduced.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+callback_reduce_lr_on_plateau(
+  monitor = "val_loss",
+  factor = 0.1,
+  patience = 10,
+  verbose = 0,
+  mode = c("auto", "min", "max"),
+  min_delta = 1e-04,
+  cooldown = 0,
+  min_lr = 0
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>monitor</code></td>
+<td>
+<p>quantity to be monitored.</p>
+</td></tr>
+<tr valign="top"><td><code>factor</code></td>
+<td>
+<p>factor by which the learning rate will be reduced. new_lr = lr
+</p>
+
+<ul>
+<li><p> factor
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>patience</code></td>
+<td>
+<p>number of epochs with no improvement after which learning
+rate will be reduced.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>int. 0: quiet, 1: update messages.</p>
+</td></tr>
+<tr valign="top"><td><code>mode</code></td>
+<td>
+<p>one of &quot;auto&quot;, &quot;min&quot;, &quot;max&quot;. In min mode, lr will be reduced when
+the quantity monitored has stopped decreasing; in max mode it will be
+reduced when the quantity monitored has stopped increasing; in auto mode,
+the direction is automatically inferred from the name of the monitored
+quantity.</p>
+</td></tr>
+<tr valign="top"><td><code>min_delta</code></td>
+<td>
+<p>threshold for measuring the new optimum, to only focus on
+significant changes.</p>
+</td></tr>
+<tr valign="top"><td><code>cooldown</code></td>
+<td>
+<p>number of epochs to wait before resuming normal operation
+after lr has been reduced.</p>
+</td></tr>
+<tr valign="top"><td><code>min_lr</code></td>
+<td>
+<p>lower bound on the learning rate.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other callbacks: 
+<code><a href="callback_csv_logger.html">callback_csv_logger</a>()</code>,
+<code><a href="callback_early_stopping.html">callback_early_stopping</a>()</code>,
+<code><a href="callback_lambda.html">callback_lambda</a>()</code>,
+<code><a href="callback_learning_rate_scheduler.html">callback_learning_rate_scheduler</a>()</code>,
+<code><a href="callback_model_checkpoint.html">callback_model_checkpoint</a>()</code>,
+<code><a href="callback_progbar_logger.html">callback_progbar_logger</a>()</code>,
+<code><a href="callback_remote_monitor.html">callback_remote_monitor</a>()</code>,
+<code><a href="callback_tensorboard.html">callback_tensorboard</a>()</code>,
+<code><a href="callback_terminate_on_naan.html">callback_terminate_on_naan</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

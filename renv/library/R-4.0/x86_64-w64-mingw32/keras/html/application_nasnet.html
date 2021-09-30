@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Instantiates a NASNet model.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for application_nasnet {keras}"><tr><td>application_nasnet {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Instantiates a NASNet model.</h2>
+
+<h3>Description</h3>
+
+<p>Note that only TensorFlow is supported for now,
+therefore it only works with the data format
+<code>image_data_format='channels_last'</code> in your Keras config
+at <code style="white-space: pre;">~/.keras/keras.json</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+application_nasnet(
+  input_shape = NULL,
+  penultimate_filters = 4032L,
+  num_blocks = 6L,
+  stem_block_filters = 96L,
+  skip_reduction = TRUE,
+  filter_multiplier = 2L,
+  include_top = TRUE,
+  weights = NULL,
+  input_tensor = NULL,
+  pooling = NULL,
+  classes = 1000,
+  default_size = NULL
+)
+
+application_nasnetlarge(
+  input_shape = NULL,
+  include_top = TRUE,
+  weights = NULL,
+  input_tensor = NULL,
+  pooling = NULL,
+  classes = 1000
+)
+
+application_nasnetmobile(
+  input_shape = NULL,
+  include_top = TRUE,
+  weights = NULL,
+  input_tensor = NULL,
+  pooling = NULL,
+  classes = 1000
+)
+
+nasnet_preprocess_input(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>input_shape</code></td>
+<td>
+<p>Optional shape list, the input shape is by default <code style="white-space: pre;">(331, 331, 3)</code>
+for NASNetLarge and <code style="white-space: pre;">(224, 224, 3)</code> for NASNetMobile It should have exactly 3
+inputs channels, and width and height should be no smaller than 32. E.g.
+<code style="white-space: pre;">(224, 224, 3)</code> would be one valid value.</p>
+</td></tr>
+<tr valign="top"><td><code>penultimate_filters</code></td>
+<td>
+<p>Number of filters in the penultimate layer.
+NASNet models use the notation <code>NASNet (N @ P)</code>, where:
+- N is the number of blocks
+- P is the number of penultimate filters</p>
+</td></tr>
+<tr valign="top"><td><code>num_blocks</code></td>
+<td>
+<p>Number of repeated blocks of the NASNet model. NASNet
+models use the notation <code>NASNet (N @ P)</code>, where:
+- N is the number of blocks
+- P is the number of penultimate filters</p>
+</td></tr>
+<tr valign="top"><td><code>stem_block_filters</code></td>
+<td>
+<p>Number of filters in the initial stem block</p>
+</td></tr>
+<tr valign="top"><td><code>skip_reduction</code></td>
+<td>
+<p>Whether to skip the reduction step at the tail end
+of the network. Set to <code>FALSE</code> for CIFAR models.</p>
+</td></tr>
+<tr valign="top"><td><code>filter_multiplier</code></td>
+<td>
+<p>Controls the width of the network.
+</p>
+
+<ul>
+<li><p> If <code>filter_multiplier</code> &lt; 1.0, proportionally decreases the number of
+filters in each layer.
+</p>
+</li>
+<li><p> If <code>filter_multiplier</code> &gt; 1.0, proportionally increases the number of
+filters in each layer. - If <code>filter_multiplier</code> = 1, default number of
+filters from the paper are used at each layer.
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>include_top</code></td>
+<td>
+<p>Whether to include the fully-connected layer at the top
+of the network.</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p><code>NULL</code> (random initialization) or <code>imagenet</code> (ImageNet weights)</p>
+</td></tr>
+<tr valign="top"><td><code>input_tensor</code></td>
+<td>
+<p>Optional Keras tensor (i.e. output of <code>layer_input()</code>)
+to use as image input for the model.</p>
+</td></tr>
+<tr valign="top"><td><code>pooling</code></td>
+<td>
+<p>Optional pooling mode for feature extraction when
+<code>include_top</code> is <code>FALSE</code>.
+- <code>NULL</code> means that the output of the model will be the 4D tensor output
+of the last convolutional layer.
+- <code>avg</code> means that global average pooling will be applied to the output
+of the last convolutional layer, and thus the output of the model will
+be a 2D tensor.
+- <code>max</code> means that global max pooling will be applied.</p>
+</td></tr>
+<tr valign="top"><td><code>classes</code></td>
+<td>
+<p>Optional number of classes to classify images into, only to be
+specified if <code>include_top</code> is TRUE, and if no <code>weights</code> argument is
+specified.</p>
+</td></tr>
+<tr valign="top"><td><code>default_size</code></td>
+<td>
+<p>Specifies the default image size of the model</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a 4D array consists of RGB values within <code style="white-space: pre;">[0, 255]</code>.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

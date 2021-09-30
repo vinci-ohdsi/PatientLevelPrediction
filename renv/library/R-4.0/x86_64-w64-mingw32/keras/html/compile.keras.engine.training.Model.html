@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Configure a Keras model for training</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for compile.keras.engine.training.Model {keras}"><tr><td>compile.keras.engine.training.Model {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Configure a Keras model for training</h2>
+
+<h3>Description</h3>
+
+<p>Configure a Keras model for training
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'keras.engine.training.Model'
+compile(
+  object,
+  optimizer = NULL,
+  loss = NULL,
+  metrics = NULL,
+  loss_weights = NULL,
+  weighted_metrics = NULL,
+  run_eagerly = NULL,
+  steps_per_execution = NULL,
+  ...,
+  target_tensors = NULL,
+  sample_weight_mode = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Model object to compile.</p>
+</td></tr>
+<tr valign="top"><td><code>optimizer</code></td>
+<td>
+<p>String (name of optimizer) or optimizer instance. For most
+models, this defaults to <code>"rmsprop"</code></p>
+</td></tr>
+<tr valign="top"><td><code>loss</code></td>
+<td>
+<p>String (name of objective function), objective function or a
+<code>keras$losses$Loss</code> subclass instance. An objective function is any
+callable with the signature <code>loss = fn(y_true, y_pred)</code>, where y_true =
+ground truth values with shape = <code style="white-space: pre;">[batch_size, d0, .. dN]</code>, except sparse
+loss functions such as sparse categorical crossentropy where shape =
+<code style="white-space: pre;">[batch_size, d0, .. dN-1]</code>. y_pred = predicted values with shape =
+<code style="white-space: pre;">[batch_size, d0, .. dN]</code>. It returns a weighted loss float tensor. If a
+custom <code>Loss</code> instance is used and reduction is set to <code>NULL</code>, return value
+has the shape <code style="white-space: pre;">[batch_size, d0, .. dN-1]</code> i.e. per-sample or per-timestep
+loss values; otherwise, it is a scalar. If the model has multiple outputs,
+you can use a different loss on each output by passing a dictionary or a
+list of losses. The loss value that will be minimized by the model will
+then be the sum of all individual losses, unless <code>loss_weights</code> is
+specified.</p>
+</td></tr>
+<tr valign="top"><td><code>metrics</code></td>
+<td>
+<p>List of metrics to be evaluated by the model during training
+and testing. Each of this can be a string (name of a built-in function),
+function or a <code>keras$metrics$Metric</code> class instance. See
+<code>?tf$keras$metrics</code>. Typically you will use <code>metrics=list('accuracy')</code>. A
+function is any callable with the signature <code>result = fn(y_true, y_pred)</code>.
+To specify different metrics for different outputs of a multi-output model,
+you could also pass a dictionary, such as <code>metrics=list(output_a = 'accuracy', output_b = c('accuracy', 'mse'))</code>. You can also pass a list to
+specify a metric or a list of metrics for each output, such as
+<code>metrics=list(list('accuracy'), list('accuracy', 'mse'))</code> or
+<code>metrics=list('accuracy', c('accuracy', 'mse'))</code>. When you pass the strings
+<code>'accuracy'</code> or <code>'acc'</code>, this is converted to one of
+<code>tf.keras.metrics.BinaryAccuracy</code>, <code>tf.keras.metrics.CategoricalAccuracy</code>,
+<code>tf.keras.metrics.SparseCategoricalAccuracy</code> based on the loss function
+used and the model output shape. A similar conversion is done for the
+strings <code>'crossentropy'</code> and <code>'ce'</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>loss_weights</code></td>
+<td>
+<p>Optional list, dictionary, or named vector specifying
+scalar numeric coefficients to weight the loss contributions of different
+model outputs. The loss value that will be minimized by the model will then
+be the <em>weighted sum</em> of all individual losses, weighted by the
+<code>loss_weights</code> coefficients. If a list, it is expected to have a 1:1
+mapping to the model's outputs. If a dict, it is expected to map output
+names (strings) to scalar coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>weighted_metrics</code></td>
+<td>
+<p>List of metrics to be evaluated and weighted by
+<code>sample_weight</code> or <code>class_weight</code> during training and testing.</p>
+</td></tr>
+<tr valign="top"><td><code>run_eagerly</code></td>
+<td>
+<p>Bool. Defaults to <code>FALSE</code>. If <code>TRUE</code>, this Model's logic
+will not be wrapped in a <code>tf.function</code>. Recommended to leave this as <code>NULL</code>
+unless your Model cannot be run inside a <code>tf.function</code>. <code>run_eagerly=True</code>
+is not supported when using
+<code>tf.distribute.experimental.ParameterServerStrategy</code>. If the model's logic
+uses tensors in R control flow expressions like <code>if</code> and <code>for</code>, the model
+is still traceable with <code>tf.function</code>, but you will have to enter a
+<code>tfautograph::autograph({})</code> directly.</p>
+</td></tr>
+<tr valign="top"><td><code>steps_per_execution</code></td>
+<td>
+<p>Int. Defaults to 1. The number of batches to run
+during each <code>tf.function</code> call. Running multiple batches inside a single
+<code>tf.function</code> call can greatly improve performance on TPUs or small models
+with a large Python/R overhead. At most, one full epoch will be run each
+execution. If a number larger than the size of the epoch is passed, the
+execution will be truncated to the size of the epoch. Note that if
+<code>steps_per_execution</code> is set to <code>N</code>, <code>Callback.on_batch_begin</code> and
+<code>Callback.on_batch_end</code> methods will only be called every <code>N</code> batches (i.e.
+before/after each <code>tf.function</code> execution).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments supported for backwards compatibility only.</p>
+</td></tr>
+<tr valign="top"><td><code>target_tensors</code></td>
+<td>
+<p>By default, Keras will create a placeholder for the
+model's target, which will be fed with the target data during training. If
+instead you would like to use your own target tensor (in turn, Keras will
+not expect external data for these targets at training time), you can
+specify them via the <code>target_tensors</code> argument. It should be a single
+tensor (for a single-output sequential model).</p>
+</td></tr>
+<tr valign="top"><td><code>sample_weight_mode</code></td>
+<td>
+<p>If you need to do timestep-wise sample weighting
+(2D weights), set this to &quot;temporal&quot;. <code>NULL</code> defaults to sample-wise
+weights (1D). If the model has multiple outputs, you can use a different
+<code>sample_weight_mode</code> on each output by passing a list of modes.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other model functions: 
+<code><a href="evaluate.keras.engine.training.Model.html">evaluate.keras.engine.training.Model</a>()</code>,
+<code><a href="evaluate_generator.html">evaluate_generator</a>()</code>,
+<code><a href="fit.keras.engine.training.Model.html">fit.keras.engine.training.Model</a>()</code>,
+<code><a href="fit_generator.html">fit_generator</a>()</code>,
+<code><a href="get_config.html">get_config</a>()</code>,
+<code><a href="get_layer.html">get_layer</a>()</code>,
+<code><a href="keras_model_sequential.html">keras_model_sequential</a>()</code>,
+<code><a href="keras_model.html">keras_model</a>()</code>,
+<code><a href="multi_gpu_model.html">multi_gpu_model</a>()</code>,
+<code><a href="pop_layer.html">pop_layer</a>()</code>,
+<code><a href="predict.keras.engine.training.Model.html">predict.keras.engine.training.Model</a>()</code>,
+<code><a href="predict_generator.html">predict_generator</a>()</code>,
+<code><a href="predict_on_batch.html">predict_on_batch</a>()</code>,
+<code><a href="predict_proba.html">predict_proba</a>()</code>,
+<code><a href="summary.keras.engine.training.Model.html">summary.keras.engine.training.Model</a>()</code>,
+<code><a href="train_on_batch.html">train_on_batch</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

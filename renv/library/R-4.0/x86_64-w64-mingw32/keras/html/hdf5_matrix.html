@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Representation of HDF5 dataset to be used instead of an R...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for hdf5_matrix {keras}"><tr><td>hdf5_matrix {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Representation of HDF5 dataset to be used instead of an R array</h2>
+
+<h3>Description</h3>
+
+<p>Representation of HDF5 dataset to be used instead of an R array
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+hdf5_matrix(datapath, dataset, start = 0, end = NULL, normalizer = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>datapath</code></td>
+<td>
+<p>string, path to a HDF5 file</p>
+</td></tr>
+<tr valign="top"><td><code>dataset</code></td>
+<td>
+<p>string, name of the HDF5 dataset in the file specified in datapath</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>int, start of desired slice of the specified dataset</p>
+</td></tr>
+<tr valign="top"><td><code>end</code></td>
+<td>
+<p>int, end of desired slice of the specified dataset</p>
+</td></tr>
+<tr valign="top"><td><code>normalizer</code></td>
+<td>
+<p>function to be called on data when retrieved</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Providing <code>start</code> and <code>end</code> allows use of a slice of the dataset.
+</p>
+<p>Optionally, a normalizer function (or lambda) can be given. This will
+be called on every slice of data retrieved.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An array-like HDF5 dataset.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Pads 5D tensor with zeros along the depth, height, width...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for k_spatial_3d_padding {keras}"><tr><td>k_spatial_3d_padding {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Pads 5D tensor with zeros along the depth, height, width dimensions.</h2>
+
+<h3>Description</h3>
+
+<p>Pads these dimensions with respectively <code>padding[[1]]</code>, <code>padding[[2]]</code>, and
+<code>padding[[3]]</code> zeros left and right. For 'channels_last' data_format, the
+2nd, 3rd and 4th dimension will be padded. For 'channels_first' data_format,
+the 3rd, 4th and 5th dimension will be padded.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+k_spatial_3d_padding(
+  x,
+  padding = list(list(1, 1), list(1, 1), list(1, 1)),
+  data_format = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Tensor or variable.</p>
+</td></tr>
+<tr valign="top"><td><code>padding</code></td>
+<td>
+<p>List of 3 lists, padding pattern.</p>
+</td></tr>
+<tr valign="top"><td><code>data_format</code></td>
+<td>
+<p>string, <code>"channels_last"</code> or <code>"channels_first"</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A padded 5D tensor.
+</p>
+
+
+<h3>Keras Backend</h3>
+
+<p>This function is part of a set of Keras backend functions that enable
+lower level access to the core operations of the backend tensor engine
+(e.g. TensorFlow, CNTK, Theano, etc.).
+</p>
+<p>You can see a list of all available backend functions here:
+<a href="https://keras.rstudio.com/articles/backend.html#backend-functions">https://keras.rstudio.com/articles/backend.html#backend-functions</a>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

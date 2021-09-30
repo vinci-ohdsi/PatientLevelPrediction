@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Wraps a stateless metric function with the Mean metric</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for metric_mean_wrapper {keras}"><tr><td>metric_mean_wrapper {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Wraps a stateless metric function with the Mean metric</h2>
+
+<h3>Description</h3>
+
+<p>Wraps a stateless metric function with the Mean metric
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+metric_mean_wrapper(..., fn, name = NULL, dtype = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>named arguments to pass on to <code>fn</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>fn</code></td>
+<td>
+<p>The metric function to wrap, with signature <code>fn(y_true, y_pred, ...)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>(Optional) string name of the metric instance.</p>
+</td></tr>
+<tr valign="top"><td><code>dtype</code></td>
+<td>
+<p>(Optional) data type of the metric result.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>You could use this class to quickly build a mean metric from a function. The
+function needs to have the signature <code>fn(y_true, y_pred)</code> and return a
+per-sample loss array. <code>MeanMetricWrapper$result()</code> will return
+the average metric value across all samples seen so far.
+</p>
+<p>For example:<div class="sourceCode r"></p>
+<pre>accuracy &lt;- function(y_true, y_pred)
+  k_cast(y_true == y_pred, 'float32')
+
+accuracy_metric &lt;- metric_mean_wrapper(fn = accuracy)
+
+model %&gt;% compile(..., metrics=accuracy_metric)
+</pre></div>
+
+
+<h3>Value</h3>
+
+<p>A (subclassed) <code>Metric</code> instance that can be passed directly to
+<code>compile(metrics = )</code>, or used as a standalone object. See <code>?Metric</code> for
+example usage.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other metrics: 
+<code><a href="custom_metric.html">custom_metric</a>()</code>,
+<code><a href="metric_accuracy.html">metric_accuracy</a>()</code>,
+<code><a href="metric_auc.html">metric_auc</a>()</code>,
+<code><a href="metric_binary_accuracy.html">metric_binary_accuracy</a>()</code>,
+<code><a href="metric_binary_crossentropy.html">metric_binary_crossentropy</a>()</code>,
+<code><a href="metric_categorical_accuracy.html">metric_categorical_accuracy</a>()</code>,
+<code><a href="metric_categorical_crossentropy.html">metric_categorical_crossentropy</a>()</code>,
+<code><a href="metric_categorical_hinge.html">metric_categorical_hinge</a>()</code>,
+<code><a href="metric_cosine_similarity.html">metric_cosine_similarity</a>()</code>,
+<code><a href="metric_false_negatives.html">metric_false_negatives</a>()</code>,
+<code><a href="metric_false_positives.html">metric_false_positives</a>()</code>,
+<code><a href="metric_hinge.html">metric_hinge</a>()</code>,
+<code><a href="metric_kullback_leibler_divergence.html">metric_kullback_leibler_divergence</a>()</code>,
+<code><a href="metric_logcosh_error.html">metric_logcosh_error</a>()</code>,
+<code><a href="metric_mean_absolute_error.html">metric_mean_absolute_error</a>()</code>,
+<code><a href="metric_mean_absolute_percentage_error.html">metric_mean_absolute_percentage_error</a>()</code>,
+<code><a href="metric_mean_iou.html">metric_mean_iou</a>()</code>,
+<code><a href="metric_mean_relative_error.html">metric_mean_relative_error</a>()</code>,
+<code><a href="metric_mean_squared_error.html">metric_mean_squared_error</a>()</code>,
+<code><a href="metric_mean_squared_logarithmic_error.html">metric_mean_squared_logarithmic_error</a>()</code>,
+<code><a href="metric_mean_tensor.html">metric_mean_tensor</a>()</code>,
+<code><a href="metric_mean.html">metric_mean</a>()</code>,
+<code><a href="metric_poisson.html">metric_poisson</a>()</code>,
+<code><a href="metric_precision_at_recall.html">metric_precision_at_recall</a>()</code>,
+<code><a href="metric_precision.html">metric_precision</a>()</code>,
+<code><a href="metric_recall_at_precision.html">metric_recall_at_precision</a>()</code>,
+<code><a href="metric_recall.html">metric_recall</a>()</code>,
+<code><a href="metric_root_mean_squared_error.html">metric_root_mean_squared_error</a>()</code>,
+<code><a href="metric_sensitivity_at_specificity.html">metric_sensitivity_at_specificity</a>()</code>,
+<code><a href="metric_sparse_categorical_accuracy.html">metric_sparse_categorical_accuracy</a>()</code>,
+<code><a href="metric_sparse_categorical_crossentropy.html">metric_sparse_categorical_crossentropy</a>()</code>,
+<code><a href="metric_sparse_top_k_categorical_accuracy.html">metric_sparse_top_k_categorical_accuracy</a>()</code>,
+<code><a href="metric_specificity_at_sensitivity.html">metric_specificity_at_sensitivity</a>()</code>,
+<code><a href="metric_squared_hinge.html">metric_squared_hinge</a>()</code>,
+<code><a href="metric_sum.html">metric_sum</a>()</code>,
+<code><a href="metric_top_k_categorical_accuracy.html">metric_top_k_categorical_accuracy</a>()</code>,
+<code><a href="metric_true_negatives.html">metric_true_negatives</a>()</code>,
+<code><a href="metric_true_positives.html">metric_true_positives</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create setting for DeepNN model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for setDeepNN {PatientLevelPrediction}"><tr><td>setDeepNN {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create setting for DeepNN model</h2>
+
+<h3>Description</h3>
+
+<p>Create setting for DeepNN model
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+setDeepNN(
+  units = list(c(128, 64), 128),
+  layer_dropout = c(0.2),
+  lr = c(1e-04),
+  decay = c(1e-05),
+  outcome_weight = c(1),
+  batch_size = c(100),
+  epochs = c(100),
+  seed = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>units</code></td>
+<td>
+<p>The number of units of the deep network - as a list of vectors</p>
+</td></tr>
+<tr valign="top"><td><code>layer_dropout</code></td>
+<td>
+<p>The layer dropout rate (regularisation)</p>
+</td></tr>
+<tr valign="top"><td><code>lr</code></td>
+<td>
+<p>Learning rate</p>
+</td></tr>
+<tr valign="top"><td><code>decay</code></td>
+<td>
+<p>Learning rate decay over each update.</p>
+</td></tr>
+<tr valign="top"><td><code>outcome_weight</code></td>
+<td>
+<p>The weight of the outcome class in the loss function</p>
+</td></tr>
+<tr valign="top"><td><code>batch_size</code></td>
+<td>
+<p>The number of data points to use per training batch</p>
+</td></tr>
+<tr valign="top"><td><code>epochs</code></td>
+<td>
+<p>Number of times to iterate over dataset</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>Random seed used by deep learning model</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+model &lt;- setDeepNN()
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check if Keras is Available</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for is_keras_available {keras}"><tr><td>is_keras_available {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check if Keras is Available</h2>
+
+<h3>Description</h3>
+
+<p>Probe to see whether the Keras Python package is available in the current
+system environment.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+is_keras_available(version = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>version</code></td>
+<td>
+<p>Minimum required version of Keras (defaults to <code>NULL</code>, no
+required version).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Logical indicating whether Keras (or the specified minimum version of
+Keras) is available.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+# testthat utilty for skipping tests when Keras isn't available
+skip_if_no_keras &lt;- function(version = NULL) {
+  if (!is_keras_available(version))
+    skip("Required keras version not available for testing")
+}
+
+# use the function within a test
+test_that("keras function works correctly", {
+  skip_if_no_keras()
+  # test code here
+})
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

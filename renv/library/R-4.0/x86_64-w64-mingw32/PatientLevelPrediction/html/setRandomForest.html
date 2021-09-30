@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create setting for random forest model with python (very...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for setRandomForest {PatientLevelPrediction}"><tr><td>setRandomForest {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create setting for random forest model with python (very fast)</h2>
+
+<h3>Description</h3>
+
+<p>Create setting for random forest model with python (very fast)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+setRandomForest(
+  mtries = -1,
+  ntrees = 500,
+  maxDepth = c(4, 10, 17),
+  varImp = T,
+  seed = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>mtries</code></td>
+<td>
+<p>The number of features to include in each tree (-1 defaults to square root of total features)</p>
+</td></tr>
+<tr valign="top"><td><code>ntrees</code></td>
+<td>
+<p>The number of trees to build</p>
+</td></tr>
+<tr valign="top"><td><code>maxDepth</code></td>
+<td>
+<p>Maximum number of interactions - a large value will lead to slow model training</p>
+</td></tr>
+<tr valign="top"><td><code>varImp</code></td>
+<td>
+<p>Perform an initial variable selection prior to fitting the model to select the useful variables</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>An option to add a seed when training the final model</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+model.rf &lt;- setRandomForest(mtries=c(-1,5,20),  ntrees=c(10,100), 
+                           maxDepth=c(5,20))
+
+## End(Not run)                           
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

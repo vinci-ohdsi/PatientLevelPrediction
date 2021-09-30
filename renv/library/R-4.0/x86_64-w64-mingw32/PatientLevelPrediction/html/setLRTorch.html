@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create setting for logistics regression model with python</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for setLRTorch {PatientLevelPrediction}"><tr><td>setLRTorch {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create setting for logistics regression model with python</h2>
+
+<h3>Description</h3>
+
+<p>Create setting for logistics regression model with python
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+setLRTorch(
+  w_decay = c(5e-04, 0.005),
+  epochs = c(20, 50, 100),
+  seed = NULL,
+  class_weight = 0,
+  autoencoder = FALSE,
+  vae = FALSE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>w_decay</code></td>
+<td>
+<p>The l2 regularisation</p>
+</td></tr>
+<tr valign="top"><td><code>epochs</code></td>
+<td>
+<p>The number of epochs</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>A seed for the model</p>
+</td></tr>
+<tr valign="top"><td><code>class_weight</code></td>
+<td>
+<p>The class weight used for imbalanced data: 
+0: Inverse ratio between positives and negatives
+-1: Focal loss</p>
+</td></tr>
+<tr valign="top"><td><code>autoencoder</code></td>
+<td>
+<p>First learn stakced autoencoder for input features, then train LR on the encoded features.</p>
+</td></tr>
+<tr valign="top"><td><code>vae</code></td>
+<td>
+<p>First learn stakced varational autoencoder for input features, then train LR on the encoded features.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+model.lrTorch &lt;- setLRTorch()
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

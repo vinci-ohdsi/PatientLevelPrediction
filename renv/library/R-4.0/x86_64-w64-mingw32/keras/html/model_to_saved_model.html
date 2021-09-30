@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Export to Saved Model format</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for model_to_saved_model {keras}"><tr><td>model_to_saved_model {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Export to Saved Model format</h2>
+
+<h3>Description</h3>
+
+<p>Export to Saved Model format
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+model_to_saved_model(
+  model,
+  saved_model_path,
+  custom_objects = NULL,
+  as_text = FALSE,
+  input_signature = NULL,
+  serving_only = FALSE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A Keras model to be saved. If the model is subclassed, the flag
+<code>serving_only</code> must be set to <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>saved_model_path</code></td>
+<td>
+<p>a string specifying the path to the SavedModel directory.</p>
+</td></tr>
+<tr valign="top"><td><code>custom_objects</code></td>
+<td>
+<p>Optional dictionary mapping string names to custom classes
+or functions (e.g. custom loss functions).</p>
+</td></tr>
+<tr valign="top"><td><code>as_text</code></td>
+<td>
+<p>bool, <code>FALSE</code> by default. Whether to write the SavedModel proto in text
+format. Currently unavailable in serving-only mode.</p>
+</td></tr>
+<tr valign="top"><td><code>input_signature</code></td>
+<td>
+<p>A possibly nested sequence of <code>tf.TensorSpec</code> objects, used to
+specify the expected model inputs. See tf.function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>serving_only</code></td>
+<td>
+<p>bool, <code>FALSE</code> by default. When this is true, only the
+prediction graph is saved.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Invisibly returns the <code>saved_model_path</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This functionality is experimental and only works with TensorFlow
+version &gt;= &quot;2.0&quot;.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other saved_model: 
+<code><a href="model_from_saved_model.html">model_from_saved_model</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

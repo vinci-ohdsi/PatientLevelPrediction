@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create setting for multi-resolution CovNN model (stucture...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for setCovNN {PatientLevelPrediction}"><tr><td>setCovNN {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create setting for multi-resolution CovNN model (stucture based on https://arxiv.org/pdf/1608.00647.pdf CNN1)</h2>
+
+<h3>Description</h3>
+
+<p>Create setting for multi-resolution CovNN model (stucture based on https://arxiv.org/pdf/1608.00647.pdf CNN1)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+setCovNN(
+  batchSize = 1000,
+  outcomeWeight = 1,
+  lr = 1e-05,
+  decay = 1e-06,
+  dropout = 0,
+  epochs = 10,
+  filters = 3,
+  kernelSize = 10,
+  loss = "binary_crossentropy",
+  seed = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>batchSize</code></td>
+<td>
+<p>The number of samples to used in each batch during model training</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeWeight</code></td>
+<td>
+<p>The weight assined to the outcome (make greater than 1 to reduce unballanced label issue)</p>
+</td></tr>
+<tr valign="top"><td><code>lr</code></td>
+<td>
+<p>The learning rate</p>
+</td></tr>
+<tr valign="top"><td><code>decay</code></td>
+<td>
+<p>The decay of the learning rate</p>
+</td></tr>
+<tr valign="top"><td><code>dropout</code></td>
+<td>
+<p>[currently not used] the dropout rate for regularisation</p>
+</td></tr>
+<tr valign="top"><td><code>epochs</code></td>
+<td>
+<p>The number of times data is used to train the model (e.g., epoches=1 means data only used once to train)</p>
+</td></tr>
+<tr valign="top"><td><code>filters</code></td>
+<td>
+<p>The number of columns output by each convolution</p>
+</td></tr>
+<tr valign="top"><td><code>kernelSize</code></td>
+<td>
+<p>The number of time dimensions used for each convolution</p>
+</td></tr>
+<tr valign="top"><td><code>loss</code></td>
+<td>
+<p>The loss function implemented</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>The random seed</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+model.CovNN &lt;- setCovNN()
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

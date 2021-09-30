@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Loads an image into PIL format.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for image_load {keras}"><tr><td>image_load {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Loads an image into PIL format.</h2>
+
+<h3>Description</h3>
+
+<p>Loads an image into PIL format.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+image_load(
+  path,
+  grayscale = FALSE,
+  target_size = NULL,
+  interpolation = "nearest"
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>Path to image file</p>
+</td></tr>
+<tr valign="top"><td><code>grayscale</code></td>
+<td>
+<p>Boolean, whether to load the image as grayscale.</p>
+</td></tr>
+<tr valign="top"><td><code>target_size</code></td>
+<td>
+<p>Either <code>NULL</code> (default to original size) or integer vector
+<code style="white-space: pre;">(img_height, img_width)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>interpolation</code></td>
+<td>
+<p>Interpolation method used to resample the image if the
+target size is different from that of the loaded image. Supported methods
+are &quot;nearest&quot;, &quot;bilinear&quot;, and &quot;bicubic&quot;. If PIL version 1.1.3 or newer is
+installed, &quot;lanczos&quot; is also supported. If PIL version 3.4.0 or newer is
+installed, &quot;box&quot; and &quot;hamming&quot; are also supported. By default, &quot;nearest&quot;
+is used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A PIL Image instance.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other image preprocessing: 
+<code><a href="fit_image_data_generator.html">fit_image_data_generator</a>()</code>,
+<code><a href="flow_images_from_dataframe.html">flow_images_from_dataframe</a>()</code>,
+<code><a href="flow_images_from_data.html">flow_images_from_data</a>()</code>,
+<code><a href="flow_images_from_directory.html">flow_images_from_directory</a>()</code>,
+<code><a href="image_to_array.html">image_to_array</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

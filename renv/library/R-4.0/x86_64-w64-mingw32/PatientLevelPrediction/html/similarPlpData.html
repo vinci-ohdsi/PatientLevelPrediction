@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract new plpData using plpModel settings use metadata in...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for similarPlpData {PatientLevelPrediction}"><tr><td>similarPlpData {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract new plpData using plpModel settings
+use metadata in plpModel to extract similar data and population for new databases:</h2>
+
+<h3>Description</h3>
+
+<p>Extract new plpData using plpModel settings
+use metadata in plpModel to extract similar data and population for new databases:
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+similarPlpData(
+  plpModel = NULL,
+  newConnectionDetails,
+  newCdmDatabaseSchema = NULL,
+  newCohortDatabaseSchema = NULL,
+  newCohortTable = NULL,
+  newCohortId = NULL,
+  newOutcomeDatabaseSchema = NULL,
+  newOutcomeTable = NULL,
+  newOutcomeId = NULL,
+  newOracleTempSchema = newCdmDatabaseSchema,
+  sample = NULL,
+  createPopulation = T,
+  createCohorts = T
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>plpModel</code></td>
+<td>
+<p>The trained PatientLevelPrediction model or object returned by runPlp()</p>
+</td></tr>
+<tr valign="top"><td><code>newConnectionDetails</code></td>
+<td>
+<p>The connectionDetails for the new database</p>
+</td></tr>
+<tr valign="top"><td><code>newCdmDatabaseSchema</code></td>
+<td>
+<p>The database schema for the new CDM database</p>
+</td></tr>
+<tr valign="top"><td><code>newCohortDatabaseSchema</code></td>
+<td>
+<p>The database schema where the cohort table is stored</p>
+</td></tr>
+<tr valign="top"><td><code>newCohortTable</code></td>
+<td>
+<p>The table name of the cohort table</p>
+</td></tr>
+<tr valign="top"><td><code>newCohortId</code></td>
+<td>
+<p>The cohort_definition_id for the cohort of at risk people</p>
+</td></tr>
+<tr valign="top"><td><code>newOutcomeDatabaseSchema</code></td>
+<td>
+<p>The database schema where the outcome table is stored</p>
+</td></tr>
+<tr valign="top"><td><code>newOutcomeTable</code></td>
+<td>
+<p>The table name of the outcome table</p>
+</td></tr>
+<tr valign="top"><td><code>newOutcomeId</code></td>
+<td>
+<p>The cohort_definition_id for the outcome</p>
+</td></tr>
+<tr valign="top"><td><code>newOracleTempSchema</code></td>
+<td>
+<p>The temp coracle schema</p>
+</td></tr>
+<tr valign="top"><td><code>sample</code></td>
+<td>
+<p>The number of people to sample (default is NULL meaning use all data)</p>
+</td></tr>
+<tr valign="top"><td><code>createPopulation</code></td>
+<td>
+<p>Whether to create the study population as well</p>
+</td></tr>
+<tr valign="top"><td><code>createCohorts</code></td>
+<td>
+<p>No longer used</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+# set the connection
+connectionDetails &lt;- DatabaseConnector::createConnectionDetails()
+   
+# load the model and data
+plpModel &lt;- loadPlpModel("C:/plpmodel")
+
+# extract the new data in the 'newData.dbo' schema using the model settings 
+newDataList &lt;- similarPlpData(plpModel=plpModel, 
+                              newConnectionDetails = connectionDetails,
+                              newCdmDatabaseSchema = 'newData.dbo',
+                              newCohortDatabaseSchema = 'newData.dbo',   
+                              newCohortTable = 'cohort', 
+                              newCohortId = 1, 
+                              newOutcomeDatabaseSchema = 'newData.dbo', 
+                              newOutcomeTable = 'outcome',     
+                              newOutcomeId = 2)    
+               
+# get the prediction:
+prediction &lt;- applyModel(newDataList$population, newDataList$plpData, plpModel)$prediction
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

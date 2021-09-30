@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Instantiates the DenseNet architecture.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for application_densenet {keras}"><tr><td>application_densenet {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Instantiates the DenseNet architecture.</h2>
+
+<h3>Description</h3>
+
+<p>Instantiates the DenseNet architecture.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+application_densenet(
+  blocks,
+  include_top = TRUE,
+  weights = "imagenet",
+  input_tensor = NULL,
+  input_shape = NULL,
+  pooling = NULL,
+  classes = 1000
+)
+
+application_densenet121(
+  include_top = TRUE,
+  weights = "imagenet",
+  input_tensor = NULL,
+  input_shape = NULL,
+  pooling = NULL,
+  classes = 1000
+)
+
+application_densenet169(
+  include_top = TRUE,
+  weights = "imagenet",
+  input_tensor = NULL,
+  input_shape = NULL,
+  pooling = NULL,
+  classes = 1000
+)
+
+application_densenet201(
+  include_top = TRUE,
+  weights = "imagenet",
+  input_tensor = NULL,
+  input_shape = NULL,
+  pooling = NULL,
+  classes = 1000
+)
+
+densenet_preprocess_input(x, data_format = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>blocks</code></td>
+<td>
+<p>numbers of building blocks for the four dense layers.</p>
+</td></tr>
+<tr valign="top"><td><code>include_top</code></td>
+<td>
+<p>whether to include the fully-connected layer at the top
+of the network.</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>one of <code>NULL</code> (random initialization), 'imagenet'
+(pre-training on ImageNet), or the path to the weights file to be loaded.</p>
+</td></tr>
+<tr valign="top"><td><code>input_tensor</code></td>
+<td>
+<p>optional Keras tensor (i.e. output of <code>layer_input()</code>)
+to use as image input for the model.</p>
+</td></tr>
+<tr valign="top"><td><code>input_shape</code></td>
+<td>
+<p>optional shape list, only to be specified if <code>include_top</code>
+is FALSE (otherwise the input shape has to be <code style="white-space: pre;">(224, 224, 3)</code>
+(with <code>channels_last</code> data format) or <code style="white-space: pre;">(3, 224, 224)</code> (with
+<code>channels_first</code> data format). It should have exactly 3 inputs channels.</p>
+</td></tr>
+<tr valign="top"><td><code>pooling</code></td>
+<td>
+<p>optional pooling mode for feature extraction when
+<code>include_top</code> is <code>FALSE</code>.
+- <code>NULL</code> means that the output of the model will be the 4D tensor output
+of the last convolutional layer.
+- <code>avg</code> means that global average pooling will be applied to the output
+of the last convolutional layer, and thus the output of the model
+will be a 2D tensor.
+- <code>max</code> means that global max pooling will be applied.</p>
+</td></tr>
+<tr valign="top"><td><code>classes</code></td>
+<td>
+<p>optional number of classes to classify images into, only to be
+specified if <code>include_top</code> is TRUE, and if no <code>weights</code> argument is
+specified.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a 3D or 4D array consists of RGB values within <code style="white-space: pre;">[0, 255]</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>data_format</code></td>
+<td>
+<p>data format of the image tensor.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Optionally loads weights pre-trained
+on ImageNet. Note that when using TensorFlow,
+for best performance you should set
+<code>image_data_format='channels_last'</code> in your Keras config
+at ~/.keras/keras.json.
+</p>
+<p>The model and the weights are compatible with
+TensorFlow, Theano, and CNTK. The data format
+convention used by the model is the one
+specified in your Keras config file.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

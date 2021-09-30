@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a Keras Layer wrapper</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for create_layer_wrapper {keras}"><tr><td>create_layer_wrapper {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a Keras Layer wrapper</h2>
+
+<h3>Description</h3>
+
+<p>Create a Keras Layer wrapper
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+create_layer_wrapper(LayerClass, modifiers = NULL, convert = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>LayerClass</code></td>
+<td>
+<p>A R6 or Python class generator that inherits from
+<code>keras$layers$Layer</code></p>
+</td></tr>
+<tr valign="top"><td><code>modifiers</code></td>
+<td>
+<p>A named list of functions to modify to user-supplied
+arguments before they are passed on to the class constructor. (e.g.,
+<code>list(units = as.integer)</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>convert</code></td>
+<td>
+<p>Boolean, whether the Python class and its methods should by
+default convert python objects to R objects.
+</p>
+<p>See guide 'making_new_layers_and_models_via_subclassing.Rmd' for example usage.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An R function that behaves similarly to the builtin keras <code style="white-space: pre;">layer_*</code>
+functions. When called, it will create the class instance, and also
+optionally call it on a supplied argument <code>object</code> if it is present. This
+enables keras layers to compose nicely with the pipe (<code style="white-space: pre;">%&gt;%</code>).
+</p>
+<p>The R function will arguments taken from the <code>initialize</code> (or <code style="white-space: pre;">__init__</code>)
+method of the LayerClass.
+</p>
+<p>If <code>LayerClass</code> is an R6 object, this will avoid initializing the python
+session, so it is safe to use in an R package.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

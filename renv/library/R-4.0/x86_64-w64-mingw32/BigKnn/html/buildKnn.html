@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Build a K-nearest neighbor (KNN) classifier</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for buildKnn {BigKnn}"><tr><td>buildKnn {BigKnn}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build a K-nearest neighbor (KNN) classifier</h2>
+
+<h3>Description</h3>
+
+<p><code>buildKnn</code> loads data from two Andromeda tables, and inserts them into a KNN classifier.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+buildKnn(outcomes, covariates, indexFolder, overwrite = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>outcomes</code></td>
+<td>
+<p>An Andromeda table containing the outcomes with predefined columns (see below).</p>
+</td></tr>
+<tr valign="top"><td><code>covariates</code></td>
+<td>
+<p>An Andromeda table containing the covariates with predefined columns (see below).</p>
+</td></tr>
+<tr valign="top"><td><code>indexFolder</code></td>
+<td>
+<p>Path to a local folder where the KNN classifier index can be stored.</p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>Automatically overwrite if an index already exists?</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These columns are expected in the outcome object: </p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;"> <code style="white-space: pre;">rowId</code> </td><td style="text-align: left;">(integer) </td><td style="text-align: left;">
+Row ID is used to link multiple covariates (x) to a single outcome (y) </td>
+</tr>
+<tr>
+ <td style="text-align: left;"> <code style="white-space: pre;">y</code> </td><td style="text-align: left;">(real) </td><td style="text-align: left;">
+The outcome variable </td>
+</tr>
+<tr>
+ <td style="text-align: left;"> </td>
+</tr>
+
+</table>
+
+<p>These columns are expected in the covariates object: </p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;"> <code style="white-space: pre;">rowId</code> </td><td style="text-align: left;">(integer) </td><td style="text-align: left;">
+Row ID is used to link multiple covariates (x) to a single outcome (y) </td>
+</tr>
+<tr>
+ <td style="text-align: left;"> <code style="white-space: pre;">covariateId</code>
+</td><td style="text-align: left;">(integer) </td><td style="text-align: left;"> A numeric identifier of a covariate </td>
+</tr>
+<tr>
+ <td style="text-align: left;"> <code style="white-space: pre;">covariateValue</code> </td><td style="text-align: left;">(real) </td><td style="text-align: left;">
+The value of the specified covariate </td>
+</tr>
+<tr>
+ <td style="text-align: left;"> </td>
+</tr>
+
+</table>
+
+
+
+<h3>Value</h3>
+
+<p>Nothing
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>BigKnn</em> version 1.0.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Custom metric function</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for custom_metric {keras}"><tr><td>custom_metric {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Custom metric function</h2>
+
+<h3>Description</h3>
+
+<p>Custom metric function
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+custom_metric(name, metric_fn)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>name used to show training progress output</p>
+</td></tr>
+<tr valign="top"><td><code>metric_fn</code></td>
+<td>
+<p>An R function with signature <code>function(y_true, y_pred){}</code> that accepts tensors.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>You can provide an arbitrary R function as a custom metric. Note that
+the <code>y_true</code> and <code>y_pred</code> parameters are tensors, so computations on
+them should use backend tensor functions.
+</p>
+<p>Use the <code>custom_metric()</code> function to define a custom metric.
+Note that a name ('mean_pred') is provided for the custom metric
+function: this name is used within training progress output.
+</p>
+<p>If you want to save and load a model with custom metrics, you should
+also specify the metric in the call the <code><a href="save_model_hdf5.html">load_model_hdf5()</a></code>. For example:
+<code>load_model_hdf5("my_model.h5", c('mean_pred' = metric_mean_pred))</code>.
+</p>
+<p>Alternatively, you can wrap all of your code in a call to
+<code><a href="with_custom_object_scope.html">with_custom_object_scope()</a></code> which will allow you to refer to the
+metric by name just like you do with built in keras metrics.
+</p>
+<p>Documentation on the available backend tensor functions can be
+found at <a href="https://keras.rstudio.com/articles/backend.html#backend-functions">https://keras.rstudio.com/articles/backend.html#backend-functions</a>.
+</p>
+<p>Alternative ways of supplying custom metrics:
+</p>
+
+<ul>
+<li> <p><code style="white-space: pre;">custom_metric():</code> Arbitrary R function.
+</p>
+</li>
+<li> <p><code><a href="metric_mean_wrapper.html">metric_mean_wrapper()</a></code>: Wrap an arbitrary R function in a <code>Metric</code> instance.
+</p>
+</li>
+<li><p> subclass <code>keras$metrics$Metric</code>: see <code>?Metric</code> for example.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>Other metrics: 
+<code><a href="metric_accuracy.html">metric_accuracy</a>()</code>,
+<code><a href="metric_auc.html">metric_auc</a>()</code>,
+<code><a href="metric_binary_accuracy.html">metric_binary_accuracy</a>()</code>,
+<code><a href="metric_binary_crossentropy.html">metric_binary_crossentropy</a>()</code>,
+<code><a href="metric_categorical_accuracy.html">metric_categorical_accuracy</a>()</code>,
+<code><a href="metric_categorical_crossentropy.html">metric_categorical_crossentropy</a>()</code>,
+<code><a href="metric_categorical_hinge.html">metric_categorical_hinge</a>()</code>,
+<code><a href="metric_cosine_similarity.html">metric_cosine_similarity</a>()</code>,
+<code><a href="metric_false_negatives.html">metric_false_negatives</a>()</code>,
+<code><a href="metric_false_positives.html">metric_false_positives</a>()</code>,
+<code><a href="metric_hinge.html">metric_hinge</a>()</code>,
+<code><a href="metric_kullback_leibler_divergence.html">metric_kullback_leibler_divergence</a>()</code>,
+<code><a href="metric_logcosh_error.html">metric_logcosh_error</a>()</code>,
+<code><a href="metric_mean_absolute_error.html">metric_mean_absolute_error</a>()</code>,
+<code><a href="metric_mean_absolute_percentage_error.html">metric_mean_absolute_percentage_error</a>()</code>,
+<code><a href="metric_mean_iou.html">metric_mean_iou</a>()</code>,
+<code><a href="metric_mean_relative_error.html">metric_mean_relative_error</a>()</code>,
+<code><a href="metric_mean_squared_error.html">metric_mean_squared_error</a>()</code>,
+<code><a href="metric_mean_squared_logarithmic_error.html">metric_mean_squared_logarithmic_error</a>()</code>,
+<code><a href="metric_mean_tensor.html">metric_mean_tensor</a>()</code>,
+<code><a href="metric_mean_wrapper.html">metric_mean_wrapper</a>()</code>,
+<code><a href="metric_mean.html">metric_mean</a>()</code>,
+<code><a href="metric_poisson.html">metric_poisson</a>()</code>,
+<code><a href="metric_precision_at_recall.html">metric_precision_at_recall</a>()</code>,
+<code><a href="metric_precision.html">metric_precision</a>()</code>,
+<code><a href="metric_recall_at_precision.html">metric_recall_at_precision</a>()</code>,
+<code><a href="metric_recall.html">metric_recall</a>()</code>,
+<code><a href="metric_root_mean_squared_error.html">metric_root_mean_squared_error</a>()</code>,
+<code><a href="metric_sensitivity_at_specificity.html">metric_sensitivity_at_specificity</a>()</code>,
+<code><a href="metric_sparse_categorical_accuracy.html">metric_sparse_categorical_accuracy</a>()</code>,
+<code><a href="metric_sparse_categorical_crossentropy.html">metric_sparse_categorical_crossentropy</a>()</code>,
+<code><a href="metric_sparse_top_k_categorical_accuracy.html">metric_sparse_top_k_categorical_accuracy</a>()</code>,
+<code><a href="metric_specificity_at_sensitivity.html">metric_specificity_at_sensitivity</a>()</code>,
+<code><a href="metric_squared_hinge.html">metric_squared_hinge</a>()</code>,
+<code><a href="metric_sum.html">metric_sum</a>()</code>,
+<code><a href="metric_top_k_categorical_accuracy.html">metric_top_k_categorical_accuracy</a>()</code>,
+<code><a href="metric_true_negatives.html">metric_true_negatives</a>()</code>,
+<code><a href="metric_true_positives.html">metric_true_positives</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

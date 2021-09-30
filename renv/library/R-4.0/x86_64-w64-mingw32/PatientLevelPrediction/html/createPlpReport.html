@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: createPlpReport</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for createPlpReport {PatientLevelPrediction}"><tr><td>createPlpReport {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>createPlpReport</h2>
+
+<h3>Description</h3>
+
+<p>Creates a word document report of the prediction
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+createPlpReport(
+  plpResult = NULL,
+  plpValidation = NULL,
+  plpData = NULL,
+  targetName = "&lt;target population&gt;",
+  outcomeName = "&lt;outcome&gt;",
+  targetDefinition = NULL,
+  outcomeDefinition = NULL,
+  outputLocation = file.path(getwd(), "plp_report.docx"),
+  save = T
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>plpResult</code></td>
+<td>
+<p>An object of type <code>plpResult</code> returned by running runPlp()</p>
+</td></tr>
+<tr valign="top"><td><code>plpValidation</code></td>
+<td>
+<p>An object of type <code>validatePlp</code> returned by running externalValidatePlp()</p>
+</td></tr>
+<tr valign="top"><td><code>plpData</code></td>
+<td>
+<p>The plpData</p>
+</td></tr>
+<tr valign="top"><td><code>targetName</code></td>
+<td>
+<p>A string with the target description name</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeName</code></td>
+<td>
+<p>A string with the outcome description name</p>
+</td></tr>
+<tr valign="top"><td><code>targetDefinition</code></td>
+<td>
+<p>The cohort details</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeDefinition</code></td>
+<td>
+<p>The cohort details</p>
+</td></tr>
+<tr valign="top"><td><code>outputLocation</code></td>
+<td>
+<p>The location to write the document to</p>
+</td></tr>
+<tr valign="top"><td><code>save</code></td>
+<td>
+<p>If false the output of the function of the function is the document rather than creating the document in outputLocation</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function creates a word document containing the analysis details, data summary and prediction model results.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A work document containing the selected outputs within the user's directory at location specified in outputLocation
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

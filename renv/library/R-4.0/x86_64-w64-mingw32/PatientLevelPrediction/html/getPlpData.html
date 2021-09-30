@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get the patient level prediction data from the server</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getPlpData {PatientLevelPrediction}"><tr><td>getPlpData {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get the patient level prediction data from the server</h2>
+
+<h3>Description</h3>
+
+<p>This function executes a large set of SQL statements against the database in OMOP CDM format to
+extract the data needed to perform the analysis.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getPlpData(
+  connectionDetails,
+  cdmDatabaseSchema,
+  oracleTempSchema = cdmDatabaseSchema,
+  cohortId,
+  outcomeIds,
+  studyStartDate = "",
+  studyEndDate = "",
+  cohortDatabaseSchema = cdmDatabaseSchema,
+  cohortTable = "cohort",
+  outcomeDatabaseSchema = cdmDatabaseSchema,
+  outcomeTable = "cohort",
+  cdmVersion = "5",
+  firstExposureOnly = FALSE,
+  washoutPeriod = 0,
+  sampleSize = NULL,
+  covariateSettings,
+  excludeDrugsFromCovariates = FALSE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>connectionDetails</code></td>
+<td>
+<p>An R object of type<br /><code>connectionDetails</code> created using the
+function <code>createConnectionDetails</code> in the
+<code>DatabaseConnector</code> package.</p>
+</td></tr>
+<tr valign="top"><td><code>cdmDatabaseSchema</code></td>
+<td>
+<p>The name of the database schema that contains the OMOP CDM
+instance.  Requires read permissions to this database. On SQL
+Server, this should specifiy both the database and the schema,
+so for example 'cdm_instance.dbo'.</p>
+</td></tr>
+<tr valign="top"><td><code>oracleTempSchema</code></td>
+<td>
+<p>For Oracle only: the name of the database schema where you want
+all temporary tables to be managed. Requires create/insert
+permissions to this database.</p>
+</td></tr>
+<tr valign="top"><td><code>cohortId</code></td>
+<td>
+<p>A unique identifier to define the at risk cohort. CohortId is
+used to select the cohort_concept_id in the cohort-like table.</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeIds</code></td>
+<td>
+<p>A list of cohort_definition_ids used to define outcomes (-999 mean no outcome gets downloaded).</p>
+</td></tr>
+<tr valign="top"><td><code>studyStartDate</code></td>
+<td>
+<p>A calendar date specifying the minimum date that a cohort index
+date can appear. Date format is 'yyyymmdd'.</p>
+</td></tr>
+<tr valign="top"><td><code>studyEndDate</code></td>
+<td>
+<p>A calendar date specifying the maximum date that a cohort index
+date can appear. Date format is 'yyyymmdd'. Important: the study
+end data is also used to truncate risk windows, meaning no outcomes
+beyond the study end date will be considered.</p>
+</td></tr>
+<tr valign="top"><td><code>cohortDatabaseSchema</code></td>
+<td>
+<p>The name of the database schema that is the location where the
+cohort data used to define the at risk cohort is available.
+Requires read permissions to this database.</p>
+</td></tr>
+<tr valign="top"><td><code>cohortTable</code></td>
+<td>
+<p>The tablename that contains the at risk cohort.  cohortTable has
+format of COHORT table: cohort_concept_id, SUBJECT_ID,
+COHORT_START_DATE, COHORT_END_DATE.</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeDatabaseSchema</code></td>
+<td>
+<p>The name of the database schema that is the location where
+the data used to define the outcome cohorts is available. 
+Requires read permissions to this database.</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeTable</code></td>
+<td>
+<p>The tablename that contains the outcome cohorts. Expectation is
+outcomeTable has format of COHORT table:
+COHORT_DEFINITION_ID, SUBJECT_ID, COHORT_START_DATE,
+COHORT_END_DATE.</p>
+</td></tr>
+<tr valign="top"><td><code>cdmVersion</code></td>
+<td>
+<p>Define the OMOP CDM version used: currently support &quot;4&quot;, &quot;5&quot; and &quot;6&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>firstExposureOnly</code></td>
+<td>
+<p>Should only the first exposure per subject be included? Note that
+this is typically done in the <code>createStudyPopulation</code> function,
+but can already be done here for efficiency reasons.</p>
+</td></tr>
+<tr valign="top"><td><code>washoutPeriod</code></td>
+<td>
+<p>The mininum required continuous observation time prior to index
+date for a person to be included in the at risk cohort. Note that
+this is typically done in the <code>createStudyPopulation</code> function,
+but can already be done here for efficiency reasons.</p>
+</td></tr>
+<tr valign="top"><td><code>sampleSize</code></td>
+<td>
+<p>If not NULL, only this number of people will be sampled from the target population (Default NULL)</p>
+</td></tr>
+<tr valign="top"><td><code>covariateSettings</code></td>
+<td>
+<p>An object of type <code>covariateSettings</code> as created using the
+<code>createCovariateSettings</code> function in the
+<code>FeatureExtraction</code> package.</p>
+</td></tr>
+<tr valign="top"><td><code>excludeDrugsFromCovariates</code></td>
+<td>
+<p>A redundant option</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Based on the arguments, the at risk cohort data is retrieved, as well as outcomes
+occurring in these subjects. The at risk cohort is identified  through
+user-defined cohorts in a cohort table either inside the CDM instance or in a separate schema.
+Similarly, outcomes are identified 
+through user-defined cohorts in a cohort table either inside the CDM instance or in a separate
+schema. Covariates are automatically extracted from the appropriate tables within the CDM.
+If you wish to exclude concepts from covariates you will need to
+manually add the concept_ids and descendants to the <code>excludedCovariateConceptIds</code> of the
+<code>covariateSettings</code> argument.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an object of type <code>plpData</code>, containing information on the cohorts, their
+outcomes, and baseline covariates. Information about multiple outcomes can be captured at once for
+efficiency reasons. This object is a list with the following components: </p>
+
+<dl>
+<dt>outcomes</dt><dd><p>A data frame listing the outcomes per person, including the time to event, and
+the outcome id. Outcomes are not yet filtered based on risk window, since this is done at
+a later stage.</p>
+</dd> <dt>cohorts</dt><dd><p>A data frame listing the persons in each cohort, listing their
+exposure status as well as the time to the end of the observation period and time to the end of the
+cohort (usually the end of the exposure era).</p>
+</dd> <dt>covariates</dt><dd><p>An ffdf object listing the
+baseline covariates per person in the two cohorts. This is done using a sparse representation:
+covariates with a value of 0 are omitted to save space.</p>
+</dd> <dt>covariateRef</dt><dd><p>An ffdf object describing the covariates that have been extracted.</p>
+</dd>
+<dt>metaData</dt><dd><p>A list of objects with information on how the cohortMethodData object was
+constructed.</p>
+</dd> </dl>
+<p> The generic <code>()</code> and <code>summary()</code> functions have been implemented for this object.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

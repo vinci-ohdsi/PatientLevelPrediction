@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Creates a 1D tensor containing a sequence of integers.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for k_arange {keras}"><tr><td>k_arange {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Creates a 1D tensor containing a sequence of integers.</h2>
+
+<h3>Description</h3>
+
+<p>The function arguments use the same convention as Theano's arange: if only
+one argument is provided, it is in fact the &quot;stop&quot; argument. The default
+type of the returned tensor is <code>'int32'</code> to match TensorFlow's default.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+k_arange(start, stop = NULL, step = 1, dtype = "int32")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>Start value.</p>
+</td></tr>
+<tr valign="top"><td><code>stop</code></td>
+<td>
+<p>Stop value.</p>
+</td></tr>
+<tr valign="top"><td><code>step</code></td>
+<td>
+<p>Difference between two successive values.</p>
+</td></tr>
+<tr valign="top"><td><code>dtype</code></td>
+<td>
+<p>Integer dtype to use.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An integer tensor.
+</p>
+
+
+<h3>Keras Backend</h3>
+
+<p>This function is part of a set of Keras backend functions that enable
+lower level access to the core operations of the backend tensor engine
+(e.g. TensorFlow, CNTK, Theano, etc.).
+</p>
+<p>You can see a list of all available backend functions here:
+<a href="https://keras.rstudio.com/articles/backend.html#backend-functions">https://keras.rstudio.com/articles/backend.html#backend-functions</a>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

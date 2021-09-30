@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Metric</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Metric {keras}"><tr><td>Metric {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Metric</h2>
+
+<h3>Description</h3>
+
+<p>A <code>Metric</code> object encapsulates metric logic and state that can be used to
+track model performance during training. It is what is returned by the family
+of metric functions that start with prefix <code style="white-space: pre;">metric_*</code>.
+</p>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>(Optional) string name of the metric instance.</p>
+</td></tr>
+<tr valign="top"><td><code>dtype</code></td>
+<td>
+<p>(Optional) data type of the metric result.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A (subclassed) <code>Metric</code> instance that can be passed directly to
+<code>compile(metrics = )</code>, or used as a standalone object. See <code>?Metric</code> for
+example usage.
+</p>
+
+
+<h3>Usage with <code>compile</code></h3>
+
+<div class="sourceCode r"><pre>model %&gt;% compile(
+  optimizer = 'sgd',
+  loss = 'mse',
+  metrics = list(metric_SOME_METRIC(), metric_SOME_OTHER_METRIC())
+)
+</pre></div>
+
+
+<h3>Standalone usage</h3>
+
+<div class="sourceCode r"><pre>m &lt;- metric_SOME_METRIC()
+for (e in seq(epochs)) {
+  for (i in seq(train_steps)) {
+    c(y_true, y_pred, sample_weight = NULL) %&lt;-% ...
+    m$update_state(y_true, y_pred, sample_weight)
+  }
+  cat('Final epoch result: ', as.numeric(m$result()), "\n")
+  m$reset_state()
+}
+</pre></div>
+
+
+<h3>Custom Metric (subclass)</h3>
+
+<p>To be implemented by subclasses:
+</p>
+
+<ul>
+<li> <p><code>initialize()</code>: All state variables should be created in this method by calling <code>self$add_weight()</code> like:</p>
+<pre>self$var &lt;- self$add_weight(...)
+</pre>
+</li>
+<li> <p><code>update_state()</code>: Has all updates to the state variables like:</p>
+<pre>self$var$assign_add(...)
+</pre>
+</li>
+<li> <p><code>result()</code>: Computes and returns a value for the metric from the state variables.
+</p>
+</li></ul>
+
+<p>Example custom metric subclass:<div class="sourceCode r"></p>
+<pre>metric_binary_true_positives(keras$metrics$Metric) %py_class% {
+  initialize &lt;- function(name = 'binary_true_positives', ...) {
+    super$initialize(name = name, ...)
+    self$true_positives &lt;- self$add_weight(name = 'tp', initializer = 'zeros')
+  }
+
+  update_state &lt;- function(y_true, y_pred, sample_weight = NULL) {
+    y_true &lt;- k_cast(y_true, "bool")
+    y_pred &lt;- k_cast(y_pred, "bool")
+
+    values &lt;- y_true &amp; y_pred
+    values &lt;- k_cast(values, self$dtype)
+    if (!is.null(sample_weight)) {
+      sample_weight &lt;- k_cast(sample_weight, self$dtype)
+      sample_weight &lt;- tf$broadcast_to(sample_weight, values$shape)
+      values &lt;- values * sample_weight
+    }
+    self$true_positives$assign_add(tf$reduce_sum(values))
+  }
+
+  result &lt;- function()
+    self$true_positives
+}
+
+model %&gt;% compile(..., metrics = list(metric_binary_true_positives()))
+</pre></div>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

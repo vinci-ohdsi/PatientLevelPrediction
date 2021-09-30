@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create setting for AdaBoost with python</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for setAdaBoost {PatientLevelPrediction}"><tr><td>setAdaBoost {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create setting for AdaBoost with python</h2>
+
+<h3>Description</h3>
+
+<p>Create setting for AdaBoost with python
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+setAdaBoost(nEstimators = 50, learningRate = 1, seed = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>nEstimators</code></td>
+<td>
+<p>The maximum number of estimators at which boosting is terminated</p>
+</td></tr>
+<tr valign="top"><td><code>learningRate</code></td>
+<td>
+<p>Learning rate shrinks the contribution of each classifier by learningRate.
+There is a trade-off between learningRate and nEstimators .</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>A seed for the model</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+model.adaBoost &lt;- setAdaBoost(size = 4, alpha = 1e-05, seed = NULL)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

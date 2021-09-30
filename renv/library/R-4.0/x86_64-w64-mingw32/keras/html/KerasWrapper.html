@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: (Deprecated) Base R6 class for Keras wrappers</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for KerasWrapper {keras}"><tr><td>KerasWrapper {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>(Deprecated) Base R6 class for Keras wrappers</h2>
+
+<h3>Description</h3>
+
+<p>Instead of inheriting from the proxy class <code>KerasWrapper</code> and using
+<code>create_wrapper</code> to create instances, new R6 custom classes are encouraged to
+inherit directly from <code>keras$layers$Wrapper</code> and use <code>create_layer</code> to create
+instances.
+</p>
+
+
+<h3>Format</h3>
+
+<p>An <a href="../../R6/html/R6Class.html">R6Class</a> generator object
+</p>
+
+
+<h3>Value</h3>
+
+<p><a href="KerasWrapper.html">KerasWrapper</a>.
+</p>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt><code>build(input_shape)</code></dt><dd><p>Builds the wrapped layer.
+Subclasses can extend this to perform custom operations on that layer.</p>
+</dd>
+<dt><code>call(inputs,mask)</code></dt><dd><p>Calls the wrapped layer on an input tensor.</p>
+</dd>
+<dt><code>compute_output_shape(input_shape)</code></dt><dd><p>Computes the output shape
+for the wrapped layer.</p>
+</dd>
+<dt><code>add_loss(losses, inputs)</code></dt><dd><p>Subclasses can use this to add losses to the wrapped layer.</p>
+</dd>
+<dt><code>add_weight(name,shape,dtype,initializer,regularizer,trainable,constraint)</code></dt><dd><p>Subclasses can use this to add weights to the wrapped layer.</p>
+</dd> </dl>
+
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

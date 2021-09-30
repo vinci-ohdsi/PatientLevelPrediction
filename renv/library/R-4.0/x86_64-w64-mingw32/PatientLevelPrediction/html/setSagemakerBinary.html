@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create setting for sagemaker model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for setSagemakerBinary {PatientLevelPrediction}"><tr><td>setSagemakerBinary {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create setting for sagemaker model</h2>
+
+<h3>Description</h3>
+
+<p>Create setting for sagemaker model
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+setSagemakerBinary(
+  classifier = "xgboost",
+  bucket,
+  prefix = "data",
+  roleArn,
+  otherparams = NULL,
+  seed = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>classifier</code></td>
+<td>
+<p>The name of the sagemaker binary classifier to use (pick from: knn, xgboost or linear-learner)</p>
+</td></tr>
+<tr valign="top"><td><code>bucket</code></td>
+<td>
+<p>The s3 bucker string to save data for model training</p>
+</td></tr>
+<tr valign="top"><td><code>prefix</code></td>
+<td>
+<p>The s3 subdirectory for the data</p>
+</td></tr>
+<tr valign="top"><td><code>roleArn</code></td>
+<td>
+<p>The amazon roleArn</p>
+</td></tr>
+<tr valign="top"><td><code>otherparams</code></td>
+<td>
+<p>Other parameters for training (currently not working)</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>The seed for the training</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+model.sm &lt;- setSagemakerBinary(classifier='gxboost',  bucket='ohdsi3')
+
+## End(Not run)                           
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

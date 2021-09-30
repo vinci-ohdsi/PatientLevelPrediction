@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieve the next item from a generator</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for generator_next {keras}"><tr><td>generator_next {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieve the next item from a generator</h2>
+
+<h3>Description</h3>
+
+<p>Use to retrieve items from generators (e.g. <code><a href="image_data_generator.html">image_data_generator()</a></code>). Will return
+either the next item or <code>NULL</code> if there are no more items.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+generator_next(generator, completed = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>generator</code></td>
+<td>
+<p>Generator</p>
+</td></tr>
+<tr valign="top"><td><code>completed</code></td>
+<td>
+<p>Sentinel value to return from <code>generator_next()</code> if the iteration
+completes (defaults to <code>NULL</code> but can be any R value you specify).</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Apply train model on new data Apply a Patient Level...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for applyModel {PatientLevelPrediction}"><tr><td>applyModel {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply train model on new data
+Apply a Patient Level Prediction model on Patient Level Prediction Data and get the predicted risk
+in [0,1] for each person in the population. If the user inputs a population with an outcomeCount
+column then the function also returns the evaluation of the prediction (AUC, brier score,
+calibration)</h2>
+
+<h3>Description</h3>
+
+<p>Apply train model on new data
+Apply a Patient Level Prediction model on Patient Level Prediction Data and get the predicted risk
+in [0,1] for each person in the population. If the user inputs a population with an outcomeCount
+column then the function also returns the evaluation of the prediction (AUC, brier score,
+calibration)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+applyModel(
+  population,
+  plpData,
+  plpModel,
+  calculatePerformance = T,
+  databaseOutput = NULL,
+  silent = F
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>population</code></td>
+<td>
+<p>The population of people who you want to predict the risk for</p>
+</td></tr>
+<tr valign="top"><td><code>plpData</code></td>
+<td>
+<p>The plpData for the population</p>
+</td></tr>
+<tr valign="top"><td><code>plpModel</code></td>
+<td>
+<p>The trained PatientLevelPrediction model</p>
+</td></tr>
+<tr valign="top"><td><code>calculatePerformance</code></td>
+<td>
+<p>Whether to also calculate the performance metrics [default TRUE]</p>
+</td></tr>
+<tr valign="top"><td><code>databaseOutput</code></td>
+<td>
+<p>Whether to save the details into the prediction database</p>
+</td></tr>
+<tr valign="top"><td><code>silent</code></td>
+<td>
+<p>Whether to turn off progress reporting</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+# load the model and data
+plpData &lt;- loadPlpData("C:/plpdata")
+plpModel &lt;- loadPlpModel("C:/plpmodel")
+
+# use the same population settings as the model:
+populationSettings &lt;- plpModel$populationSettings
+populationSettings$plpData &lt;- plpData
+population &lt;- do.call(createStudyPopulation, populationSettings)
+
+# get the prediction:
+prediction &lt;- applyModel(population, plpData, plpModel)$prediction
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

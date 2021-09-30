@@ -1,0 +1,241 @@
+PatientLevelPrediction
+                        PatientLevelPrediction
+accuracy                Calculate the accuracy
+addRecalibration        addRecalibration
+applyEnsembleModel      Apply trained ensemble model on new data Apply
+                        a Patient Level Prediction model on Patient
+                        Level Prediction Data and get the predicted
+                        risk in [0,1] for each person in the
+                        population. If the user inputs a population
+                        with an outcomeCount column then the function
+                        also returns the evaluation of the prediction
+                        (AUC, brier score, calibration)
+applyModel              Apply train model on new data Apply a Patient
+                        Level Prediction model on Patient Level
+                        Prediction Data and get the predicted risk in
+                        [0,1] for each person in the population. If the
+                        user inputs a population with an outcomeCount
+                        column then the function also returns the
+                        evaluation of the prediction (AUC, brier score,
+                        calibration)
+averagePrecision        Calculate the average precision
+brierScore              brierScore
+calibrationLine         calibrationLine
+checkPlpInstallation    Check PatientLevelPrediction and its
+                        dependencies are correctly installed
+combinePlpModelSettings
+                        combine two objects specifying multiple Plp
+                        model settings
+computeAuc              Compute the area under the ROC curve
+computeAucFromDataFrames
+                        Compute the area under the ROC curve
+configurePython         Sets up a virtual environment to use for PLP
+                        (can be conda or python)
+createEnsemble          Combine models into an Ensemble
+createLearningCurve     createLearningCurve
+createLearningCurvePar
+                        createLearningCurvePar
+createLrSql             Convert logistic regression model to sql
+                        code...
+createPlpJournalDocument
+                        createPlpJournalDocument
+createPlpModelSettings
+                        create a an object specifying the multiple Plp
+                        model settings
+createPlpReport         createPlpReport
+createStudyPopulation   Create a study population
+createStudyPopulationSettings
+                        create the study population settings
+diagnostic              diagnostic - Investigates the prediction
+                        problem settings - use before training a model
+diagnosticOddsRatio     Calculate the diagnostic odds ratio
+drawAttritionDiagramPlp
+                        Draw the attrition diagram
+evaluateMultiplePlp     externally validate the multiple plp models
+                        across new datasets
+evaluatePlp             evaluatePlp
+externalValidatePlp     externalValidatePlp - Validate a model on new
+                        databases
+f1Score                 Calculate the f1Score
+falseDiscoveryRate      Calculate the falseDiscoveryRate
+falseNegativeRate       Calculate the falseNegativeRate
+falseOmissionRate       Calculate the falseOmissionRate
+falsePositiveRate       Calculate the falsePositiveRate
+fitGLMModel             Fit a predictive model
+fitPlp                  fitPlp
+getCalibration          Get a sparse summary of the calibration
+getPlpData              Get the patient level prediction data from the
+                        server
+getPlpTable             Create a dataframe with the summary details of
+                        the population cohort for publications
+getPredictionDistribution
+                        Calculates the prediction distribution
+getThresholdSummary     Calculate all measures for sparse ROC
+interpretInstallCode    Tells you the package issue
+launchDiagnosticsExplorer
+                        Launch the Diagnostics Explorer Shiny app
+listAppend              join two lists
+loadEnsemblePlpModel    loads the Ensmeble plp model and return a model
+                        list
+loadEnsemblePlpResult   loads the Ensemble plp results
+loadPlpData             Load the cohort data from a folder
+loadPlpFromCsv          Loads parts of the plp result saved as csv
+                        files for transparent sharing
+loadPlpModel            loads the plp model
+loadPlpResult           Loads the evalaution dataframe
+loadPrediction          Loads the prediciton dataframe to csv
+loadPredictionAnalysisList
+                        Load the multiple prediction json settings from
+                        a file
+modelBasedConcordance   Calculate the model-based concordance, which is
+                        a calculation of the expected discrimination
+                        performance of a model under the assumption the
+                        model predicts the "TRUE" outcome as detailed
+                        in van Klaveren et al.
+                        https://pubmed.ncbi.nlm.nih.gov/27251001/
+negativeLikelihoodRatio
+                        Calculate the negativeLikelihoodRatio
+negativePredictiveValue
+                        Calculate the negativePredictiveValue
+outcomeSurvivalPlot     Plot the outcome incidence over time
+personSplitter          Split data into random subsets stratified by
+                        class
+pfi                     pfi
+plotDemographicSummary
+                        Plot the Observed vs. expected incidence, by
+                        age and gender
+plotF1Measure           Plot the F1 measure efficiency frontier using
+                        the sparse thresholdSummary data frame
+plotGeneralizability    Plot the train/test generalizability diagnostic
+plotLearningCurve       plotLearningCurve
+plotPlp                 Plot all the PatientLevelPrediction plots
+plotPrecisionRecall     Plot the precision-recall curve using the
+                        sparse thresholdSummary data frame
+plotPredictedPDF        Plot the Predicted probability density
+                        function, showing prediction overlap between
+                        true and false cases
+plotPredictionDistribution
+                        Plot the side-by-side boxplots of prediction
+                        distribution, by class#'
+plotPreferencePDF       Plot the preference score probability density
+                        function, showing prediction overlap between
+                        true and false cases #'
+plotRoc                 Plot the ROC curve
+plotSmoothCalibration   Plot the smooth calibration as detailed in
+                        Calster et al. "A calibration heirarchy for
+                        risk models was defined: from utopia to
+                        empirical data" (2016)
+plotSparseCalibration   Plot the calibration
+plotSparseCalibration2
+                        Plot the conventional calibration
+plotSparseRoc           Plot the ROC curve using the sparse
+                        thresholdSummary data frame
+plotVariableScatterplot
+                        Plot the variable importance scatterplot
+plpDataSimulationProfile
+                        A simulation profile
+positiveLikelihoodRatio
+                        Calculate the positiveLikelihoodRatio
+positivePredictiveValue
+                        Calculate the positivePredictiveValue
+predictAndromeda        Generated predictions from a regression model
+predictPlp              predictPlp
+predictProbabilities    Create predictive probabilities
+randomSplitter          Split data into random subsets stratified by
+                        class
+recalibratePlp          recalibratePlp
+recalibratePlpRefit     recalibratePlpRefit
+runEnsembleModel        ensemble - Create an ensembling model using
+                        different models
+runPlp                  runPlp - Train and evaluate the model
+runPlpAnalyses          Run a list of predictions
+saveEnsemblePlpModel    saves the Ensmeble plp model
+saveEnsemblePlpResult   saves the Ensemble plp results
+savePlpData             Save the cohort data to folder
+savePlpModel            Saves the plp model
+savePlpResult           Saves the result from runPlp into the location
+                        directory
+savePlpToCsv            Save parts of the plp result as a csv for
+                        transparent sharing
+savePrediction          Saves the prediction dataframe to RDS
+savePredictionAnalysisList
+                        Saves a json prediction settings given R
+                        settings
+sensitivity             Calculate the sensitivity
+setAdaBoost             Create setting for AdaBoost with python
+setCIReNN               Create setting for CIReNN model
+setCNNTorch             Create setting for CNN model with python
+setCompetingRiskModel   Create setting for competing risk model (uses
+                        Fine-Gray model in Cyclops)
+setCovNN                Create setting for multi-resolution CovNN model
+                        (stucture based on
+                        https://arxiv.org/pdf/1608.00647.pdf CNN1)
+setCovNN2               Create setting for CovNN2 model - convolution
+                        across input and time -
+                        https://arxiv.org/pdf/1608.00647.pdf
+setCoxModel             Create setting for lasso Cox model
+setDecisionTree         Create setting for DecisionTree with python
+setDeepNN               Create setting for DeepNN model
+setGBMSurvival          Create setting for GBM Survival with python #'
+                        @description This creates a setting for fitting
+                        GBM surivial model.  You need sksurv python
+                        install.  To install this open your command
+                        line and type: conda install -c sebp
+                        scikit-survival
+setGradientBoostingMachine
+                        Create setting for gradient boosting machine
+                        model using gbm_xgboost implementation
+setKNN                  Create setting for knn model
+setLRTorch              Create setting for logistics regression model
+                        with python
+setLassoLogisticRegression
+                        Create setting for lasso logistic regression
+setMLP                  Create setting for neural network model with
+                        python
+setMLPTorch             Create setting for neural network model with
+                        python
+setNaiveBayes           Create setting for naive bayes model with
+                        python
+setPythonEnvironment    Use the virtual environment created using
+                        configurePython()
+setRNNTorch             Create setting for RNN model with python
+setRandomForest         Create setting for random forest model with
+                        python (very fast)
+setRandomForestQuantileRegressor
+                        Create setting for
+                        RandomForestQuantileRegressor with python
+                        scikit-garden
+                        (skgarden.quantile.RandomForestQuantileRegressor)
+                        #' @description This creates a setting for
+                        fitting a RandomForestQuantileRegressor model.
+                        You need skgarden python install. To install
+                        this open your command line and type: conda
+                        install -c conda-forge scikit-garden
+setSVM                  Create setting for SVM with python
+setSagemakerBinary      Create setting for sagemaker model
+similarPlpData          Extract new plpData using plpModel settings use
+                        metadata in plpModel to extract similar data
+                        and population for new databases:
+simulatePlpData         Generate simulated data
+specificity             Calculate the specificity
+subjectSplitter         Split data when patients are in the data
+                        multiple times such that the same patient is
+                        always either in the train set or the test set
+                        (the same patient cannot be in both the test
+                        and train set at different times)
+timeSplitter            Split test/train data by time and then
+                        partitions training set into random folds
+                        stratified by class
+toSparseM               Convert the plpData in COO format into a sparse
+                        R matrix
+toSparseTorchPython     Convert the plpData in COO format into a sparse
+                        python matrix using torch.sparse
+transferLearning        [Under development] Transfer learning
+transportModel          Transports a plpModel to a new location and
+                        removes sensitive data
+transportPlp            Transports a plpResult to a new location and
+                        removed sensitive data
+viewMultiplePlp         open a local shiny app for viewing the result
+                        of a multiple PLP analyses
+viewPlp                 viewPlp - Interactively view the performance
+                        and model settings

@@ -1,0 +1,16 @@
+AUC.cd                  AUC estimator proposed by Chambless and Diao
+AUC.hc                  AUC estimator proposed by Hung and Chiang
+AUC.sh                  AUC estimator proposed by Song and Zhou
+AUC.uno                 AUC estimator proposed by Uno et al.
+BeggC                   C-statistic by Begg et al.
+GHCI                    Gonen and Heller's Concordance Index for Cox
+                        models
+IntAUC                  Integration of time-dependent AUC curves
+OXS                     R2-type coefficients for Cox proportional
+                        hazards models
+UnoC                    C-statistic by Uno et al.
+plot.survAUC            Plot method for survAUC and survErr Objects
+predErr                 Distance-based estimators of survival
+                        predictive accuracy
+schemper                Distance-based estimator of survival predictive
+                        accuracy proposed by Schemper and Henderson

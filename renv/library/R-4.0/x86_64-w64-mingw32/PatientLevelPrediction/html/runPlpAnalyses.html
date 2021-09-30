@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Run a list of predictions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for runPlpAnalyses {PatientLevelPrediction}"><tr><td>runPlpAnalyses {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run a list of predictions</h2>
+
+<h3>Description</h3>
+
+<p>Run a list of predictions
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+runPlpAnalyses(
+  connectionDetails,
+  cdmDatabaseSchema,
+  cdmDatabaseName,
+  oracleTempSchema = cdmDatabaseSchema,
+  cohortDatabaseSchema = cdmDatabaseSchema,
+  cohortTable = "cohort",
+  outcomeDatabaseSchema = cdmDatabaseSchema,
+  outcomeTable = "cohort",
+  cdmVersion = 5,
+  onlyFetchData = FALSE,
+  outputFolder = "./PlpOutput",
+  modelAnalysisList,
+  cohortIds,
+  cohortNames,
+  outcomeIds,
+  outcomeNames,
+  washoutPeriod = 0,
+  maxSampleSize = NULL,
+  minCovariateFraction = 0,
+  normalizeData = T,
+  testSplit = "person",
+  testFraction = 0.25,
+  splitSeed = NULL,
+  nfold = 3,
+  verbosity = "INFO",
+  settings = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>connectionDetails</code></td>
+<td>
+<p>An R object of type <code>connectionDetails</code> created using the
+function <code>createConnectionDetails</code> in the
+<code>DatabaseConnector</code> package.</p>
+</td></tr>
+<tr valign="top"><td><code>cdmDatabaseSchema</code></td>
+<td>
+<p>The name of the database schema that contains the OMOP CDM
+instance. Requires read permissions to this database. On SQL
+Server, this should specifiy both the database and the schema,
+so for example 'cdm_instance.dbo'.</p>
+</td></tr>
+<tr valign="top"><td><code>cdmDatabaseName</code></td>
+<td>
+<p>A string with a shareable name of the database (this will be shown to OHDSI researchers if the results get transported)</p>
+</td></tr>
+<tr valign="top"><td><code>oracleTempSchema</code></td>
+<td>
+<p>For Oracle only: the name of the database schema where you
+want all temporary tables to be managed. Requires
+create/insert permissions to this database.</p>
+</td></tr>
+<tr valign="top"><td><code>cohortDatabaseSchema</code></td>
+<td>
+<p>The name of the database schema that is the location where the
+target cohorts are available.  Requires read
+permissions to this database.</p>
+</td></tr>
+<tr valign="top"><td><code>cohortTable</code></td>
+<td>
+<p>The tablename that contains the target cohorts.  Expectation is cohortTable
+has format of COHORT table: COHORT_DEFINITION_ID, SUBJECT_ID,
+COHORT_START_DATE, COHORT_END_DATE.</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeDatabaseSchema</code></td>
+<td>
+<p>The name of the database schema that is the location where the
+data used to define the outcome cohorts is available. Requires read permissions to
+this database.</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeTable</code></td>
+<td>
+<p>The tablename that contains the outcome cohorts.  Expectation is
+outcomeTable has format of COHORT table: COHORT_DEFINITION_ID,
+SUBJECT_ID, COHORT_START_DATE, COHORT_END_DATE.</p>
+</td></tr>
+<tr valign="top"><td><code>cdmVersion</code></td>
+<td>
+<p>Define the OMOP CDM version used: currently support &quot;4&quot; and
+&quot;5&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>onlyFetchData</code></td>
+<td>
+<p>Only fetches and saves the data object to the output folder without running the analysis.</p>
+</td></tr>
+<tr valign="top"><td><code>outputFolder</code></td>
+<td>
+<p>Name of the folder where all the outputs will written to.</p>
+</td></tr>
+<tr valign="top"><td><code>modelAnalysisList</code></td>
+<td>
+<p>A list of objects of type <code>modelSettings</code> as created using
+the <code><a href="createPlpModelSettings.html">createPlpModelSettings</a></code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>cohortIds</code></td>
+<td>
+<p>A vector of cohortIds that specify all the target cohorts</p>
+</td></tr>
+<tr valign="top"><td><code>cohortNames</code></td>
+<td>
+<p>A vector of cohortNames corresponding to the cohortIds</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeIds</code></td>
+<td>
+<p>A vector of outcomeIds that specify all the outcome cohorts</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeNames</code></td>
+<td>
+<p>A vector of outcomeNames corresponding to the outcomeIds</p>
+</td></tr>
+<tr valign="top"><td><code>washoutPeriod</code></td>
+<td>
+<p>Minimum number of prior observation days</p>
+</td></tr>
+<tr valign="top"><td><code>maxSampleSize</code></td>
+<td>
+<p>Max number of target people to sample from to develop models</p>
+</td></tr>
+<tr valign="top"><td><code>minCovariateFraction</code></td>
+<td>
+<p>Any covariate with an incidence less than this value if ignored</p>
+</td></tr>
+<tr valign="top"><td><code>normalizeData</code></td>
+<td>
+<p>Whether to normalize the covariates</p>
+</td></tr>
+<tr valign="top"><td><code>testSplit</code></td>
+<td>
+<p>How to split into test/train (time or person)</p>
+</td></tr>
+<tr valign="top"><td><code>testFraction</code></td>
+<td>
+<p>Fraction of data to use as test set</p>
+</td></tr>
+<tr valign="top"><td><code>splitSeed</code></td>
+<td>
+<p>The seed used for the randomization into test/train</p>
+</td></tr>
+<tr valign="top"><td><code>nfold</code></td>
+<td>
+<p>Number of folds used to do cross validation</p>
+</td></tr>
+<tr valign="top"><td><code>verbosity</code></td>
+<td>
+<p>The logging level</p>
+</td></tr>
+<tr valign="top"><td><code>settings</code></td>
+<td>
+<p>Specify the T, O, population, covariate and model settings</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Run a list of predictions for the target cohorts and outcomes of interest. This function will run all
+specified predictions, meaning that the total number of outcome
+models is 'length(cohortIds) * length(outcomeIds) * length(modelAnalysisList)'.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the following columns: </p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;"> <code style="white-space: pre;">analysisId</code> </td><td style="text-align: left;"> The unique identifier
+for a set of analysis choices.</td>
+</tr>
+<tr>
+ <td style="text-align: left;"> <code style="white-space: pre;">cohortId</code> </td><td style="text-align: left;"> The ID of the target cohort populations.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">outcomeId</code> </td><td style="text-align: left;"> The ID of the outcomeId.</td>
+</tr>
+<tr>
+ <td style="text-align: left;"> <code style="white-space: pre;">plpDataFolder</code> </td><td style="text-align: left;"> The location where the plpData was saved</td>
+</tr>
+<tr>
+ <td style="text-align: left;"> <code style="white-space: pre;">studyPopFile</code> </td><td style="text-align: left;"> The
+name of the file containing the study population </td>
+</tr>
+<tr>
+ <td style="text-align: left;"> <code style="white-space: pre;">evaluationFolder</code> </td><td style="text-align: left;"> The name of file containing the evaluation saved as a csv
+ </td>
+</tr>
+<tr>
+ <td style="text-align: left;"> <code style="white-space: pre;">modelFolder</code> </td><td style="text-align: left;"> The name of the file containing the developed model.</td>
+</tr>
+<tr>
+ <td style="text-align: left;"> </td>
+</tr>
+
+</table>
+
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

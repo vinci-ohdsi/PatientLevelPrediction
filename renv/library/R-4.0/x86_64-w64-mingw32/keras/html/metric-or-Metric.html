@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: metric-or-Metric</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for metric-or-Metric {keras}"><tr><td>metric-or-Metric {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>metric-or-Metric</h2>
+
+<h3>Description</h3>
+
+<p>metric-or-Metric
+</p>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y_true</code></td>
+<td>
+<p>Tensor of true targets.</p>
+</td></tr>
+<tr valign="top"><td><code>y_pred</code></td>
+<td>
+<p>Tensor of predicted targets.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed on to the underlying metric. Used for forwards and backwards compatibility.</p>
+</td></tr>
+<tr valign="top"><td><code>axis</code></td>
+<td>
+<p>(Optional) (1-based) Defaults to -1. The dimension along which the metric is computed.</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>(Optional) string name of the metric instance.</p>
+</td></tr>
+<tr valign="top"><td><code>dtype</code></td>
+<td>
+<p>(Optional) data type of the metric result.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>If <code>y_true</code> and <code>y_pred</code> are missing, a (subclassed) <code>Metric</code>
+instance is returned. The <code>Metric</code> object can be passed directly to
+<code>compile(metrics = )</code> or used as a standalone object. See <code>?Metric</code> for
+example usage.
+</p>
+<p>Alternatively, if called with <code>y_true</code> and <code>y_pred</code> arguments, then the
+computed case-wise values for the mini-batch are returned directly.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

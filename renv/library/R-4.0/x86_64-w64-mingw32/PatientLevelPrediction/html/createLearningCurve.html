@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: createLearningCurve</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for createLearningCurve {PatientLevelPrediction}"><tr><td>createLearningCurve {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>createLearningCurve</h2>
+
+<h3>Description</h3>
+
+<p>Creates a learning curve object, which can be plotted using the
+<code>plotLearningCurve()</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+createLearningCurve(
+  population,
+  plpData,
+  modelSettings,
+  testSplit = "person",
+  testFraction = 0.25,
+  trainFractions = c(0.25, 0.5, 0.75),
+  trainEvents = NULL,
+  splitSeed = NULL,
+  nfold = 3,
+  indexes = NULL,
+  verbosity = "TRACE",
+  clearffTemp = FALSE,
+  minCovariateFraction = 0.001,
+  normalizeData = T,
+  saveDirectory = getwd(),
+  savePlpData = F,
+  savePlpResult = F,
+  savePlpPlots = F,
+  saveEvaluation = F,
+  timeStamp = FALSE,
+  analysisId = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>population</code></td>
+<td>
+<p>The population created using <code>createStudyPopulation()</code>
+that will be used to develop the model.</p>
+</td></tr>
+<tr valign="top"><td><code>plpData</code></td>
+<td>
+<p>An object of type <code>plpData</code> - the patient level
+prediction data extracted from the CDM.</p>
+</td></tr>
+<tr valign="top"><td><code>modelSettings</code></td>
+<td>
+<p>An object of class <code>modelSettings</code> created using
+one of the function:
+</p>
+
+<ul>
+<li><p>setLassoLogisticRegression - a lasso logistic regression
+model
+</p>
+</li>
+<li><p><code>setGradientBoostingMachine</code> - a gradient boosting machine
+</p>
+</li>
+<li><p><code>setRandomForest</code> - a random forest model
+</p>
+</li>
+<li><p><code>setKNN</code> - a k-nearest neighbour model
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>testSplit</code></td>
+<td>
+<p>Specifies the type of evaluation used. Can be either 
+<code>'person'</code> or <code>'time'</code>. The value <code>'time'</code> finds the date
+that splots the population into the testing and training fractions
+provided. Patients with an index after this date are assigned to the test
+set and patients with an index prior to this date are assigned to the
+training set. The value <code>'person'</code> splits the data randomly into
+testing and training sets according to fractions provided. The split is
+stratified by the class label.</p>
+</td></tr>
+<tr valign="top"><td><code>testFraction</code></td>
+<td>
+<p>The fraction of the data, which will be used as the 
+testing set in the patient split evaluation.</p>
+</td></tr>
+<tr valign="top"><td><code>trainFractions</code></td>
+<td>
+<p>A list of training fractions to create models for.
+Note, providing <code>trainEvents</code> will override your input to
+<code>trainFractions</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>trainEvents</code></td>
+<td>
+<p>Events have shown to be determinant of model performance.
+Therefore, it is recommended to provide <code>trainEvents</code> rather than
+<code>trainFractions</code>. Note, providing <code>trainEvents</code> will override
+your input to <code>trainFractions</code>. The format should be as follows:
+</p>
+
+<ul>
+<li><p><code>c(500, 1000, 1500)</code> - a list of training events
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>splitSeed</code></td>
+<td>
+<p>The seed used to split the testing and training set when
+using a 'person' type split</p>
+</td></tr>
+<tr valign="top"><td><code>nfold</code></td>
+<td>
+<p>The number of folds used in the cross validation (default = 
+<code>3</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>indexes</code></td>
+<td>
+<p>A dataframe containing a rowId and index column where the 
+index value of -1 means in the test set, and positive integer represents
+the cross validation fold (default is <code>NULL</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>verbosity</code></td>
+<td>
+<p>Sets the level of the verbosity. If the log level is at or
+higher in priority than the logger threshold, a message will print. The 
+levels are:
+</p>
+
+<ul>
+<li><p><code>DEBUG</code> - highest verbosity showing all debug statements
+</p>
+</li>
+<li><p><code>TRACE</code> - showing information about start and end of steps
+</p>
+</li>
+<li><p><code>INFO</code> - show informative messages (default)
+</p>
+</li>
+<li><p><code>WARN</code> - show warning messages
+</p>
+</li>
+<li><p><code>ERROR</code> - show error messages
+</p>
+</li>
+<li><p><code>FATAL</code> - be silent except for fatal errors
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>clearffTemp</code></td>
+<td>
+<p>Clears the temporary ff-directory after each iteration. 
+This can be useful, if the fitted models are large.</p>
+</td></tr>
+<tr valign="top"><td><code>minCovariateFraction</code></td>
+<td>
+<p>Minimum covariate prevalence in population to
+avoid removal during preprocssing.</p>
+</td></tr>
+<tr valign="top"><td><code>normalizeData</code></td>
+<td>
+<p>Whether to normalise the data</p>
+</td></tr>
+<tr valign="top"><td><code>saveDirectory</code></td>
+<td>
+<p>Location to save log and results</p>
+</td></tr>
+<tr valign="top"><td><code>savePlpData</code></td>
+<td>
+<p>Whether to save the plpData</p>
+</td></tr>
+<tr valign="top"><td><code>savePlpResult</code></td>
+<td>
+<p>Whether to save the plpResult</p>
+</td></tr>
+<tr valign="top"><td><code>savePlpPlots</code></td>
+<td>
+<p>Whether to save the plp plots</p>
+</td></tr>
+<tr valign="top"><td><code>saveEvaluation</code></td>
+<td>
+<p>Whether to save the plp performance csv files</p>
+</td></tr>
+<tr valign="top"><td><code>timeStamp</code></td>
+<td>
+<p>Include a timestamp in the log</p>
+</td></tr>
+<tr valign="top"><td><code>analysisId</code></td>
+<td>
+<p>The analysis unique identifier</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A learning curve object containing the various performance measures
+obtained by the model for each training set fraction. It can be plotted
+using <code>plotLearningCurve</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+# define model
+modelSettings = PatientLevelPrediction::setLassoLogisticRegression()
+
+# create learning curve
+learningCurve &lt;- PatientLevelPrediction::createLearningCurve(population,
+                                                             plpData,
+                                                             modelSettings)
+# plot learning curve
+PatientLevelPrediction::plotLearningCurve(learningCurve)
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 4.3.10 <a href="00Index.html">Index</a>]</div>
+</body></html>

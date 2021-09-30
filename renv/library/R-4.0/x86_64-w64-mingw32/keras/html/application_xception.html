@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Xception V1 model for Keras.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for application_xception {keras}"><tr><td>application_xception {keras}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Xception V1 model for Keras.</h2>
+
+<h3>Description</h3>
+
+<p>Xception V1 model for Keras.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+application_xception(
+  include_top = TRUE,
+  weights = "imagenet",
+  input_tensor = NULL,
+  input_shape = NULL,
+  pooling = NULL,
+  classes = 1000
+)
+
+xception_preprocess_input(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>include_top</code></td>
+<td>
+<p>whether to include the fully-connected layer at the top of
+the network.</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p><code>NULL</code> (random initialization), <code>imagenet</code> (ImageNet
+weights), or the path to the weights file to be loaded.</p>
+</td></tr>
+<tr valign="top"><td><code>input_tensor</code></td>
+<td>
+<p>optional Keras tensor to use as image input for the
+model.</p>
+</td></tr>
+<tr valign="top"><td><code>input_shape</code></td>
+<td>
+<p>optional shape list, only to be specified if <code>include_top</code>
+is FALSE (otherwise the input shape has to be <code style="white-space: pre;">(299, 299, 3)</code>. It should
+have exactly 3 inputs channels, and width and height should be no smaller
+than 75. E.g. <code style="white-space: pre;">(150, 150, 3)</code> would be one valid value.</p>
+</td></tr>
+<tr valign="top"><td><code>pooling</code></td>
+<td>
+<p>Optional pooling mode for feature extraction when
+<code>include_top</code> is <code>FALSE</code>.
+</p>
+
+<ul>
+<li> <p><code>NULL</code> means that the output of the model will be the 4D tensor output
+of the last convolutional layer.
+</p>
+</li>
+<li> <p><code>avg</code> means that global average pooling will be applied to the output of
+the last convolutional layer, and thus the output of the model will be
+a 2D tensor.
+</p>
+</li>
+<li> <p><code>max</code> means that global max pooling will be applied.
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>classes</code></td>
+<td>
+<p>optional number of classes to classify images into, only to be
+specified if <code>include_top</code> is TRUE, and if no <code>weights</code> argument is
+specified.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Input tensor for preprocessing</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>On ImageNet, this model gets to a top-1 validation accuracy of 0.790
+and a top-5 validation accuracy of 0.945.
+</p>
+<p>Do note that the input image format for this model is different than for
+the VGG16 and ResNet models (299x299 instead of 224x224).
+</p>
+<p>The <code>xception_preprocess_input()</code> function should be used for image
+preprocessing.
+</p>
+<p>This application is only available when using the TensorFlow back-end.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A Keras model instance.
+</p>
+
+
+<h3>Reference</h3>
+
+
+<ul>
+<li> <p><a href="https://arxiv.org/abs/1610.02357">Xception: Deep Learning with Depthwise Separable Convolutions</a>
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>keras</em> version 2.6.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

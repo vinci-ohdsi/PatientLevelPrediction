@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>R: Package for patient level prediction using data in the OMOP
+Common Data Model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+<h1> Package for patient level prediction using data in the OMOP
+Common Data Model
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;PatientLevelPrediction&rsquo; version 4.3.10</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+<li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
+<li><a href="../demo">Code demos</a>.  Use <a href="../../utils/help/demo">demo()</a> to run them.</li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<p style="text-align: center;">
+<a href="#A">A</a>
+<a href="#B">B</a>
+<a href="#C">C</a>
+<a href="#D">D</a>
+<a href="#E">E</a>
+<a href="#F">F</a>
+<a href="#G">G</a>
+<a href="#I">I</a>
+<a href="#L">L</a>
+<a href="#M">M</a>
+<a href="#N">N</a>
+<a href="#O">O</a>
+<a href="#P">P</a>
+<a href="#R">R</a>
+<a href="#S">S</a>
+<a href="#T">T</a>
+<a href="#V">V</a>
+</p>
+
+
+<h2><a name="A">-- A --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="accuracy.html">accuracy</a></td>
+<td>Calculate the accuracy</td></tr>
+<tr><td style="width: 25%;"><a href="addRecalibration.html">addRecalibration</a></td>
+<td>addRecalibration</td></tr>
+<tr><td style="width: 25%;"><a href="applyEnsembleModel.html">applyEnsembleModel</a></td>
+<td>Apply trained ensemble model on new data Apply a Patient Level Prediction model on Patient Level Prediction Data and get the predicted risk in [0,1] for each person in the population. If the user inputs a population with an outcomeCount column then the function also returns the evaluation of the prediction (AUC, brier score, calibration)</td></tr>
+<tr><td style="width: 25%;"><a href="applyModel.html">applyModel</a></td>
+<td>Apply train model on new data Apply a Patient Level Prediction model on Patient Level Prediction Data and get the predicted risk in [0,1] for each person in the population. If the user inputs a population with an outcomeCount column then the function also returns the evaluation of the prediction (AUC, brier score, calibration)</td></tr>
+<tr><td style="width: 25%;"><a href="averagePrecision.html">averagePrecision</a></td>
+<td>Calculate the average precision</td></tr>
+</table>
+
+<h2><a name="B">-- B --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="brierScore.html">brierScore</a></td>
+<td>brierScore</td></tr>
+</table>
+
+<h2><a name="C">-- C --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="calibrationLine.html">calibrationLine</a></td>
+<td>calibrationLine</td></tr>
+<tr><td style="width: 25%;"><a href="checkPlpInstallation.html">checkPlpInstallation</a></td>
+<td>Check PatientLevelPrediction and its dependencies are correctly installed</td></tr>
+<tr><td style="width: 25%;"><a href="combinePlpModelSettings.html">combinePlpModelSettings</a></td>
+<td>combine two objects specifying multiple Plp model settings</td></tr>
+<tr><td style="width: 25%;"><a href="computeAuc.html">computeAuc</a></td>
+<td>Compute the area under the ROC curve</td></tr>
+<tr><td style="width: 25%;"><a href="computeAucFromDataFrames.html">computeAucFromDataFrames</a></td>
+<td>Compute the area under the ROC curve</td></tr>
+<tr><td style="width: 25%;"><a href="configurePython.html">configurePython</a></td>
+<td>Sets up a virtual environment to use for PLP (can be conda or python)</td></tr>
+<tr><td style="width: 25%;"><a href="createEnsemble.html">createEnsemble</a></td>
+<td>Combine models into an Ensemble</td></tr>
+<tr><td style="width: 25%;"><a href="createLearningCurve.html">createLearningCurve</a></td>
+<td>createLearningCurve</td></tr>
+<tr><td style="width: 25%;"><a href="createLearningCurvePar.html">createLearningCurvePar</a></td>
+<td>createLearningCurvePar</td></tr>
+<tr><td style="width: 25%;"><a href="createLrSql.html">createLrSql</a></td>
+<td>Convert logistic regression model to sql code...</td></tr>
+<tr><td style="width: 25%;"><a href="createPlpJournalDocument.html">createPlpJournalDocument</a></td>
+<td>createPlpJournalDocument</td></tr>
+<tr><td style="width: 25%;"><a href="createPlpModelSettings.html">createPlpModelSettings</a></td>
+<td>create a an object specifying the multiple Plp model settings</td></tr>
+<tr><td style="width: 25%;"><a href="createPlpReport.html">createPlpReport</a></td>
+<td>createPlpReport</td></tr>
+<tr><td style="width: 25%;"><a href="createStudyPopulation.html">createStudyPopulation</a></td>
+<td>Create a study population</td></tr>
+<tr><td style="width: 25%;"><a href="createStudyPopulationSettings.html">createStudyPopulationSettings</a></td>
+<td>create the study population settings</td></tr>
+</table>
+
+<h2><a name="D">-- D --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="diagnostic.html">diagnostic</a></td>
+<td>diagnostic - Investigates the prediction problem settings - use before training a model</td></tr>
+<tr><td style="width: 25%;"><a href="diagnosticOddsRatio.html">diagnosticOddsRatio</a></td>
+<td>Calculate the diagnostic odds ratio</td></tr>
+<tr><td style="width: 25%;"><a href="drawAttritionDiagramPlp.html">drawAttritionDiagramPlp</a></td>
+<td>Draw the attrition diagram</td></tr>
+</table>
+
+<h2><a name="E">-- E --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="evaluateMultiplePlp.html">evaluateMultiplePlp</a></td>
+<td>externally validate the multiple plp models across new datasets</td></tr>
+<tr><td style="width: 25%;"><a href="evaluatePlp.html">evaluatePlp</a></td>
+<td>evaluatePlp</td></tr>
+<tr><td style="width: 25%;"><a href="externalValidatePlp.html">externalValidatePlp</a></td>
+<td>externalValidatePlp - Validate a model on new databases</td></tr>
+</table>
+
+<h2><a name="F">-- F --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="f1Score.html">f1Score</a></td>
+<td>Calculate the f1Score</td></tr>
+<tr><td style="width: 25%;"><a href="falseDiscoveryRate.html">falseDiscoveryRate</a></td>
+<td>Calculate the falseDiscoveryRate</td></tr>
+<tr><td style="width: 25%;"><a href="falseNegativeRate.html">falseNegativeRate</a></td>
+<td>Calculate the falseNegativeRate</td></tr>
+<tr><td style="width: 25%;"><a href="falseOmissionRate.html">falseOmissionRate</a></td>
+<td>Calculate the falseOmissionRate</td></tr>
+<tr><td style="width: 25%;"><a href="falsePositiveRate.html">falsePositiveRate</a></td>
+<td>Calculate the falsePositiveRate</td></tr>
+<tr><td style="width: 25%;"><a href="fitGLMModel.html">fitGLMModel</a></td>
+<td>Fit a predictive model</td></tr>
+<tr><td style="width: 25%;"><a href="fitPlp.html">fitPlp</a></td>
+<td>fitPlp</td></tr>
+</table>
+
+<h2><a name="G">-- G --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="getCalibration.html">getCalibration</a></td>
+<td>Get a sparse summary of the calibration</td></tr>
+<tr><td style="width: 25%;"><a href="getPlpData.html">getPlpData</a></td>
+<td>Get the patient level prediction data from the server</td></tr>
+<tr><td style="width: 25%;"><a href="getPlpTable.html">getPlpTable</a></td>
+<td>Create a dataframe with the summary details of the population cohort for publications</td></tr>
+<tr><td style="width: 25%;"><a href="getPredictionDistribution.html">getPredictionDistribution</a></td>
+<td>Calculates the prediction distribution</td></tr>
+<tr><td style="width: 25%;"><a href="getThresholdSummary.html">getThresholdSummary</a></td>
+<td>Calculate all measures for sparse ROC</td></tr>
+</table>
+
+<h2><a name="I">-- I --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="interpretInstallCode.html">interpretInstallCode</a></td>
+<td>Tells you the package issue</td></tr>
+</table>
+
+<h2><a name="L">-- L --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="launchDiagnosticsExplorer.html">launchDiagnosticsExplorer</a></td>
+<td>Launch the Diagnostics Explorer Shiny app</td></tr>
+<tr><td style="width: 25%;"><a href="listAppend.html">listAppend</a></td>
+<td>join two lists</td></tr>
+<tr><td style="width: 25%;"><a href="loadEnsemblePlpModel.html">loadEnsemblePlpModel</a></td>
+<td>loads the Ensmeble plp model and return a model list</td></tr>
+<tr><td style="width: 25%;"><a href="loadEnsemblePlpResult.html">loadEnsemblePlpResult</a></td>
+<td>loads the Ensemble plp results</td></tr>
+<tr><td style="width: 25%;"><a href="loadPlpData.html">loadPlpData</a></td>
+<td>Load the cohort data from a folder</td></tr>
+<tr><td style="width: 25%;"><a href="loadPlpFromCsv.html">loadPlpFromCsv</a></td>
+<td>Loads parts of the plp result saved as csv files for transparent sharing</td></tr>
+<tr><td style="width: 25%;"><a href="loadPlpModel.html">loadPlpModel</a></td>
+<td>loads the plp model</td></tr>
+<tr><td style="width: 25%;"><a href="loadPlpResult.html">loadPlpResult</a></td>
+<td>Loads the evalaution dataframe</td></tr>
+<tr><td style="width: 25%;"><a href="loadPrediction.html">loadPrediction</a></td>
+<td>Loads the prediciton dataframe to csv</td></tr>
+<tr><td style="width: 25%;"><a href="loadPredictionAnalysisList.html">loadPredictionAnalysisList</a></td>
+<td>Load the multiple prediction json settings from a file</td></tr>
+</table>
+
+<h2><a name="M">-- M --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="modelBasedConcordance.html">modelBasedConcordance</a></td>
+<td>Calculate the model-based concordance, which is a calculation of the expected discrimination performance of a model under the assumption the model predicts the "TRUE" outcome as detailed in van Klaveren et al. https://pubmed.ncbi.nlm.nih.gov/27251001/</td></tr>
+</table>
+
+<h2><a name="N">-- N --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="negativeLikelihoodRatio.html">negativeLikelihoodRatio</a></td>
+<td>Calculate the negativeLikelihoodRatio</td></tr>
+<tr><td style="width: 25%;"><a href="negativePredictiveValue.html">negativePredictiveValue</a></td>
+<td>Calculate the negativePredictiveValue</td></tr>
+</table>
+
+<h2><a name="O">-- O --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="outcomeSurvivalPlot.html">outcomeSurvivalPlot</a></td>
+<td>Plot the outcome incidence over time</td></tr>
+</table>
+
+<h2><a name="P">-- P --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="PatientLevelPrediction.html">PatientLevelPrediction</a></td>
+<td>PatientLevelPrediction</td></tr>
+<tr><td style="width: 25%;"><a href="personSplitter.html">personSplitter</a></td>
+<td>Split data into random subsets stratified by class</td></tr>
+<tr><td style="width: 25%;"><a href="pfi.html">pfi</a></td>
+<td>pfi</td></tr>
+<tr><td style="width: 25%;"><a href="plotDemographicSummary.html">plotDemographicSummary</a></td>
+<td>Plot the Observed vs. expected incidence, by age and gender</td></tr>
+<tr><td style="width: 25%;"><a href="plotF1Measure.html">plotF1Measure</a></td>
+<td>Plot the F1 measure efficiency frontier using the sparse thresholdSummary data frame</td></tr>
+<tr><td style="width: 25%;"><a href="plotGeneralizability.html">plotGeneralizability</a></td>
+<td>Plot the train/test generalizability diagnostic</td></tr>
+<tr><td style="width: 25%;"><a href="plotLearningCurve.html">plotLearningCurve</a></td>
+<td>plotLearningCurve</td></tr>
+<tr><td style="width: 25%;"><a href="plotPlp.html">plotPlp</a></td>
+<td>Plot all the PatientLevelPrediction plots</td></tr>
+<tr><td style="width: 25%;"><a href="plotPrecisionRecall.html">plotPrecisionRecall</a></td>
+<td>Plot the precision-recall curve using the sparse thresholdSummary data frame</td></tr>
+<tr><td style="width: 25%;"><a href="plotPredictedPDF.html">plotPredictedPDF</a></td>
+<td>Plot the Predicted probability density function, showing prediction overlap between true and false cases</td></tr>
+<tr><td style="width: 25%;"><a href="plotPredictionDistribution.html">plotPredictionDistribution</a></td>
+<td>Plot the side-by-side boxplots of prediction distribution, by class#'</td></tr>
+<tr><td style="width: 25%;"><a href="plotPreferencePDF.html">plotPreferencePDF</a></td>
+<td>Plot the preference score probability density function, showing prediction overlap between true and false cases #'</td></tr>
+<tr><td style="width: 25%;"><a href="plotRoc.html">plotRoc</a></td>
+<td>Plot the ROC curve</td></tr>
+<tr><td style="width: 25%;"><a href="plotSmoothCalibration.html">plotSmoothCalibration</a></td>
+<td>Plot the smooth calibration as detailed in Calster et al. "A calibration heirarchy for risk models was defined: from utopia to empirical data" (2016)</td></tr>
+<tr><td style="width: 25%;"><a href="plotSparseCalibration.html">plotSparseCalibration</a></td>
+<td>Plot the calibration</td></tr>
+<tr><td style="width: 25%;"><a href="plotSparseCalibration2.html">plotSparseCalibration2</a></td>
+<td>Plot the conventional calibration</td></tr>
+<tr><td style="width: 25%;"><a href="plotSparseRoc.html">plotSparseRoc</a></td>
+<td>Plot the ROC curve using the sparse thresholdSummary data frame</td></tr>
+<tr><td style="width: 25%;"><a href="plotVariableScatterplot.html">plotVariableScatterplot</a></td>
+<td>Plot the variable importance scatterplot</td></tr>
+<tr><td style="width: 25%;"><a href="plpDataSimulationProfile.html">plpDataSimulationProfile</a></td>
+<td>A simulation profile</td></tr>
+<tr><td style="width: 25%;"><a href="positiveLikelihoodRatio.html">positiveLikelihoodRatio</a></td>
+<td>Calculate the positiveLikelihoodRatio</td></tr>
+<tr><td style="width: 25%;"><a href="positivePredictiveValue.html">positivePredictiveValue</a></td>
+<td>Calculate the positivePredictiveValue</td></tr>
+<tr><td style="width: 25%;"><a href="predictAndromeda.html">predictAndromeda</a></td>
+<td>Generated predictions from a regression model</td></tr>
+<tr><td style="width: 25%;"><a href="predictPlp.html">predictPlp</a></td>
+<td>predictPlp</td></tr>
+<tr><td style="width: 25%;"><a href="predictProbabilities.html">predictProbabilities</a></td>
+<td>Create predictive probabilities</td></tr>
+</table>
+
+<h2><a name="R">-- R --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="randomSplitter.html">randomSplitter</a></td>
+<td>Split data into random subsets stratified by class</td></tr>
+<tr><td style="width: 25%;"><a href="recalibratePlp.html">recalibratePlp</a></td>
+<td>recalibratePlp</td></tr>
+<tr><td style="width: 25%;"><a href="recalibratePlpRefit.html">recalibratePlpRefit</a></td>
+<td>recalibratePlpRefit</td></tr>
+<tr><td style="width: 25%;"><a href="runEnsembleModel.html">runEnsembleModel</a></td>
+<td>ensemble - Create an ensembling model using different models</td></tr>
+<tr><td style="width: 25%;"><a href="runPlp.html">runPlp</a></td>
+<td>runPlp - Train and evaluate the model</td></tr>
+<tr><td style="width: 25%;"><a href="runPlpAnalyses.html">runPlpAnalyses</a></td>
+<td>Run a list of predictions</td></tr>
+</table>
+
+<h2><a name="S">-- S --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="saveEnsemblePlpModel.html">saveEnsemblePlpModel</a></td>
+<td>saves the Ensmeble plp model</td></tr>
+<tr><td style="width: 25%;"><a href="saveEnsemblePlpResult.html">saveEnsemblePlpResult</a></td>
+<td>saves the Ensemble plp results</td></tr>
+<tr><td style="width: 25%;"><a href="savePlpData.html">savePlpData</a></td>
+<td>Save the cohort data to folder</td></tr>
+<tr><td style="width: 25%;"><a href="savePlpModel.html">savePlpModel</a></td>
+<td>Saves the plp model</td></tr>
+<tr><td style="width: 25%;"><a href="savePlpResult.html">savePlpResult</a></td>
+<td>Saves the result from runPlp into the location directory</td></tr>
+<tr><td style="width: 25%;"><a href="savePlpToCsv.html">savePlpToCsv</a></td>
+<td>Save parts of the plp result as a csv for transparent sharing</td></tr>
+<tr><td style="width: 25%;"><a href="savePrediction.html">savePrediction</a></td>
+<td>Saves the prediction dataframe to RDS</td></tr>
+<tr><td style="width: 25%;"><a href="savePredictionAnalysisList.html">savePredictionAnalysisList</a></td>
+<td>Saves a json prediction settings given R settings</td></tr>
+<tr><td style="width: 25%;"><a href="sensitivity.html">sensitivity</a></td>
+<td>Calculate the sensitivity</td></tr>
+<tr><td style="width: 25%;"><a href="setAdaBoost.html">setAdaBoost</a></td>
+<td>Create setting for AdaBoost with python</td></tr>
+<tr><td style="width: 25%;"><a href="setCIReNN.html">setCIReNN</a></td>
+<td>Create setting for CIReNN model</td></tr>
+<tr><td style="width: 25%;"><a href="setCNNTorch.html">setCNNTorch</a></td>
+<td>Create setting for CNN model with python</td></tr>
+<tr><td style="width: 25%;"><a href="setCompetingRiskModel.html">setCompetingRiskModel</a></td>
+<td>Create setting for competing risk model (uses Fine-Gray model in Cyclops)</td></tr>
+<tr><td style="width: 25%;"><a href="setCovNN.html">setCovNN</a></td>
+<td>Create setting for multi-resolution CovNN model (stucture based on https://arxiv.org/pdf/1608.00647.pdf CNN1)</td></tr>
+<tr><td style="width: 25%;"><a href="setCovNN2.html">setCovNN2</a></td>
+<td>Create setting for CovNN2 model - convolution across input and time - https://arxiv.org/pdf/1608.00647.pdf</td></tr>
+<tr><td style="width: 25%;"><a href="setCoxModel.html">setCoxModel</a></td>
+<td>Create setting for lasso Cox model</td></tr>
+<tr><td style="width: 25%;"><a href="setDecisionTree.html">setDecisionTree</a></td>
+<td>Create setting for DecisionTree with python</td></tr>
+<tr><td style="width: 25%;"><a href="setDeepNN.html">setDeepNN</a></td>
+<td>Create setting for DeepNN model</td></tr>
+<tr><td style="width: 25%;"><a href="setGBMSurvival.html">setGBMSurvival</a></td>
+<td>Create setting for GBM Survival with python #' @description This creates a setting for fitting GBM surivial model.  You need sksurv python install.  To install this open your command line and type: conda install -c sebp scikit-survival</td></tr>
+<tr><td style="width: 25%;"><a href="setGradientBoostingMachine.html">setGradientBoostingMachine</a></td>
+<td>Create setting for gradient boosting machine model using gbm_xgboost implementation</td></tr>
+<tr><td style="width: 25%;"><a href="setKNN.html">setKNN</a></td>
+<td>Create setting for knn model</td></tr>
+<tr><td style="width: 25%;"><a href="setLassoLogisticRegression.html">setLassoLogisticRegression</a></td>
+<td>Create setting for lasso logistic regression</td></tr>
+<tr><td style="width: 25%;"><a href="setLRTorch.html">setLRTorch</a></td>
+<td>Create setting for logistics regression model with python</td></tr>
+<tr><td style="width: 25%;"><a href="setMLP.html">setMLP</a></td>
+<td>Create setting for neural network model with python</td></tr>
+<tr><td style="width: 25%;"><a href="setMLPTorch.html">setMLPTorch</a></td>
+<td>Create setting for neural network model with python</td></tr>
+<tr><td style="width: 25%;"><a href="setNaiveBayes.html">setNaiveBayes</a></td>
+<td>Create setting for naive bayes model with python</td></tr>
+<tr><td style="width: 25%;"><a href="setPythonEnvironment.html">setPythonEnvironment</a></td>
+<td>Use the virtual environment created using configurePython()</td></tr>
+<tr><td style="width: 25%;"><a href="setRandomForest.html">setRandomForest</a></td>
+<td>Create setting for random forest model with python (very fast)</td></tr>
+<tr><td style="width: 25%;"><a href="setRandomForestQuantileRegressor.html">setRandomForestQuantileRegressor</a></td>
+<td>Create setting for RandomForestQuantileRegressor with python scikit-garden (skgarden.quantile.RandomForestQuantileRegressor) #' @description This creates a setting for fitting a RandomForestQuantileRegressor model.  You need skgarden python install. To install this open your command line and type: conda install -c conda-forge scikit-garden</td></tr>
+<tr><td style="width: 25%;"><a href="setRNNTorch.html">setRNNTorch</a></td>
+<td>Create setting for RNN model with python</td></tr>
+<tr><td style="width: 25%;"><a href="setSagemakerBinary.html">setSagemakerBinary</a></td>
+<td>Create setting for sagemaker model</td></tr>
+<tr><td style="width: 25%;"><a href="setSVM.html">setSVM</a></td>
+<td>Create setting for SVM with python</td></tr>
+<tr><td style="width: 25%;"><a href="similarPlpData.html">similarPlpData</a></td>
+<td>Extract new plpData using plpModel settings use metadata in plpModel to extract similar data and population for new databases:</td></tr>
+<tr><td style="width: 25%;"><a href="simulatePlpData.html">simulatePlpData</a></td>
+<td>Generate simulated data</td></tr>
+<tr><td style="width: 25%;"><a href="specificity.html">specificity</a></td>
+<td>Calculate the specificity</td></tr>
+<tr><td style="width: 25%;"><a href="subjectSplitter.html">subjectSplitter</a></td>
+<td>Split data when patients are in the data multiple times such that the same patient is always either in the train set or the test set (the same patient cannot be in both the test and train set at different times)</td></tr>
+</table>
+
+<h2><a name="T">-- T --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="timeSplitter.html">timeSplitter</a></td>
+<td>Split test/train data by time and then partitions training set into random folds stratified by class</td></tr>
+<tr><td style="width: 25%;"><a href="toSparseM.html">toSparseM</a></td>
+<td>Convert the plpData in COO format into a sparse R matrix</td></tr>
+<tr><td style="width: 25%;"><a href="toSparseTorchPython.html">toSparseTorchPython</a></td>
+<td>Convert the plpData in COO format into a sparse python matrix using torch.sparse</td></tr>
+<tr><td style="width: 25%;"><a href="transferLearning.html">transferLearning</a></td>
+<td>[Under development] Transfer learning</td></tr>
+<tr><td style="width: 25%;"><a href="transportModel.html">transportModel</a></td>
+<td>Transports a plpModel to a new location and removes sensitive data</td></tr>
+<tr><td style="width: 25%;"><a href="transportPlp.html">transportPlp</a></td>
+<td>Transports a plpResult to a new location and removed sensitive data</td></tr>
+</table>
+
+<h2><a name="V">-- V --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="viewMultiplePlp.html">viewMultiplePlp</a></td>
+<td>open a local shiny app for viewing the result of a multiple PLP analyses</td></tr>
+<tr><td style="width: 25%;"><a href="viewPlp.html">viewPlp</a></td>
+<td>viewPlp - Interactively view the performance and model settings</td></tr>
+</table>
+</body></html>
